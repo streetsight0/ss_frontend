@@ -1,16 +1,31 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, ReactNode } from 'react';
 
-// AuthContext to hold JWT Token
-export const AuthContext = createContext({
-    token: localStorage.getItem('token'),
-    setToken: (token: string) => {},
+// Define the shape of the AuthContext
+interface AuthContextType {
+    token: string | null;
+    setToken: (token: string) => void;
+}
+
+// Create context with proper default values
+export const AuthContext = createContext<AuthContextType>({
+    token: localStorage.getItem('token'), // Get token from localStorage
+    setToken: () => {}, // Placeholder function
 });
 
-export const AuthProvider: React.FC = ({ children }) => {
-    const [token, setToken] = useState(localStorage.getItem('token'));
+// Define props type for AuthProvider
+interface AuthProviderProps {
+    children: ReactNode; // ✅ Correctly type children prop
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
 
     const handleSetToken = (newToken: string) => {
-        localStorage.setItem('token', newToken);
+        if (newToken) {
+            localStorage.setItem('token', newToken);
+        } else {
+            localStorage.removeItem('token'); // Remove token if null
+        }
         setToken(newToken);
     };
 
