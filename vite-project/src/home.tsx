@@ -1,5 +1,6 @@
 
 import "./home.css"
+
 const Home = () => {
     const token = localStorage.getItem('jwt_token');  // Retrieve token from localStorage
 
