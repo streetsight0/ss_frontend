@@ -4,6 +4,7 @@ import Register from './register';
 import Login from './login';
 import Home from './home';
 import BillBoards from './billboards';
+import Client from './client';
 
 const App: React.FC = () => {
     return (
@@ -14,6 +15,7 @@ const App: React.FC = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/home" element={<Home />} />
                 <Route path ="/billBoards" element={<BillBoards />} />
+                <Route path="/Clients" element={<Client />} />
             </Routes>
         </Router>
     );
