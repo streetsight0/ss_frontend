@@ -8,7 +8,6 @@ import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
-    path: "/", // Default route for protected pages
     element: (
       <ProtectedRoute>
         <Sidebar />
@@ -26,6 +25,11 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
     ],
+  },
+  {
+    path: "/", // Public route for login
+    element: <Login />, // Login page
+    errorElement: <ErrorPage />,
   },
   {
     path: "/login", // Public route for login
