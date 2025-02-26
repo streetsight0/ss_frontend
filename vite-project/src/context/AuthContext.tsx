@@ -3,7 +3,7 @@ import React, { createContext, useState, ReactNode } from 'react';
 // Define the shape of the AuthContext
 interface AuthContextType {
     token: string | null;
-    setToken: (token: string) => void;
+    setToken: (token: string | null) => void; // The function should accept string or null
 }
 
 // Create context with proper default values
@@ -14,19 +14,19 @@ export const AuthContext = createContext<AuthContextType>({
 
 // Define props type for AuthProvider
 interface AuthProviderProps {
-    children: ReactNode; // ✅ Correctly type children prop
+    children: ReactNode; // Correctly type children prop
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+    const [token, setTokenState] = useState<string | null>(localStorage.getItem('token'));
 
-    const handleSetToken = (newToken: string) => {
+    const handleSetToken = (newToken: string | null) => {
         if (newToken) {
-            localStorage.setItem('token', newToken);
+            localStorage.setItem('token', newToken); // Set token in localStorage
         } else {
-            localStorage.removeItem('token'); // Remove token if null
+            localStorage.removeItem('token'); // Remove token from localStorage
         }
-        setToken(newToken);
+        setTokenState(newToken); // Update context token state
     };
 
     return (
