@@ -1,0 +1,96 @@
+/* Basic form styling */
+.client-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  .client-form h1 {
+    text-align: center;
+    color: #4caf50;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  label {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+    text-transform: capitalize;
+  }
+  
+  input {
+    padding: 1rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    width: 100%;
+    transition: border-color 0.3s ease;
+  }
+  
+  input:focus {
+    border-color: #4CAF50;
+    outline: none;
+  }
+  
+  button {
+    padding: 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  button:active {
+    background-color: #3e8e41;
+  }
+  
+  /* Error and success message styling */
+  .error-message, .success-message {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+  }
+  
+  .error-message {
+    color: #D8000C;
+    background-color: #FFBABA;
+  }
+  
+  .success-message {
+    color: #4CAF50;
+    background-color: #DFF2BF;
+  }
+  
+  @media (max-width: 600px) {
+    .client-form {
+      padding: 1.5rem;
+    }
+  
+    input, button {
+      font-size: 1rem;
+    }
+  }
+  

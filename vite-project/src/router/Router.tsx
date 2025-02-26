@@ -5,6 +5,7 @@ import Register from "../pages/Register/register";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Sidebar from "../components/navigation/Sidebar";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
+import Client from "../client"
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,15 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Home />
+          </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/client",
+        element: (
+          <ProtectedRoute>
+            <Client />
           </ProtectedRoute>
         ),
         errorElement: <ErrorPage />,
