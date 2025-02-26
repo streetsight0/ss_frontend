@@ -22,7 +22,7 @@ const Register = () => {
             });
 
             // Store the JWT token in localStorage
-            localStorage.setItem('jwt_token', response.data.token);
+            localStorage.setItem('token', response.data.token);
 
             // Redirect to login page after successful registration
             window.location.href = "/login";
