@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "./allClients.css"; // Import the CSS file
+import "./allClients.css"; 
 
-// Define TypeScript interface for API data
 interface BillboardData {
   _id: string;
   company_name: string;
@@ -25,19 +24,19 @@ const AllClients = () => {
           throw new Error("BASE_URL is not defined. Check your .env file.");
         }
   
-        // Make API call
+        
         const response = await axios.get(`${BASE_URL}/api/client/getclients`);
         
-        // Log response for debugging
+       
         console.log("API Response:", response);
         console.log("API Data:", response.data.data);
   
-        // Directly set billboards as the response is expected to be an array
+       
         if (Array.isArray(response.data.data)) {
           setBillboards(response.data.data);
         } else {
           console.error("Unexpected response format:", response.data);
-          setBillboards([]);  // Set empty array if response is not an array
+          setBillboards([]);  
         }
       } catch (err) {
         console.error("Fetch Error:", err);
@@ -58,21 +57,25 @@ const AllClients = () => {
   if (!billboards.length) return <p>No clients found.</p>;
 
   return (
-    <div className="billboard-container">
-      {billboards.map((billboard) => (
-        <div className="billboard-card" key={billboard._id}>
-          <h3>{billboard.company_name}</h3>
-          <p><strong>Client Name:</strong> {billboard.client_name}</p>
-          <p><strong>Location:</strong> {billboard.address}</p>
-          <p><strong>Total Billboards:</strong> {billboard.additional_companies.length}</p>
-          <div className="button-group">
-            <button className="edit-btn">View Invoice</button>
-            <button className="delete-btn">View Lease Agreement</button>
+    <div className="all-clients-container">
+      <h1 className="clients-title">All Clients</h1>
+      <div className="billboard-container">
+        {billboards.map((billboard) => (
+          <div className="billboard-card" key={billboard._id}>
+            <h3>{billboard.company_name}</h3>
+            <p><strong>Client Name:</strong> {billboard.client_name}</p>
+            <p><strong>Location:</strong> {billboard.address}</p>
+            <p><strong>Total Billboards:</strong> {billboard.additional_companies.length}</p>
+            <div className="button-group">
+              <button className="invoice-btn">View Invoice</button>
+              <button className="lease-btn">View Lease agreement</button>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
+  
 };
 
 export default AllClients;

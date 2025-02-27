@@ -1,4 +1,22 @@
-/* Container for the billboard cards */
+
+.all-clients-container {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+
+.clients-title {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 40px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
+}
+
+
 .billboard-container {
   display: flex;
   flex-wrap: wrap;
@@ -7,10 +25,10 @@
   padding: 20px;
 }
 
-/* Each individual card */
+
 .billboard-card {
-  background-color: #f9f9f9;
   border:2px solid black;
+  background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 280px;
@@ -19,32 +37,32 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hover effect for the cards */
+
 .billboard-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Title of the card */
+
 .billboard-card h3 {
   font-size: 1.5rem;
   margin-bottom: 10px;
   color: #333;
 }
 
-/* Client name and other text styling */
+
 .billboard-card p {
   margin: 5px 0;
   font-size: 1rem;
   color: #555;
 }
 
-/* Bold labels */
+
 .billboard-card p strong {
   color: #333;
 }
 
-/* Button group (edit and delete) */
+
 .button-group {
   display: flex;
   gap: 10px;
@@ -61,29 +79,29 @@
   transition: background-color 0.3s ease;
 }
 
-/* Edit button */
-.edit-btn {
+
+.invoice-btn {
   background-color: grey;
-  color:white;
+  color: white;
 }
 
-.edit-btn:hover {
+.invoice-btn:hover {
   background-color: grey;
-  color:white;
+  color: white;
 }
 
-/* Delete button */
-.delete-btn {
+
+.lease-btn {
   background-color: grey;
-  color:white;
+  color: white;
 }
 
-.delete-btn:hover {
+.lease-btn:hover {
   background-color: grey;
-  color:white;
+  color: white;
 }
 
-/* Error message styling */
+
 .error-message {
   color: red;
   font-size: 1.2rem;
