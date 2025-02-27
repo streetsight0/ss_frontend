@@ -1,100 +1,150 @@
-// import { Link, Outlet } from "react-router-dom";
+import React, { useState } from "react";
+import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, IconButton, Collapse, Divider, Box } from "@mui/material";
+import { Menu, Dashboard, ExpandLess, ExpandMore, Close, Business, Campaign, People } from "@mui/icons-material";
+import { styled } from "@mui/material/styles";
+import {NavLink, Outlet} from "react-router-dom";
+import logo from "../../assets/logo1.png";
 
-// const Sidebar = () => {
-//   return (
-//     <div>
-//         <div>
-//             <h2>Sidebar</h2>
-//             <ul>
-//                 <li>
-//                     <Link to="/home">Dashboard</Link>
-//                 </li>
-//             </ul>
-//         </div>
-//         <Outlet />
-//     </div>
-//   );
-// };
+const drawerWidth = 260;
+const collapsedWidth = 60; 
+let SidebarDrawer: any;
 
-// export default Sidebar;
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import { Outlet } from "react-router-dom";
+SidebarDrawer = styled(Drawer)(({ theme, open }: { theme: any; open: boolean }) => ({
+  width: open ? drawerWidth : collapsedWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  "& .MuiDrawer-paper": {
+    width: open ? drawerWidth : collapsedWidth,
+    overflowX: "hidden",
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+}));
 
-type Anchor = 'top' | 'left' | 'bottom' | 'right';
+const Sidebar: React.FC = () => {
+  const [open, setOpen] = useState(true);
+  const [billboardOpen, setBillboardOpen] = useState(false);
+  const [campaignOpen, setCampaignOpen] = useState(false);
+  const [clientsOpen, setClientsOpen] = useState(false);
 
-export default function SwipeableTemporaryDrawer() {
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
-
-  const toggleDrawer =
-    (anchor: Anchor, open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event &&
-        event.type === 'keydown' &&
-        ((event as React.KeyboardEvent).key === 'Tab' ||
-          (event as React.KeyboardEvent).key === 'Shift')
-      ) {
-        return;
-      }
-
-      setState({ ...state, [anchor]: open });
-    };
-
-  const list = (anchor: Anchor) => (
-    <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-
-  );
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
   return (
-    <div>
-      {(['left', 'right', 'top', 'bottom'] as const).map((anchor) => (
-        <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-          <SwipeableDrawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-            onOpen={toggleDrawer(anchor, true)}
-          >
-            {list(anchor)}
-          </SwipeableDrawer>
-        </React.Fragment>
-      ))}
-    <Outlet />
-    </div>
+    <>
+      {/* Toggle Button */}
+      <IconButton onClick={handleToggle} sx={{ margin: "10px" }}>
+        <Menu />
+      </IconButton>
+
+      {/* Sidebar Drawer */}
+      <SidebarDrawer variant="permanent" anchor="left" open={open}>
+        {/* Sidebar Header */}
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", p: 2 }}>
+          {open && <img src={logo} alt="Logo" style={{ width: "120px" }} />}
+          <IconButton onClick={handleToggle}>
+            <Close />
+          </IconButton>
+        </Box>
+        <Divider />
+
+        {/* Sidebar Menu */}
+        <List>
+          {/* Dashboard */}
+          <ListItem disablePadding>
+            <ListItemButton component={NavLink} to="/home">
+              <ListItemIcon>
+                <Dashboard />
+              </ListItemIcon>
+              {open && <ListItemText primary="Dashboard" />}
+            </ListItemButton>
+          </ListItem>
+
+          {/* Manage Billboards */}
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setBillboardOpen(!billboardOpen)}>
+              <ListItemIcon>
+                <Business />
+              </ListItemIcon>
+              {open && <ListItemText primary="Manage Billboards" />}
+              {open && (billboardOpen ? <ExpandLess /> : <ExpandMore />)}
+            </ListItemButton>
+          </ListItem>
+          <Collapse in={billboardOpen && open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemText primary="All Billboards" />
+              </ListItemButton>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemText primary="Add Billboard" />
+              </ListItemButton>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemText primary="Generate Report" />
+              </ListItemButton>
+            </List>
+          </Collapse>
+
+          {/* Manage Campaign */}
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setCampaignOpen(!campaignOpen)}>
+              <ListItemIcon>
+                <Campaign />
+              </ListItemIcon>
+              {open && <ListItemText primary="Manage Campaign" />}
+              {open && (campaignOpen ? <ExpandLess /> : <ExpandMore />)}
+            </ListItemButton>
+          </ListItem>
+          <Collapse in={campaignOpen && open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemText primary="All Campaigns" />
+              </ListItemButton>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemText primary="Add New Campaign" />
+              </ListItemButton>
+            </List>
+          </Collapse>
+
+          {/* Manage Clients */}
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setClientsOpen(!clientsOpen)}>
+              <ListItemIcon>
+                <People />
+              </ListItemIcon>
+              {open && <ListItemText primary="Manage Clients" />}
+              {open && (clientsOpen ? <ExpandLess /> : <ExpandMore />)}
+            </ListItemButton>
+          </ListItem>
+          <Collapse in={clientsOpen && open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemText primary="All Clients" />
+              </ListItemButton>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemText primary="Add New Client" />
+              </ListItemButton>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemText primary="Generate Quotation" />
+              </ListItemButton>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemText primary="Lease Agreement" />
+              </ListItemButton>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemText primary="Generate Invoice" />
+              </ListItemButton>
+            </List>
+          </Collapse>
+        </List>
+      </SidebarDrawer>
+      <Outlet />
+    </>
+
   );
-}
+};
+
+export default Sidebar;
+
+
