@@ -139,7 +139,16 @@ const Sidebar: React.FC = () => {
           </Collapse>
         </List>
       </SidebarDrawer>
-      <Outlet />
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          marginLeft: open ? `${drawerWidth}px` : `${collapsedWidth}px`,
+          transition: "margin 0.3s ease", p: 2
+        }}
+      >
+        <Outlet />
+      </Box>
     </>
 
   );
