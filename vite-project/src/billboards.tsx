@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./billboard.css"
+import "./billboard.css";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -16,43 +16,43 @@ const BillBoard = () => {
   const [pricePerMonth, setPricePerMonth] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [allocationType,setAllocationType] = useState("");
+  const [allocationType, setAllocationType] = useState("");
   const [campaignName, setCampaignName] = useState("");
-  const[clientName,setClientName] = useState("");
-  const[companyName,setCompanyName] = useState("");
-  const[clientEmail,setClientEmail] = useState("");
-  const[campaignStartDate,setCampaignStartDate] = useState("");
-  const[campaignEndDate,setCampaignEndDate] = useState("");
+  // const [clientName, setClientName] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [clientEmail, setClientEmail] = useState("");
+  const [campaignStartDate, setCampaignStartDate] = useState("");
+  const [campaignEndDate, setCampaignEndDate] = useState("");
+  const [selectedClient, setSelectedClient] = useState(""); // To store selected client ID
+  const [clients, setClients] = useState([]); // To store fetched clients data
+  const [clientDetails, setClientDetails] = useState<any>(null); // Store the details of the selected client
 
-//   For storing the clients
-const [clients,SetClient] = useState<any[]>([]);
-const [selectedClient,setSelectedClient] = useState<string>("");
+  useEffect(() => {
+    // Fetch the clients data when component mounts
+    const fetchClients = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/api/client/getclients`);
+        setClients(response.data.data); // Assuming the response has an array of clients
+      } catch (error) {
+        console.error("Failed to fetch clients:", error);
+      }
+    };
 
-useEffect(()=>{
-axios.get(`${BASE_URL}/api/client/clients`).then((response)=>{SetClient(response.data);
-    console.log(response.data)
+    fetchClients();
+  }, []);
 
-}).catch((error)=>{
-    console.log(error);
-})
-},[])
+  const handleClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const clientId = e.target.value;
+    setSelectedClient(clientId);
 
-const handleClientChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
-    const selectedClientName = e.target.value;
     
-    setSelectedClient(selectedClientName);
-
-    const selectedClient = clients.find(
-      (client) => client.name === selectedClientName
-    );
-    if (selectedClient) {
-      setClientName(selectedClient.client_name);
-      setCompanyName(selectedClient.businessName);
-      setClientEmail(selectedClient.email);
+    const selectedClientDetails = clients.find((client: any) => client._id === clientId);
+    if (selectedClientDetails) {
+      setClientDetails(selectedClientDetails); 
+      // setCompanyName(selectedClientDetails.company_name); 
+      // setClientEmail(selectedClientDetails.client_email); 
     }
   };
-
-
 
   const handleBillboard = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -60,7 +60,7 @@ const handleClientChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
     setSuccess("");
 
     try {
-      const response = await axios.post(`${BASE_URL}/api/billboard/billboards`, {
+      const response = await axios.post(`${BASE_URL}/api/billboard/createbillboards`, {
         billboard_series,
         billboard_type,
         location,
@@ -70,6 +70,11 @@ const handleClientChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
         leaseStart,
         leaseEnd,
         pricePerMonth,
+        allocationType, 
+        selectedClient, 
+        campaignName, 
+        campaignStartDate,
+        campaignEndDate,
       });
 
       setSuccess("Billboard added successfully!");
@@ -85,6 +90,11 @@ const handleClientChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
       setLeaseStart("");
       setLeaseEnd("");
       setPricePerMonth("");
+      setAllocationType("");
+      setSelectedClient("");
+      setCampaignName("");
+      setCampaignStartDate("");
+      setCampaignEndDate("");
     } catch (error: any) {
       setError(error.response?.data?.error || "Submission failed");
     }
@@ -168,7 +178,7 @@ const handleClientChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
             required
           />
 
-            {/* Radio Buttons for Allocation */}
+          {/* Radio Buttons for Allocation */}
           <div className="radio-buttons">
             <label>
               <input
@@ -180,6 +190,34 @@ const handleClientChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
               />
               Allot to Client
             </label>
+            {allocationType === "Client" && (
+              <div className="client-fields">
+                <select value={selectedClient} onChange={handleClientChange} required>
+                  <option value="" disabled>Select Client</option>
+                  {clients.map((client) => (
+                    <option key={client._id} value={client._id}>{client.client_name}</option>
+                  ))}
+                </select>
+                {clientDetails && (
+                  <>
+                    <input
+                      type="text"
+                      value={companyName}
+                      onChange={(e) => setCompanyName(e.target.value)}
+                      placeholder="Company Name"
+                      required
+                    />
+                    <input
+                      type="email"
+                      value={clientEmail}
+                      onChange={(e) => setClientEmail(e.target.value)}
+                      placeholder="Client Email"
+                      required
+                    />
+                  </>
+                )}
+              </div>
+            )}
             <label>
               <input
                 type="radio"
@@ -191,27 +229,6 @@ const handleClientChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
               Allot to Campaign
             </label>
           </div>
-
-          {/* Conditional Fields for Client Allocation */}
-          {allocationType === "Client" && (
-            <div className="client-fields">
-             <select value={selectedClient} onChange={handleClientChange} required></select>
-              <input
-                type="text"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-                placeholder="Company Name"
-                required
-              />
-              <input
-                type="email"
-                value={clientEmail}
-                onChange={(e) => setClientEmail(e.target.value)}
-                placeholder="Client Email"
-                required
-              />
-            </div>
-          )}
 
           {/* Conditional Fields for Campaign Allocation */}
           {allocationType === "Campaign" && (
@@ -246,7 +263,6 @@ const handleClientChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
         {error && <p className="error-message">{error}</p>}
         {success && <p className="success-message">{success}</p>}
       </div>
-
     </div>
   );
 };

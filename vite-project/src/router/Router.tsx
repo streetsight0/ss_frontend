@@ -6,6 +6,7 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Sidebar from "../components/navigation/Sidebar";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import Navbar from "../components/navigation/Navbar";
+import Billboards from ".././billboards"
 
 const router = createBrowserRouter([
   {
