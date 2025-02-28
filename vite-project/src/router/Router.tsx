@@ -7,6 +7,7 @@ import Sidebar from "../components/navigation/Sidebar";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import Navbar from "../components/navigation/Navbar";
 import Billboards from ".././billboards"
+import Client from ".././client"
 
 const router = createBrowserRouter([
   {
@@ -35,7 +36,16 @@ const router = createBrowserRouter([
         path: "/billBoards",
         element: (
           <ProtectedRoute>
+            
             <Billboards />
+            </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/client",
+        element: (
+          <ProtectedRoute>
+            <Client />
           </ProtectedRoute>
         ),
         errorElement: <ErrorPage />,
