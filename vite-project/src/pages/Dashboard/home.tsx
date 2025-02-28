@@ -1,5 +1,6 @@
 import { Typography, Button, Paper } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import LineGraph from "../../components/Line Graph/LineGraph";
 
 const getGreeting = () => {
   const hour = new Date().getHours();
@@ -41,6 +42,7 @@ const Home = () => {
             Add Billboard
         </Button>
     </Paper>
+    <LineGraph />
     </>
   );
 };
