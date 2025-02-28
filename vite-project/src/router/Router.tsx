@@ -5,15 +5,20 @@ import Register from "../pages/Register/register";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Sidebar from "../components/navigation/Sidebar";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
-import Billboards from "../billboards";
+import Navbar from "../components/navigation/Navbar";
 
 const router = createBrowserRouter([
   {
     element: (
       <ProtectedRoute>
+      <>
+        <Navbar />
         <Sidebar />
-      </ProtectedRoute>
+      </>
+    </ProtectedRoute>
+  
     ),
+
     errorElement: <ErrorPage />, // Display error page if an error occurs
     children: [
       {
