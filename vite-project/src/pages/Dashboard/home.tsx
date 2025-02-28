@@ -1,6 +1,7 @@
-import { Typography, Button, Paper } from "@mui/material";
+import { Typography, Button, Paper, Box } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LineGraph from "../../components/Line Graph/LineGraph";
+import PieChartBillBoardStatus from "../../components/Pie Chart/PieChartBillBoardStatus";
 
 const getGreeting = () => {
   const hour = new Date().getHours();
@@ -43,6 +44,12 @@ const Home = () => {
         </Button>
     </Paper>
     <LineGraph />
+    <Box sx={{ bgcolor: "#E8E7E7", p:2, width: "380px", height: "280px", borderRadius: "25px" }}>
+        <Typography variant="h5" align="left" fontStyle="bold">
+            Billboard
+        </Typography>
+        <PieChartBillBoardStatus />
+    </Box>
     </>
   );
 };
