@@ -1,7 +1,9 @@
-import { Typography, Button, Paper, Box } from "@mui/material";
+import { Typography, Paper, Box } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LineGraph from "../../components/Line Graph/LineGraph";
 import PieChartBillBoardStatus from "../../components/Pie Chart/PieChartBillBoardStatus";
+import CustomButton from "../../components/Button/Button"; 
+
 
 const getGreeting = () => {
   const hour = new Date().getHours();
@@ -34,14 +36,11 @@ const Home = () => {
         <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
             Why did the billboard apply for a job? It wanted to make a big impression!
         </Typography>
-        <Button
-            variant="contained"
-            color="primary"
+        <CustomButton
+            label="Add Billboard"
+            icon={<AccessTimeIcon />} 
             sx={{ mt: 2 }}
-            startIcon={<AccessTimeIcon />}
-        >
-            Add Billboard
-        </Button>
+        />
     </Paper>
     <LineGraph />
     <Box sx={{ bgcolor: "#E8E7E7", p:2, width: "380px", height: "280px", borderRadius: "25px" }}>
@@ -55,3 +54,4 @@ const Home = () => {
 };
 
 export default Home;
+
