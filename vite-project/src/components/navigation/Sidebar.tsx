@@ -120,7 +120,7 @@ const Sidebar: React.FC = () => {
           </ListItem>
           <Collapse in={clientsOpen && open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItemButton sx={{ pl: 4 }}>
+              <ListItemButton component={NavLink} to="/getClient"sx={{ pl: 4 }}>
                 <ListItemText primary="All Clients" />
               </ListItemButton>
               <ListItemButton sx={{ pl: 4 }}>

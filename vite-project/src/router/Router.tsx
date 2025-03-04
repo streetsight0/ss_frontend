@@ -32,7 +32,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: "/getClients",
+        path: "/getClient",
         element: (
           <ProtectedRoute>
             <AllClients />
