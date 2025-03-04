@@ -5,7 +5,7 @@ import Register from "../pages/Register/register";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Sidebar from "../components/navigation/Sidebar";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
-import Client from "../client"
+import Client from "../pages/clients/clients"
 
 const router = createBrowserRouter([
   {
