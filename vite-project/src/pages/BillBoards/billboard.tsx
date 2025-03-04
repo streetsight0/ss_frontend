@@ -18,7 +18,7 @@ const BillBoard = () => {
   const [success, setSuccess] = useState("");
   const [allocationType,setAllocationType] = useState("");
   const [campaignName, setCampaignName] = useState("");
-  const[clientName,setClientName] = useState("");
+  const[,setClientName] = useState("");
   const[companyName,setCompanyName] = useState("");
   const[clientEmail,setClientEmail] = useState("");
   const[campaignStartDate,setCampaignStartDate] = useState("");
