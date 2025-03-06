@@ -75,10 +75,10 @@ const Sidebar: React.FC = () => {
           </ListItem>
           <Collapse in={billboardOpen && open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItemButton  sx={{ pl: 4 }}>
+              <ListItemButton sx={{ pl: 4 }}>
                 <ListItemText primary="All Billboards" />
               </ListItemButton>
-              <ListItemButton  component={NavLink} to ="/billBoards" sx={{ pl: 4 }}>
+              <ListItemButton sx={{ pl: 4 }}>
                 <ListItemText primary="Add Billboard" />
               </ListItemButton>
               <ListItemButton sx={{ pl: 4 }}>
@@ -120,10 +120,10 @@ const Sidebar: React.FC = () => {
           </ListItem>
           <Collapse in={clientsOpen && open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItemButton  component={NavLink} to ="/getClients"  sx={{ pl: 4 }}>
+              <ListItemButton component={NavLink} to="/getClient"sx={{ pl: 4 }}>
                 <ListItemText primary="All Clients" />
               </ListItemButton>
-              <ListItemButton  component={NavLink} to ="/client"  sx={{ pl: 4 }}>
+              <ListItemButton sx={{ pl: 4 }}>
                 <ListItemText primary="Add New Client" />
               </ListItemButton>
               <ListItemButton sx={{ pl: 4 }}>
