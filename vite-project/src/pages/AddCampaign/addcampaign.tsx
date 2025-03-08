@@ -120,16 +120,16 @@ const AddCampaign: React.FC = () => {
       console.log("Response from API:", response.data);
   
       if (response.status === 201) {
-        alert("Campaign saved successfully!");
+        console.log("Campaign saved successfully!");
       } else {
-        alert("Something went wrong.");
+        console.log("Something went wrong.");
       }
     } catch (error: any) {
       console.error("Error saving campaign:", error);
       if (error.response) {
         console.error("Backend Error Response:", error.response.data);
       }
-      alert("Failed to save campaign.");
+      console.log("Failed to save campaign.");
     }
   };
 
@@ -144,6 +144,7 @@ const AddCampaign: React.FC = () => {
     const selectedBillboards = billboardOptions.filter((b) =>
       selectedIds.includes(b.id)
     );
+    console.log(selectedBillboards);
     setFormData((prev) => ({
       ...prev,
       billboards: selectedIds, 

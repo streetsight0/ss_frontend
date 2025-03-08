@@ -50,11 +50,6 @@ const [leaseAgreement, setLeaseAgreement] = useState<any[]>([]);
   };
 
   const heading = "Lease Agreement";
-  const leaseData = [
-    { id: 1, company: "Adidas Pvt Ltd.", email: "adidas@gmail.com", expiryDate: "February 2026" },
-    { id: 2, company: "Nike Inc.", email: "nike@gmail.com", expiryDate: "March 2027" },
-    { id: 3, company: "Puma Ltd.", email: "puma@gmail.com", expiryDate: "January 2025" },
-  ];
 
   return (
     <>
