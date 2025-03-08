@@ -6,6 +6,7 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Sidebar from "../components/navigation/Sidebar";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import Navbar from "../components/navigation/Navbar";
+import AddCampaign from "../pages/AddCampaign/AddCampaign";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,15 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Home />
+          </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/addcampaign",
+        element: (
+          <ProtectedRoute>
+            <AddCampaign />
           </ProtectedRoute>
         ),
         errorElement: <ErrorPage />,

@@ -1,0 +1,53 @@
+.campaign-form {
+  max-width: 80vw;
+  margin: auto;
+  font-family: Arial, sans-serif;
+}
+
+h2,
+h3 {
+  margin-bottom: 10px;
+}
+
+.campaign-details {
+  display: flex;
+  gap: 10px;
+}
+
+.image-upload-box {
+  width: 100%;
+  height: 80px;
+  background: #f4f4f4;
+  border: 1px dashed #aaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+
+@media (max-width: 768px) {
+  .campaign-details {
+    flex-direction: column;
+  }
+
+  .date {
+    width: 100%;
+    max-width: 150px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .client-details{
+    display: flex;
+    flex-direction: row;
+  }
+}
