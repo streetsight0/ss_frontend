@@ -13,6 +13,7 @@ import AddCampaign from "../pages/AddCampaign/AddCampaign";
 import GetBillBoards from "../pages/getBillBoards/getBillboards"
 import Billboards from "../pages/BillBoards/billboard"
 
+import Client from "../pages/clients/clients"
 
 const router = createBrowserRouter([
 	{
@@ -88,6 +89,15 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <NewLeaseAgreement />
+          </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/client",
+        element: (
+          <ProtectedRoute>
+            <Client />
           </ProtectedRoute>
         ),
         errorElement: <ErrorPage />,

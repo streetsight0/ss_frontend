@@ -130,7 +130,7 @@ const Sidebar: React.FC = () => {
 							<ListItemButton component={NavLink} to="/getClient"sx={{ pl: 4 }}>
 								<ListItemText primary="All Clients" />
 							</ListItemButton>
-							<ListItemButton sx={{ pl: 4 }}>
+							<ListItemButton component={NavLink} to="/client" sx={{ pl: 4 }}>
 								<ListItemText primary="Add New Client" />
 							</ListItemButton>
 							<ListItemButton sx={{ pl: 4 }}>
