@@ -19,7 +19,7 @@ const clients = () => {
     setError("");
     setSuccess("");
     try {
-      const response = await axios.post(`${BASE_URL}/api/client/clients`, {
+      const response = await axios.post(`${BASE_URL}/api/client/createclients`, {
         client_name,
         client_email,
         company_name,
