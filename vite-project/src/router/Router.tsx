@@ -6,6 +6,8 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Sidebar from "../components/navigation/Sidebar";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import Navbar from "../components/navigation/Navbar";
+import Billboards from "../pages/BillBoards/billboard"
+
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,17 @@ const router = createBrowserRouter([
         ),
         errorElement: <ErrorPage />,
       },
+      {
+        path: "/billBoards",
+        element: (
+          <ProtectedRoute>
+            
+            <Billboards />
+            </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
+      },
+     
     ],
   },
   {
