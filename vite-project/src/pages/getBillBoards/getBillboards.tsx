@@ -1,4 +1,3 @@
-import React from "react";
 import AvailableBillBoards from "../AvailableBillBoards/AvailableBillBoards";
 import AllBillBoards from "../AllBillBoards/AllBillBoards";
 import "./getbillboard.css";  
