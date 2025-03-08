@@ -6,6 +6,8 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Sidebar from "../components/navigation/Sidebar";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import Navbar from "../components/navigation/Navbar";
+import AllLeaseAgreements from "../pages/LeaseAgreement/AllLeaseAgreement";
+import NewLeaseAgreement from "../pages/LeaseAgreement/NewLeaseAgreement";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,24 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Home />
+          </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/lease",
+        element: (
+          <ProtectedRoute>
+            <AllLeaseAgreements />
+          </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/newLease",
+        element: (
+          <ProtectedRoute>
+            <NewLeaseAgreement />
           </ProtectedRoute>
         ),
         errorElement: <ErrorPage />,
