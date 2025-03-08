@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-const navigate = useNavigate();
+
 const steps = ["General Lease Information", "Lease Terms & Payments", "Additional Terms & Actions"];
 
 export default function NewLeaseAgreement() {
@@ -23,7 +23,7 @@ export default function NewLeaseAgreement() {
   const [clientDetails, setClientDetails] = useState<any[]>([]);
   const [companyName, setCompanyName] = useState<any[]>([]);
   const [clientAddress, setClientAddress] = useState<any[]>([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const getAllClients = async () => {
       try {
