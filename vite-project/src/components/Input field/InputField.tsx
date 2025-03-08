@@ -8,13 +8,13 @@ const CustomTextField: React.FC<TextFieldProps> = (props) => {
       fullWidth
       {...props}
       sx={{
-        width: "525px", 
+        width: "700px", 
         height: "70px",
         bgcolor: "lightGray", 
-        borderRadius: 5, 
+        borderRadius: 2, 
         "& .MuiOutlinedInput-root": {
           "& fieldset": { border: "none" }, 
-          padding: "6px 12px",
+          padding: "4px 8px",
         },
         "& .MuiInputLabel-root": {
           color: "black", 

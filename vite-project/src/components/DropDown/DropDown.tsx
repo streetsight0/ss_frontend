@@ -1,21 +1,25 @@
 import { useState } from "react";
 import { MenuItem, FormControl, InputLabel, Select } from "@mui/material";
 
+
 interface DropdownProps {
-  options: string[];
-  label?: string;
+  options: string[]; 
+  label?: string;   
+  onChange: (value: string) => void; 
 }
 
-const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select" }) => {
+const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", onChange }) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
 
   const handleChange = (event: any) => {
-    setSelectedOption(event.target.value);
+    const value = event.target.value;
+    setSelectedOption(value);
+    onChange(value);
   };
 
   return (
     <FormControl fullWidth>
-      {selectedOption === "" && <InputLabel>{label}</InputLabel>}
+      <InputLabel>{label}</InputLabel>
       <Select
         value={selectedOption}
         onChange={handleChange}
@@ -37,19 +41,15 @@ const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select" }) 
           },
         }}
       >
-        {options.map((option) => (
-          <MenuItem
-            key={option}
-            value={option}
-            sx={{
-              "&:hover": {
-                backgroundColor: "#e6d9fc",
-              },
-            }}
-          >
-            {option}
-          </MenuItem>
-        ))}
+        {options.length > 0 ? (
+          options.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))
+        ) : (
+          <MenuItem disabled>No Clients Available</MenuItem>
+        )}
       </Select>
     </FormControl>
   );
