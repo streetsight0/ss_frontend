@@ -6,34 +6,43 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Sidebar from "../components/navigation/Sidebar";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import Navbar from "../components/navigation/Navbar";
+import InvoiceForm from "../pages/Invoice/InvoiceForm";
 import AddCampaign from "../pages/AddCampaign/AddCampaign";
 import GetBillBoards from "../pages/getBillBoards/getBillboards"
 import Billboards from "../pages/BillBoards/billboard"
 
 
 const router = createBrowserRouter([
-  {
-    element: (
-      <ProtectedRoute>
-      <>
-        <Navbar />
-        <Sidebar />
-      </>
-    </ProtectedRoute>
-  
-    ),
+	{
+		element: (
+			<ProtectedRoute>
+				<>
+					<Navbar />
+					<Sidebar />
+				</>
+			</ProtectedRoute>
+		),
 
-    errorElement: <ErrorPage />, // Display error page if an error occurs
-    children: [
-      {
-        path: "/home",
-        element: (
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        ),
-        errorElement: <ErrorPage />,
-      },
+		errorElement: <ErrorPage />, // Display error page if an error occurs
+		children: [
+			{
+				path: "/home",
+				element: (
+					<ProtectedRoute>
+						<Home />
+					</ProtectedRoute>
+				),
+				errorElement: <ErrorPage />,
+			},
+			{
+				path: "/invoice", // New route for InvoiceForm
+				element: (
+					<ProtectedRoute>
+						<InvoiceForm />
+					</ProtectedRoute>
+				),
+				errorElement: <ErrorPage />,
+			},
       {
         path: "/addcampaign",
         element: (
@@ -63,23 +72,23 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
      
-    ],
-  },
-  {
-    path: "/", // Public route for login
-    element: <Login />, // Login page
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/login", // Public route for login
-    element: <Login />, // Login page
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/register", // Public route for registration
-    element: <Register />,
-    errorElement: <ErrorPage />,
-  },
+		],
+	},
+	{
+		path: "/", // Public route for login
+		element: <Login />, // Login page
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: "/login", // Public route for login
+		element: <Login />, // Login page
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: "/register", // Public route for registration
+		element: <Register />,
+		errorElement: <ErrorPage />,
+	},
 ]);
 
 export default router;
