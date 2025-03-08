@@ -15,6 +15,7 @@ import GetBillBoards from "../pages/getBillBoards/getBillboards"
 import Billboards from "../pages/BillBoards/billboard"
 
 import Client from "../pages/clients/clients"
+import ClientStatus from "../pages/ClientStatus/clientStatus";
 
 const router = createBrowserRouter([
 	{
@@ -108,6 +109,15 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <AllClients />
+          </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/clientStatus",
+        element: (
+          <ProtectedRoute>
+            <ClientStatus />
           </ProtectedRoute>
         ),
         errorElement: <ErrorPage />,
