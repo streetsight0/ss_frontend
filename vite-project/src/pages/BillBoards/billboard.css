@@ -1,0 +1,125 @@
+/* General Body Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  /* Centering the Form */
+  .billboard-container {
+    background: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+  }
+  
+  /* Form Heading */
+  .billboard-form h1 {
+    text-align: center;
+    color: #4caf50;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+  
+  /* Input and Select Styling */
+  .billboard-form input,
+  .billboard-form select {
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Focus Effect on Input */
+  .billboard-form input:focus,
+  .billboard-form select:focus {
+    border-color: #4caf50;
+    outline: none;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
+  }
+  
+  /* Button Styling */
+  .billboard-form button {
+    width: 100%;
+    padding: 15px;
+    background-color: #ff5722;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Button Hover Effect */
+  .billboard-form button:hover {
+    background-color: #e64a19;
+    transform: translateY(-3px);
+  }
+  
+  /* Success Message */
+  .success-message {
+    color: #4caf50;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  /* Error Message */
+  .error-message {
+    color: #ff5252;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  /* Label Styling */
+  .billboard-form label {
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  /* Dropdown Options Styling */
+  .billboard-form select {
+    background-color: #f7f7f7;
+  }
+  
+  /* Input Fields (Text & Number) */
+  .billboard-form input[type="text"],
+  .billboard-form input[type="number"] {
+    background-color: #f7f7f7;
+  }
+  
+  /* Date Picker Fields */
+  .billboard-form input[type="date"] {
+    background-color: #f7f7f7;
+  }
+  
+  /* Adding some spacing between fields */
+  .billboard-form input,
+  .billboard-form select {
+    margin-bottom: 15px;
+  }
+  
+  /* Adding subtle background color to the container */
+  .billboard-form {
+    background-color: #fafafa;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }

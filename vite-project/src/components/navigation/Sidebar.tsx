@@ -85,8 +85,8 @@ const Sidebar: React.FC = () => {
               <ListItemButton component={NavLink} to="/getBillBoards" sx={{ pl: 4 }}>
                 <ListItemText primary="All Billboards" />
               </ListItemButton>
-              <ListItemButton sx={{ pl: 4 }}>
-                <ListItemText primary="Add Billboard" />
+              <ListItemButton sx={{ pl: 4 }} component={NavLink} to="/billboards">
+                <ListItemText primary="Add Billboard"  />
               </ListItemButton>
               <ListItemButton sx={{ pl: 4 }}>
                 <ListItemText primary="Generate Report" />

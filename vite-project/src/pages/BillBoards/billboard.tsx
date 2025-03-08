@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-// import "./billboard.css"
+import "./billboard.css"
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
