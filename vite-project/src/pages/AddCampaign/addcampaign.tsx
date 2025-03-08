@@ -53,7 +53,7 @@ const AddCampaign: React.FC = () => {
         const response = await axios.get(`${BASE_URL}/api/billboard/getbillboards`);
         const billboardArray = Array.isArray(response.data) ? response.data : response.data.billboards || [];
   
-        const formattedBillboards = billboardArray.map((b) => ({
+        const formattedBillboards = billboardArray.map((b: any) => ({
           _id: String(b._id),
           billboard_series: b.billboard_series,
           location: b.location,
