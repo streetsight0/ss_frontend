@@ -5,6 +5,7 @@ import Register from "../pages/Register/register";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Sidebar from "../components/navigation/Sidebar";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
+import AllClients from '../pages/AllClients/allClients'
 import Navbar from "../components/navigation/Navbar";
 import AllLeaseAgreements from "../pages/LeaseAgreement/AllLeaseAgreement";
 import NewLeaseAgreement from "../pages/LeaseAgreement/NewLeaseAgreement";
@@ -98,6 +99,15 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Client />
+          </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/getClient",
+        element: (
+          <ProtectedRoute>
+            <AllClients />
           </ProtectedRoute>
         ),
         errorElement: <ErrorPage />,
