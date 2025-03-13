@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import axios from "axios";
-import './clients.css'
+import CustomTextField from "../../components/Input field/InputField";
+import CustomButton from "../../components/Button/Button";
+import { Typography } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import './clients.css';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const clients = () => {
+const Clients = () => {
   const [client_name, setclient_name] = useState("");
   const [client_email, setclient_email] = useState("");
   const [company_name, setcompany_name] = useState("");
   const [additional_companies, setadditional_companies] = useState("");
   const [address, setaddress] = useState("");
   const [contact, setcontact] = useState("");
+  const [logo, setLogo] = useState<File | null>(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -18,14 +23,21 @@ const clients = () => {
     event.preventDefault();
     setError("");
     setSuccess("");
+
+    const formData = new FormData();
+    formData.append("client_name", client_name);
+    formData.append("client_email", client_email);
+    formData.append("company_name", company_name);
+    formData.append("additional_companies", additional_companies);
+    formData.append("address", address);
+    formData.append("contact", contact);
+    if (logo) {
+      formData.append("logo", logo);
+    }
+
     try {
-      const response = await axios.post(`${BASE_URL}/api/client/clients`, {
-        client_name,
-        client_email,
-        company_name,
-        additional_companies,
-        address,
-        contact,
+      const response = await axios.post(`${BASE_URL}/api/client/createclients`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
       setSuccess("Client added successfully!");
       console.log("Response:", response.data);
@@ -35,7 +47,7 @@ const clients = () => {
       setadditional_companies("");
       setaddress("");
       setcontact("");
-      
+      setLogo(null);
     } catch (error: any) {
       setError(error.response?.data?.error || "Client adding failed");
     }
@@ -43,83 +55,68 @@ const clients = () => {
 
   return (
     <div>
-         {error && <p className="error-message">{error}</p>}
-         {success && <p className="success-message">{success}</p>}
+      {error && <Typography color="error">{error}</Typography>}
+      {success && <Typography color="success.main">{success}</Typography>}
       <form onSubmit={handleClient} className="client-form">
-        <div className="form-group">
-        <h1>Add Client</h1>
+        <Typography variant="h4" gutterBottom>
+          Add Client
+        </Typography>
 
-          <label htmlFor="client_name">Client Name</label>
-          <input
-            type="text"
-            id="client_name"
-            value={client_name}
-            onChange={(e) => setclient_name(e.target.value)}
-            required
-          />
-        </div>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setLogo(e.target.files ? e.target.files[0] : null)}
+          required
+        />
 
-        <div className="form-group">
-          <label htmlFor="client_email">Client Email</label>
-          <input
-            type="email"
-            id="client_email"
-            value={client_email}
-            onChange={(e) => setclient_email(e.target.value)}
-            required
-          />
-        </div>
+        <CustomTextField
+          label="Client Name"
+          value={client_name}
+          onChange={(e) => setclient_name(e.target.value)}
+          required
+        />
 
-        <div className="form-group">
-          <label htmlFor="company_name">Company Name</label>
-          <input
-            type="text"
-            id="company_name"
-            value={company_name}
-            onChange={(e) => setcompany_name(e.target.value)}
-            required
-          />
-        </div>
+        <CustomTextField
+          label="Client Email"
+          type="email"
+          value={client_email}
+          onChange={(e) => setclient_email(e.target.value)}
+          required
+        />
 
-        <div className="form-group">
-          <label htmlFor="additional_companies">Additional Companies</label>
-          <input
-            type="text"
-            id="additional_companies"
-            value={additional_companies}
-            onChange={(e) => setadditional_companies(e.target.value)}
-            required
-          />
-        </div>
+        <CustomTextField
+          label="Company Name"
+          value={company_name}
+          onChange={(e) => setcompany_name(e.target.value)}
+          required
+        />
 
-        <div className="form-group">
-          <label htmlFor="address">Address</label>
-          <input
-            type="text"
-            id="address"
-            value={address}
-            onChange={(e) => setaddress(e.target.value)}
-            required
-          />
-        </div>
+        <CustomTextField
+          label="Additional Companies"
+          value={additional_companies}
+          onChange={(e) => setadditional_companies(e.target.value)}
+          required
+        />
 
-        <div className="form-group">
-          <label htmlFor="contact">Contact</label>
-          <input
-            type="number"
-            id="contact"
-            value={contact}
-            onChange={(e) => setcontact(e.target.value)}
-            required
-          />
-        </div>
+        <CustomTextField
+          label="Address"
+          value={address}
+          onChange={(e) => setaddress(e.target.value)}
+          required
+        />
 
-        <button type="submit">Submit</button>
+        <CustomTextField
+          label="Contact"
+          type="number"
+          value={contact}
+          onChange={(e) => setcontact(e.target.value)}
+          required
+        />
+
+        <CustomButton label="Submit" icon={<AddIcon />} onClick={handleClient} />
       </form>
-
-     
     </div>
   );
 };
 
-export default clients;
+export default Clients;
