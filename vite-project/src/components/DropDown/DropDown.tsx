@@ -4,13 +4,15 @@ import { MenuItem, FormControl, InputLabel, Select } from "@mui/material";
 interface DropdownProps {
   options: string[];
   label?: string;
+  onChange: (event: React.ChangeEvent<{ value: unknown }>) => void;
 }
 
-const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select" }) => {
+const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", onChange  }) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
 
   const handleChange = (event: any) => {
     setSelectedOption(event.target.value);
+    onChange(event);
   };
 
   return (
