@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import CustomTextField from "../../components/Input field/InputField";
 import CustomButton from "../../components/Button/Button";
 import { Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import Popup from "../../components/Popup/Popup";
 import './clients.css';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -17,12 +19,14 @@ const Clients = () => {
   const [contact, setcontact] = useState("");
   const [logo, setLogo] = useState<File | null>(null);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleClient = async (event: React.FormEvent) => {
     event.preventDefault();
     setError("");
-    setSuccess("");
+    setShowPopup(false);
 
     const formData = new FormData();
     formData.append("client_name", client_name);
@@ -36,11 +40,13 @@ const Clients = () => {
     }
 
     try {
-      const response = await axios.post(`${BASE_URL}/api/client/createclients`, formData, {
+      await axios.post(`${BASE_URL}/api/client/createclients`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      setSuccess("Client added successfully!");
-      console.log("Response:", response.data);
+
+      setShowPopup(true);
+
+      // Clear form fields
       setclient_name("");
       setclient_email("");
       setcompany_name("");
@@ -48,6 +54,12 @@ const Clients = () => {
       setaddress("");
       setcontact("");
       setLogo(null);
+
+      // Redirect after 5 seconds
+      setTimeout(() => {
+        navigate("/getclients");
+      }, 5000);
+
     } catch (error: any) {
       setError(error.response?.data?.error || "Client adding failed");
     }
@@ -56,7 +68,8 @@ const Clients = () => {
   return (
     <div>
       {error && <Typography color="error">{error}</Typography>}
-      {success && <Typography color="success.main">{success}</Typography>}
+      {showPopup && <Popup message="Client added successfully! Redirecting to all clients..." onClose={() => setShowPopup(false)} />}
+      
       <form onSubmit={handleClient} className="client-form">
         <Typography variant="h4" gutterBottom>
           Add Client
