@@ -106,10 +106,10 @@ const Sidebar: React.FC = () => {
           </ListItem>
           <Collapse in={campaignOpen && open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItemButton sx={{ pl: 4 }}>
+              <ListItemButton sx={{ pl: 4 }} component={NavLink} to="/allcampaigns">
                 <ListItemText primary="All Campaigns" />
               </ListItemButton>
-              <ListItemButton sx={{ pl: 4 }}  component={NavLink} to="/AddCampaign">
+              <ListItemButton sx={{ pl: 4 }}  component={NavLink} to="/addcampaign">
                 <ListItemText primary="Add New Campaign" />
               </ListItemButton>
             </List>

@@ -12,11 +12,10 @@ interface CampaignFormData {
   campaignName: string;
   startDate: string;
   endDate: string;
+  rentMonthly: number;
   client: { _id: string } | null;
-  companyName: string;
-  clientEmail: string;
-  billboards: string[]; 
-  campaignImages: File[];
+  billboards: string[];
+  campaignImages: string[];
 }
 
 const AddCampaign: React.FC = () => {
@@ -24,21 +23,19 @@ const AddCampaign: React.FC = () => {
     campaignName: "",
     startDate: "",
     endDate: "",
+    rentMonthly: 0,
     client: null,
-    companyName: "",
-    clientEmail: "",
-    billboards: [], // Store the selected billboard IDs
+    billboards: [],
     campaignImages: [],
   });
 
-  const [clients, setClients] = useState<{ _id: string; client_name: string; company_name: string; client_email: string }[]>([]);
+  const [clients, setClients] = useState<{ _id: string; client_name: string }[]>([]);
   const [billboards, setBillboards] = useState<{ _id: string; billboard_series: string; location: string }[]>([]);
 
   useEffect(() => {
     const fetchClients = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/api/client/getclients`);
-        console.log("Clients API Response:", response.data.data);
         setClients(response.data.data);
       } catch (error) {
         console.error("Error fetching clients", error);
@@ -52,15 +49,12 @@ const AddCampaign: React.FC = () => {
       try {
         const response = await axios.get(`${BASE_URL}/api/billboard/getbillboards`);
         const billboardArray = Array.isArray(response.data) ? response.data : response.data.billboards || [];
-  
-        const formattedBillboards = billboardArray.map((b: any) => ({
+
+        setBillboards(billboardArray.map((b: any) => ({
           _id: String(b._id),
           billboard_series: b.billboard_series,
           location: b.location,
-        }));
-  
-        console.log("Formatted Billboards:", formattedBillboards);
-        setBillboards(formattedBillboards);
+        })));
       } catch (error) {
         console.error("Error fetching billboards", error);
       }
@@ -69,21 +63,19 @@ const AddCampaign: React.FC = () => {
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [e.target.name]: e.target.value,
+      [name]: name === "rentMonthly" ? Number(value) : value,
     }));
   };
 
   const handleClientChange = (selectedClientName: string) => {
     const clientInfo = clients.find((client) => client.client_name === selectedClientName);
     if (clientInfo) {
-      console.log(`Selected Client ID: ${clientInfo._id}`);
       setFormData((prevState) => ({
         ...prevState,
         client: { _id: clientInfo._id },
-        companyName: clientInfo.company_name,
-        clientEmail: clientInfo.client_email,
       }));
     }
   };
@@ -91,34 +83,26 @@ const AddCampaign: React.FC = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
 
-    const filesArray = Array.from(e.target.files);
+    const fileNames = Array.from(e.target.files).map(file => file.name);
     setFormData((prevState) => ({
       ...prevState,
-      campaignImages: [...prevState.campaignImages, ...filesArray],
+      campaignImages: [...prevState.campaignImages, ...fileNames],
     }));
   };
 
   const handleSubmit = async () => {
-    console.log("Final Form Data Before Submission:", formData);
-    console.log("Billboards IDs Sent to API:", formData.billboards);
-  
     const formattedData = {
       campaign_name: formData.campaignName,
       campaign_start_date: formData.startDate,
       campaign_end_date: formData.endDate,
+      campaign_rent_monthly: formData.rentMonthly,
       client_id: formData.client?._id || "",
-      company_name: formData.companyName,
-      client_email: formData.clientEmail,
-      billboards: formData.billboards, 
-      campaign_images: formData.campaignImages.map((file) => file.name),
+      billboards: formData.billboards,
+      campaign_images: formData.campaignImages,
     };
-  
-    console.log("Sending data to API:", JSON.stringify(formattedData, null, 2));
-  
+
     try {
       const response = await axios.post(`${BASE_URL}/api/campaign/createcampaigns`, formattedData);
-      console.log("Response from API:", response.data);
-  
       if (response.status === 201) {
         alert("Campaign saved successfully!");
       } else {
@@ -126,28 +110,19 @@ const AddCampaign: React.FC = () => {
       }
     } catch (error: any) {
       console.error("Error saving campaign:", error);
-      if (error.response) {
-        console.error("Backend Error Response:", error.response.data);
-      }
       alert("Failed to save campaign.");
     }
   };
 
-    const billboardOptions = billboards.map((b: { _id: string; billboard_series: string; location: string }) => ({
-
+  const billboardOptions = billboards.map((b) => ({
     id: b._id,
     label: `${b.billboard_series}, ${b.location}`, 
   }));
 
- 
   const handleBillboardSelect = (selectedIds: string[]) => {
-    const selectedBillboards = billboardOptions.filter((b) =>
-      selectedIds.includes(b.id)
-    );
     setFormData((prev) => ({
       ...prev,
-      billboards: selectedIds, 
-
+      billboards: selectedIds,
     }));
   };
 
@@ -155,44 +130,33 @@ const AddCampaign: React.FC = () => {
     <div className="campaign-form">
       <h2>Add New Campaign</h2>
 
-      {/* Campaign Details */}
       <section>
         <h3>Campaign details *</h3>
         <div className="campaign-details">
           <InputField name="campaignName" placeholder="Enter campaign name" onChange={handleChange} />
           <InputField name="startDate" type="date" onChange={handleChange} className="date" />
           <InputField name="endDate" type="date" onChange={handleChange} className="date" />
+          <InputField name="rentMonthly" type="number" placeholder="Enter monthly rent" onChange={handleChange} />
         </div>
 
-        {/* Upload Campaign Images */}
         <div className="image-upload">
           <h3>Upload campaign images</h3>
           <input type="file" multiple onChange={handleFileChange} />
         </div>
       </section>
 
-      {/* Client Details */}
       <section>
         <h3>Client details *</h3>
         <div className="client-details">
-          <label>Select Client</label>
           <CustomDropdown label="Select Client" options={clients.map((client) => client.client_name)} onChange={handleClientChange} />
-          <InputField name="companyName" value={formData.companyName} onChange={handleChange} />
         </div>
-        <InputField name="clientEmail" value={formData.clientEmail} onChange={handleChange} />
       </section>
 
-      {/* Billboard Selection */}
       <section>
         <h3>Allot Billboard</h3>
-    
-      <Checklist
-        options={billboardOptions}  
-        onSelect={handleBillboardSelect}  
-      />
-
+        <Checklist options={billboardOptions} onSelect={handleBillboardSelect} />
       </section>
-      {/* Form Actions */}
+
       <footer className="form-actions">
         <Button label="Preview" onClick={() => console.log("Preview clicked")} />
         <Button label="Discard" onClick={() => console.log("Discard clicked")} />
@@ -203,3 +167,4 @@ const AddCampaign: React.FC = () => {
 };
 
 export default AddCampaign;
+
