@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./AllBillBoards.css";
+import BillboardCard from "../../components/billboardscards/billboardscards";
+import "./AllBillBoards.css"; // Assuming this is the CSS file
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -8,7 +9,7 @@ interface Billboard {
   _id: string;
   billboard_series: string;
   leaseEnd: string;
-  location:string;
+  location: string;
 }
 
 interface Campaign {
@@ -18,6 +19,7 @@ interface Campaign {
   campaign_end_date: string;
   campaign_images: string[];
   client_id: string;
+  company_name: string; // Assuming the company_name is inside Campaign object
   billboards: Billboard[];
 }
 
@@ -35,6 +37,7 @@ const CampaignsBillboards: React.FC = () => {
       .then((response) => {
         setCampaigns(response.data.data);
         setLoadingCampaigns(false);
+        console.log("Fetched Campaigns:", response.data.data);
       })
       .catch((error) => {
         setErrorCampaigns("Error fetching campaigns. Please try again later.");
@@ -60,15 +63,7 @@ const CampaignsBillboards: React.FC = () => {
     const campaignEndDateObj = new Date(campaignEndDate);
     const currentDate = new Date();
 
-    if (leaseEndDate > currentDate) {
-      return "Active";
-    } else if (campaignEndDateObj > currentDate) {
-      return "Billboard Active";
-    } else if (campaignEndDateObj < currentDate) {
-      return "Campaign Active";
-    } else {
-      return "Inactive";
-    }
+    return leaseEndDate > currentDate ? "Active" : "Inactive";
   };
 
   const matchedBillboards = campaigns.flatMap((campaign) =>
@@ -76,14 +71,18 @@ const CampaignsBillboards: React.FC = () => {
       .filter((campaignBillboard) =>
         billboards.some((billboard) => billboard._id === campaignBillboard._id)
       )
-      .map((matchedBillboard) => ({
-        campaign_name: campaign.campaign_name,
-        billboard_id: matchedBillboard._id,
-        billboard_series: matchedBillboard.billboard_series,
-        billboard_LeaseEnd: matchedBillboard.leaseEnd,
-        billboard_Location: matchedBillboard.location,
-        status: getStatus(matchedBillboard.leaseEnd, campaign.campaign_end_date),
-      }))
+      .map((matchedBillboard) => {
+        console.log("Company Name:", campaign.company_name);
+        return {
+          campaign_name: campaign.campaign_name,
+          company_name: campaign.company_name, // Use company_name from campaign
+          billboard_id: matchedBillboard._id,
+          billboard_series: matchedBillboard.billboard_series,
+          billboard_LeaseEnd: matchedBillboard.leaseEnd,
+          billboard_Location: matchedBillboard.location,
+          status: getStatus(matchedBillboard.leaseEnd, campaign.campaign_end_date),
+        };
+      })
   );
 
   return (
@@ -92,16 +91,15 @@ const CampaignsBillboards: React.FC = () => {
       <div className="card-container">
         {matchedBillboards.length > 0 ? (
           matchedBillboards.map((item, index) => (
-            <div className="card" key={index}>
-              <div className="card-header">
-                <h3>{item.campaign_name} <span className={`status ${item.status.toLowerCase().replace(/\s+/g, '-')}`}>{item.status}</span></h3>
-              </div>
-              <div className="card-body">
-                <p><strong>Billboard Series:</strong> {item.billboard_series}</p>
-                <p><strong>Lease End:</strong> {item.billboard_LeaseEnd}</p>
-                <p><strong>Billboard Location:</strong> {item.billboard_Location}</p>
-              </div>
-            </div>
+            <BillboardCard
+              key={index}
+              series={item.billboard_series}
+              companyName={item.company_name}
+              campaignName={item.campaign_name}
+              location={item.billboard_Location}
+              leaseExpiry={item.billboard_LeaseEnd}
+              isActive={item.status === "Active"}
+            />
           ))
         ) : (
           <p>No matched billboards found.</p>

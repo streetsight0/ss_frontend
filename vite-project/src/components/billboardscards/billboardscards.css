@@ -1,0 +1,102 @@
+#billboard-card.active {
+  background-color: #fff;
+  color: black;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.789);
+  font-family: Arial, sans-serif;
+}
+#billboard-card.inactive{
+    background-color:#bbb;
+    color: #000;
+    color: black;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.789);
+  font-family: Arial, sans-serif;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.card-id {
+  font-size: 14px;
+  color: #000;
+}
+
+.status {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.status.active {
+  color: #0f0;
+  background-color: rgba(0, 255, 0, 0.229);
+}
+
+.status.inactive {
+  color: #f00;
+  background-color:rgba(255, 0, 0, 0.422)
+}
+
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-section {
+  margin-bottom: 10px;
+}
+
+.campaign-lease-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.campaign-section, .lease-section {
+  flex: 1;
+}
+
+p {
+  font-size: 12px;
+  color: #000;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 5px 0;
+}
+.status {
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    
+  }
+  
+  .available {
+    background-color: #bbb;
+    color: black;
+  }
+  
+  .active {
+    background-color: blue;
+    color: white;
+  }
+  
+  .inactive {
+    background-color: red;
+    color: white;
+  }
+  
