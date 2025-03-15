@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
-import "./billboard.css";
+// import "./billboard.css";
 import CustomButton from "../../components/Button/Button";
 import AddIcon from "@mui/icons-material/Add";
 import CustomTextField from "../../components/Input field/InputField";
@@ -128,13 +128,10 @@ const BillBoard = () => {
             <CustomTextField label="Billboard Name" value={billboard_name} onChange={(e) => setBillboardName(e.target.value)} required />
             <CustomTextField value={billboard_series} onChange={(e) => setBillboardSeries(e.target.value)} label="Billboard Series" required />
 
-            <CustomDropdown options={["Digital Billboard", "Prism Billboard", "Banner Billboard"]} label="Billboard Type" onChange={(e) => setBillboardType(e.target.value)} />
+            <CustomDropdown options={["Digital Billboard", "Prism Billboard", "Banner Billboard"]} label="Billboard Type"  onChange={setBillboardType} />
 
             <CustomTextField value={location} onChange={(e) => setLocation(e.target.value)} label="Location" required />
             <CustomTextField value={size} onChange={(e) => setSize(e.target.value)} label="Size (e.g., 10x20ft)" required />
-
-            <CustomDropdown options={["One Month", "Half Year", "One Year", "Five Years", "More than 5 years"]} label="Campaign Duration" onChange={(e) => setCampaignDuration(e.target.value)} />
-
             <CustomTextField type="number" value={campaignCapacity} onChange={(e) => setCampaignCapacity(e.target.value)} label="Campaign Capacity" />
 
             <CustomTextField type="date" value={leaseStart} onChange={(e) => setLeaseStart(e.target.value)} required label="Lease Start Date" />
