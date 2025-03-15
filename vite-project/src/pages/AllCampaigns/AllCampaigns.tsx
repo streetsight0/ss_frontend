@@ -113,7 +113,7 @@ const CampaignList: React.FC = () => {
         <Pagination
           count={Math.ceil(sortedCampaigns.length / ITEMS_PER_PAGE)}
           page={page}
-          onChange={(event, value) => setPage(value)}
+          onChange={(_event, value) => setPage(value)}
           color="primary"
         />
       </Box>
