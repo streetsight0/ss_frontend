@@ -1,5 +1,5 @@
 import React from "react";
-import "./ConfirmationCard.css";
+import './confirmationcard.css';
 
 interface ConfirmationCardProps {
   onCancel: () => void;
