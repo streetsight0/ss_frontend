@@ -13,7 +13,7 @@ import InvoiceForm from "../pages/Invoice/InvoiceForm";
 import AddCampaign from "../pages/AddCampaign/addcampaign";
 import GetBillBoards from "../pages/getBillBoards/getBillboards"
 import Billboards from "../pages/BillBoards/billboard"
-
+import ViewLeaseAgreement from "../pages/LeaseAgreement/ViewLeaseAgreement";
 import Client from "../pages/clients/clients"
 import ClientStatus from "../pages/ClientStatus/clientStatus";
 
@@ -91,6 +91,15 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <NewLeaseAgreement />
+          </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/viewLease",
+        element: (
+          <ProtectedRoute>
+            <ViewLeaseAgreement />
           </ProtectedRoute>
         ),
         errorElement: <ErrorPage />,
