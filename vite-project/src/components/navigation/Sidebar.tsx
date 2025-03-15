@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, IconButton, Collapse, Divider, Box } from "@mui/material";
-import { Menu, Dashboard, ExpandLess, ExpandMore, Close, Business, Campaign, People } from "@mui/icons-material";
+import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, IconButton, Collapse, Box } from "@mui/material";
+import { Dashboard, ExpandLess, ExpandMore, Close, Business, Campaign, People } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import {NavLink, Outlet} from "react-router-dom";
 import logo from "../../assets/logo1.png";
