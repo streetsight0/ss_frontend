@@ -7,8 +7,8 @@ interface BillboardCardProps {
   campaignName: string;
   location: string;
   leaseExpiry: string;
-  isActive: boolean;
-  isAvailable: boolean;
+  // isActive: boolean;
+  // isAvailable: boolean;
 }
 
 const BillboardCard: React.FC<BillboardCardProps> = ({
@@ -17,23 +17,19 @@ const BillboardCard: React.FC<BillboardCardProps> = ({
   campaignName,
   location,
   leaseExpiry,
-  isActive,
-  isAvailable,
+  // isActive,
 }) => {
   // Determine the status text and style based on isActive and isAvailable
   let statusText = "";
   let statusClass = "";
 
-  if (isAvailable) {
-    statusText = "● Available";
-    statusClass = "available";
-  } else if (isActive) {
-    statusText = "● Active";
-    statusClass = "active";
-  } else {
-    statusText = "● Inactive";
-    statusClass = "inactive";
-  }
+  //  if (isActive) {
+  //   statusText = "● Active";
+  //   statusClass = "active";
+  // } else {
+  //   statusText = "● Inactive";
+  //   statusClass = "inactive";
+  // }
 
   return (
     <div className={`status ${statusClass}`} id="billboard-card">

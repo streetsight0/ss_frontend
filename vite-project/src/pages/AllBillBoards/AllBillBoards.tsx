@@ -58,9 +58,9 @@ const CampaignsBillboards: React.FC = () => {
       });
   }, []);
 
-  const getStatus = (leaseEnd: string, campaignEndDate: string) => {
+  const getStatus = (leaseEnd: string) => {
     const leaseEndDate = new Date(leaseEnd);
-    const campaignEndDateObj = new Date(campaignEndDate);
+    // const campaignEndDateObj = new Date(campaignEndDate);
     const currentDate = new Date();
 
     return leaseEndDate > currentDate ? "Active" : "Inactive";
@@ -80,7 +80,7 @@ const CampaignsBillboards: React.FC = () => {
           billboard_series: matchedBillboard.billboard_series,
           billboard_LeaseEnd: matchedBillboard.leaseEnd,
           billboard_Location: matchedBillboard.location,
-          status: getStatus(matchedBillboard.leaseEnd, campaign.campaign_end_date),
+          status: getStatus(matchedBillboard.leaseEnd),
         };
       })
   );
@@ -98,7 +98,6 @@ const CampaignsBillboards: React.FC = () => {
               campaignName={item.campaign_name}
               location={item.billboard_Location}
               leaseExpiry={item.billboard_LeaseEnd}
-              isActive={item.status === "Active"}
             />
           ))
         ) : (

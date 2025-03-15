@@ -80,7 +80,6 @@ const AvailableBillboards: React.FC = () => {
               campaignName="N/A" 
               location={item.location}
               leaseExpiry={item.leaseEnd}
-              isAvailable={true} 
             />
           ))
         ) : (
