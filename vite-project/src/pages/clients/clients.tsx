@@ -17,24 +17,29 @@ const Clients = () => {
   const [additional_companies, setadditional_companies] = useState("");
   const [address, setaddress] = useState("");
   const [contact, setcontact] = useState("");
-  const [logo, setLogo] = useState<File | null>(null);
+  const [Logo, setLogo] = useState<File | null>(null);
   const [error, setError] = useState("");
+  const [, setSuccess] = useState("");
   const [showPopup, setShowPopup] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleClient = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleClient = async () => {
     setError("");
     setSuccess("");
+
+    const formData = new FormData();
+    formData.append("client_name", client_name);
+    formData.append("client_email", client_email);
+    formData.append("company_name", company_name);
+    formData.append("additional_companies", additional_companies);
+    formData.append("address", address);
+    formData.append("contact", contact);
+    if (Logo) formData.append("logo", Logo);
+
     try {
-      const response = await axios.post(`${BASE_URL}/api/client/createclients`, {
-        client_name,
-        client_email,
-        company_name,
-        additional_companies,
-        address,
-        contact,
+      const response = await axios.post(`${BASE_URL}/api/client/createclients`, formData, {
+        headers: { "Content-Type": "multipart/form-data" }
       });
       setSuccess("Client added successfully!");
       console.log("Response:", response.data);
@@ -45,12 +50,11 @@ const Clients = () => {
       setaddress("");
       setcontact("");
       setLogo(null);
-
-      // Redirect after 5 seconds
+      setShowPopup(true);
       setTimeout(() => {
-        navigate("/getclients");
+        navigate("/getClient");
       }, 5000);
-
+      
     } catch (error: any) {
       setError(error.response?.data?.error || "Client adding failed");
     }
