@@ -35,11 +35,6 @@ const Sidebar: React.FC = () => {
 
   return (
 		<>
-			{/* Toggle Button */}
-			<IconButton onClick={handleToggle} sx={{ margin: "10px" }}>
-				<Menu />
-			</IconButton>
-
 			{/* Sidebar Drawer */}
 			<SidebarDrawer variant="permanent" anchor="left" open={open}>
 				{/* Sidebar Header */}
@@ -56,8 +51,6 @@ const Sidebar: React.FC = () => {
 						<Close />
 					</IconButton>
 				</Box>
-				<Divider />
-
 				{/* Sidebar Menu */}
 				<List>
 					{/* Dashboard */}

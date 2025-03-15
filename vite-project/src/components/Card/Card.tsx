@@ -1,52 +1,44 @@
 import React from "react";
-import { Card, CardContent, CardActions, Typography, Button, IconButton } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Card, CardContent, Typography,Box, Avatar } from "@mui/material";
+import RenewButton from "../Button/RenewButton";
+import ViewButton from "../Button/ViewButton";
+import  "./LeaseCard.css";
 
 interface CardProps {
-  heading: string;
   company: string;
   email: string;
   expiryDate: string;
-  onEdit?: () => void;
-  onDelete?: () => void;
+  daysLeft: number;
+  onRenew?: () => void;
+  onView?: () => void;
 }
 
-const InfoCard: React.FC<CardProps> = ({ heading, company, email, expiryDate, onEdit, onDelete }) => {
+const InfoCard: React.FC<CardProps> = ({ daysLeft, company, email, expiryDate, onRenew, onView }) => {
   return (
-    <Card sx={{ maxWidth: 345, bgcolor: "black", color: "white", p: 2 }}>
+    <Card sx={{ backgroundColor: "#FFF", width: "368px", height: "175px", borderRadius: "16px", marginTop:"16px",marginBottom:"16px",gap:"20px"  }}>
       <CardContent>
-        <Typography variant="subtitle1" fontWeight="bold">
-          {heading}
-        </Typography>
-        <CardActions sx={{ justifyContent: "flex-end" }}>
-        <IconButton color="inherit" onClick={onEdit}>
-          <EditIcon />
-        </IconButton>
-        <IconButton color="inherit" onClick={onDelete}>
-          <DeleteIcon />
-        </IconButton>
-      </CardActions>
-        <Typography variant="h6" fontWeight="bold">
-          {company}
-        </Typography>
-        <Typography variant="body2">Email</Typography>
-        <Typography variant="body1" fontWeight="bold">
-          {email}
-        </Typography>
-        <Typography variant="body2">Lease Expire in</Typography>
-        <Typography variant="body1" fontWeight="bold">
-          {expiryDate}
-        </Typography>
+        <Box display="flex" alignItems="center" gap={1} sx={{width:"291px", height:"21px"}}>
+            <Avatar
+              src="https://upload.wikimedia.org/wikipedia/commons/2/24/Adidas_logo.png"
+              alt="Company Logo"
+              sx={{ width: "33px", height: "22px", gap: "10px",  borderRadius: "2px"}}
+            />
+            <Typography sx={{fontWeight:"600", fontSize:"16px", color:"#34383E", fontFamily:"Poppins"}}>
+              {company}
+            </Typography>
+          </Box>
+          <Typography  color="textSecondary" mt={1} sx={{marginTop:"16px"}}>
+            {email}
+          </Typography>
+          <Box display="flex" justifyContent="space-between" mt={1} mb={2} sx={{borderBottom: "2px solid #C1B7FF66", marginTop:"12px", paddingBottom:"6px"}}>
+            <Typography variant="body2">{expiryDate}</Typography>
+            <Typography variant="body2">{daysLeft} Days Left</Typography>
+          </Box>
+        <Box display="flex" justifyContent="space-between">
+          <RenewButton label="Renew" onClick={onRenew}/>
+          <ViewButton label="View" onClick={onView} />
+        </Box>
       </CardContent>
-      <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Button variant="contained" color="primary">
-          Renew
-        </Button>
-        <Button variant="outlined" color="secondary">
-          View
-        </Button>
-      </CardActions>
     </Card>
   );
 };
