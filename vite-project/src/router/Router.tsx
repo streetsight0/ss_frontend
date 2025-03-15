@@ -13,7 +13,7 @@ import InvoiceForm from "../pages/Invoice/InvoiceForm";
 import AddCampaign from "../pages/AddCampaign/addcampaign";
 import GetBillBoards from "../pages/getBillBoards/getBillboards"
 import Billboards from "../pages/BillBoards/billboard"
-import ViewLeaseAgreement from "../pages/LeaseAgreement/ViewLeaseAgreement";
+import ViewLeaseAgreement from "../pages/LeaseAgreement/ViewLeaseAgreement";import AllCampaigns from "../pages/AllCampaigns/AllCampaigns";
 import Client from "../pages/clients/clients"
 import ClientStatus from "../pages/ClientStatus/clientStatus";
 
@@ -53,6 +53,15 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <AddCampaign />
+          </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/allcampaigns",
+        element: (
+          <ProtectedRoute>
+            <AllCampaigns />
           </ProtectedRoute>
         ),
         errorElement: <ErrorPage />,
