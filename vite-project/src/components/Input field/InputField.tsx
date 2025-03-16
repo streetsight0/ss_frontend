@@ -27,7 +27,7 @@ const InputField: React.FC<TextFieldProps> = (props) => {
         "& .MuiInputLabel-root": {
           position: "absolute",
           top: "-10px", 
-          fontSize: "14px",
+          fontSize: "16px",
           fontWeight: "bold",
           color: "black", 
         },

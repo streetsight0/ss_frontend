@@ -8,17 +8,18 @@ interface CardProps {
   email: string;
   expiryDate: string;
   daysLeft: number;
+  logo: any;
   onRenew?: () => void;
   onView?: () => void;
 }
 
-const InfoCard: React.FC<CardProps> = ({ daysLeft, company, email, expiryDate, onRenew, onView }) => {
+const InfoCard: React.FC<CardProps> = ({ daysLeft, company, email, expiryDate,logo, onRenew, onView }) => {
   return (
     <Card sx={{ backgroundColor: "#FFF", width: "368px", height: "175px", borderRadius: "16px", marginTop:"16px",marginBottom:"16px",gap:"20px"  }}>
       <CardContent>
         <Box display="flex" alignItems="center" gap={1} sx={{width:"291px", height:"21px"}}>
             <Avatar
-              src="https://upload.wikimedia.org/wikipedia/commons/2/24/Adidas_logo.png"
+             src={logo}
               alt="Company Logo"
               sx={{ width: "33px", height: "22px", gap: "10px",  borderRadius: "2px"}}
             />
