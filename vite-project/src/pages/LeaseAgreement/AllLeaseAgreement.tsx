@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import InfoCard from "../../components/Card/Card";
 import CustomButton from "../../components/Button/Button";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -8,8 +8,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+const ITEMS_PER_PAGE = 9;
 const AllLeaseAgreements: React.FC = () => {
 const [leaseAgreement, setLeaseAgreement] = useState<any[]>([]);
+const [currentPage, setCurrentPage] = useState(1);
 
   const navigate = useNavigate();
 
@@ -73,7 +75,7 @@ const [leaseAgreement, setLeaseAgreement] = useState<any[]>([]);
   
     return diffDays;
   };
-
+  const totalPages = Math.ceil(leaseAgreement.length / ITEMS_PER_PAGE);
   return (
     <>
     <Stack direction="row" spacing={2} mt={2} sx={{marginRight:"12px", marginLeft:"12px", gap:"8px"}} justifyContent="space-between" alignItems="center">
@@ -86,18 +88,25 @@ const [leaseAgreement, setLeaseAgreement] = useState<any[]>([]);
       gridTemplateColumns={{ xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" }}
       sx={{gap: "12px", marginLeft:"12px",marginRight:"12px"}}
     > 
-      {leaseAgreement.map((lease) => (
+      {leaseAgreement.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE).map((lease) => (
         <InfoCard
           key={lease?._id}
           company={lease?.client?.company_name}
           email={lease?.client?.client_email}
           expiryDate={formatDate(lease?.campaignEndDate)}
           daysLeft={calculateDaysLeft(lease?.campaignEndDate)}
+          logo = {lease?.client?.client_logo}
           onRenew={() => handleRenew()}
           onView={() => handleView(lease?._id)}
         />
       ))}
     </Box>
+      {/* Pagination Buttons */}
+      <Stack direction="row" justifyContent="center" spacing={2} mt={2}>
+        <Button disabled={currentPage === 1} onClick={() => setCurrentPage((prev) => prev - 1)}>Previous</Button>
+        <Typography>Page {currentPage} of {totalPages}</Typography>
+        <Button disabled={currentPage === totalPages} onClick={() => setCurrentPage((prev) => prev + 1)}>Next</Button>
+      </Stack>
     </>
   );
 };
