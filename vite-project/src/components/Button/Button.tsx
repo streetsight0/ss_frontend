@@ -5,10 +5,12 @@ import { Typography, Stack, SxProps } from "@mui/material";
 
 interface CustomButtonProps {
   label: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   onClick?: () => void;
-  sx?: SxProps; 
+  sx?: SxProps;
+  children?: React.ReactNode; 
 }
+
 
 const CustomButton: React.FC<CustomButtonProps> = ({ label, icon, onClick, sx }) => {
   const isSmallScreen = useMediaQuery("(max-width:600px)");

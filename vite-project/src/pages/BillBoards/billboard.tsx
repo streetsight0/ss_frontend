@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import "./billboard.css";
 import CustomButton from "../../components/Button/Button";
 import AddIcon from "@mui/icons-material/Add";
 import CustomTextField from "../../components/Input field/InputField";
 import CustomDropdown from "../../components/DropDown/DropDown";
 import ConfirmationCard from "../../components/confirmationcard/confirmationcard";
+import UploadImages from "../../components/UploadImage/UploadImage";
+import "./billboard.css";
+import { useNavigate } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const BillBoard = () => {
   const [billboard_name, setBillboardName] = useState("");
-  const [billboard_series, setBillboardSeries] = useState("");
+  const [billboard_series, setBillboardSeries] = useState("B3001");
   const [billboard_type, setBillboardType] = useState("");
   const [location, setLocation] = useState("");
   const [size, setSize] = useState("");
@@ -24,8 +26,22 @@ const BillBoard = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [formDataBackup, setFormDataBackup] = useState<any>(null); // Store backup of form data
-  const [alertIcon, setAlertIcon] = useState(""); // New state for custom alert icon
+  const [formDataBackup, setFormDataBackup] = useState<any>(null);
+  const [alertIcon, setAlertIcon] = useState("??");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchBillboardCount = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/api/billboard/getbillboards`);
+        const totalBillboards = response.data.length;
+        setBillboardSeries(`B30${totalBillboards + 1}`);
+      } catch (error) {
+        console.error("Error fetching billboard count:", error);
+      }
+    };
+    fetchBillboardCount();
+  }, []);
 
   const saveBillboardToBackend = async () => {
     try {
@@ -50,6 +66,11 @@ const BillBoard = () => {
 
       setSuccess("Billboard added successfully!");
       console.log("Response:", response.data);
+
+      setTimeout(() => {
+        navigate("/getBillBoards");
+      }, 5000);
+
       resetForm();
     } catch (error: any) {
       console.error("Error details:", error);
@@ -59,7 +80,6 @@ const BillBoard = () => {
 
   const resetForm = () => {
     setBillboardName("");
-    setBillboardSeries("");
     setBillboardType("");
     setLocation("");
     setSize("");
@@ -72,7 +92,6 @@ const BillBoard = () => {
   };
 
   const handleDiscard = () => {
-    // Save form data before showing confirmation
     setFormDataBackup({
       billboard_name,
       billboard_series,
@@ -85,16 +104,14 @@ const BillBoard = () => {
       leaseEnd,
       pricePerMonth,
       billboardImages,
-      alertIcon, // Include alert icon in backup
+      alertIcon,
     });
     setShowConfirmation(true);
   };
 
   const handleCancel = () => {
-    // Restore the backup of the form data
     if (formDataBackup) {
       setBillboardName(formDataBackup.billboard_name);
-      setBillboardSeries(formDataBackup.billboard_series);
       setBillboardType(formDataBackup.billboard_type);
       setLocation(formDataBackup.location);
       setSize(formDataBackup.size);
@@ -104,7 +121,7 @@ const BillBoard = () => {
       setLeaseEnd(formDataBackup.leaseEnd);
       setPricePerMonth(formDataBackup.pricePerMonth);
       setBillboardImages(formDataBackup.billboardImages);
-      setAlertIcon(formDataBackup.alertIcon); // Restore alert icon
+      setAlertIcon(formDataBackup.alertIcon);
     }
     setShowConfirmation(false);
   };
@@ -118,45 +135,31 @@ const BillBoard = () => {
             saveBillboardToBackend();
             setShowConfirmation(false);
           }}
-          alertIcon={alertIcon} // Pass the user-selected alert icon
+          alertIcon={alertIcon}
+          confirmationText="Are you sure you want to cancel adding new billboard?" 
+          button1="Cancel"
+          button2="Add Bill"
         />
       ) : (
         <div className="billboard-form">
-          <h1>Add Billboard</h1>
-
+          <h1>Add New Billboard</h1>
+          <h3>Billboard Details</h3>
           <form>
             <CustomTextField label="Billboard Name" value={billboard_name} onChange={(e) => setBillboardName(e.target.value)} required />
-            <CustomTextField value={billboard_series} onChange={(e) => setBillboardSeries(e.target.value)} label="Billboard Series" required />
-
-            <CustomDropdown options={["Digital Billboard", "Prism Billboard", "Banner Billboard"]} label="Billboard Type" onChange={(e) => setBillboardType(e.target.value)} />
-
+            <CustomTextField value={billboard_series} label="Billboard Series" required disabled />
+            <CustomDropdown options={["Digital Billboard", "Prism Billboard", "Banner Billboard"]} label="Billboard Type" onChange={setBillboardType} />
             <CustomTextField value={location} onChange={(e) => setLocation(e.target.value)} label="Location" required />
             <CustomTextField value={size} onChange={(e) => setSize(e.target.value)} label="Size (e.g., 10x20ft)" required />
-
-            <CustomDropdown options={["One Month", "Half Year", "One Year", "Five Years", "More than 5 years"]} label="Campaign Duration" onChange={(e) => setCampaignDuration(e.target.value)} />
-
             <CustomTextField type="number" value={campaignCapacity} onChange={(e) => setCampaignCapacity(e.target.value)} label="Campaign Capacity" />
-
             <CustomTextField type="date" value={leaseStart} onChange={(e) => setLeaseStart(e.target.value)} required label="Lease Start Date" />
             <CustomTextField type="date" value={leaseEnd} onChange={(e) => setLeaseEnd(e.target.value)} required label="Lease End Date" />
             <CustomTextField type="number" value={pricePerMonth} onChange={(e) => setPricePerMonth(e.target.value)} label="Price Per Month" required />
-
-            <label>Upload Images:</label>
-            <input type="file" multiple onChange={(e) => setBillboardImages(Array.from(e.target.files || []))} accept="image/*" />
-
-            {/* New input for selecting alert icon */}
-            <CustomTextField 
-              label="Alert Icon (e.g., 🔔, ⚠️)" 
-              value={alertIcon} 
-              onChange={(e) => setAlertIcon(e.target.value)} 
-            />
-
+            <UploadImages onImagesSelected={setBillboardImages} />
             <div className="button-group">
               <CustomButton label="Submit" icon={<AddIcon />} onClick={saveBillboardToBackend} />
               <CustomButton label="Discard" onClick={handleDiscard} />
             </div>
           </form>
-
           {error && <p className="error-message">{error}</p>}
           {success && <p className="success-message">{success}</p>}
         </div>
