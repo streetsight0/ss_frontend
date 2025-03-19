@@ -1,19 +1,13 @@
 import { useState } from "react";
 import { MenuItem, FormControl, InputLabel, Select } from "@mui/material";
 
+
 interface DropdownProps {
-<<<<<<< HEAD
   options: string[]; 
   label?: string;   
   onChange: (value: string) => void; 
-=======
-  options: string[];
-  label?: string;
-  onChange: (value: string) => void;
->>>>>>> 00fb98199a544a79957ab1b2277f2e271fd44efa
 }
 
-const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", onChange }) => {
 const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", onChange }) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
 
@@ -21,40 +15,22 @@ const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", on
     const value = event.target.value;
     setSelectedOption(value);
     onChange(value);
-<<<<<<< HEAD
-    const value = event.target.value;
-    setSelectedOption(value);
-    onChange(value);
   };
 
   return (
     <FormControl fullWidth sx={{ position: "relative", width: "400px" }}>
-=======
-  };
-
-  return (
-    <FormControl fullWidth sx={{ position: "relative", width: "700px" }}>
->>>>>>> 00fb98199a544a79957ab1b2277f2e271fd44efa
       {/* Fixed Title */}
       <InputLabel 
         shrink 
         sx={{ 
           fontSize: "14px", 
-<<<<<<< HEAD
           fontWeight: "bold", 
-=======
-          fontWeight: "500", 
->>>>>>> 00fb98199a544a79957ab1b2277f2e271fd44efa
           color: "black", 
           position: "absolute", 
           top: "-10px", 
           left: "10px", 
-<<<<<<< HEAD
           padding: "0 5px", 
           fontFamily:"Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"
-=======
-          padding: "0 5px" 
->>>>>>> 00fb98199a544a79957ab1b2277f2e271fd44efa
         }}
       >
         {label}

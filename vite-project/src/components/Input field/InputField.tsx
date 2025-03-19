@@ -9,16 +9,9 @@ const InputField: React.FC<TextFieldProps> = (props) => {
       InputLabelProps={{ shrink: true }} 
       {...props}
       sx={{
-<<<<<<< HEAD
-        width: "400px", 
-        height: "70px",
-        bgcolor: "lightGray", 
-        borderRadius: 2, 
-=======
         width: "700px",
         borderRadius: "8px",
         fontWeight: "500",
->>>>>>> 00fb98199a544a79957ab1b2277f2e271fd44efa
         "& .MuiOutlinedInput-root": {
           bgcolor: "white", 
           borderRadius: "8px",

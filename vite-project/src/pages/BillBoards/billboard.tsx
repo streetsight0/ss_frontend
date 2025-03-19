@@ -1,11 +1,5 @@
-<<<<<<< HEAD
 import { useState, useEffect } from "react";
 import axios from "axios";
-=======
-import { useState } from "react";
-import axios from "axios";
-// import "./billboard.css";
->>>>>>> 00fb98199a544a79957ab1b2277f2e271fd44efa
 import CustomButton from "../../components/Button/Button";
 import AddIcon from "@mui/icons-material/Add";
 import CustomTextField from "../../components/Input field/InputField";
@@ -152,15 +146,10 @@ const BillBoard = () => {
           <h3>Billboard Details</h3>
           <form>
             <CustomTextField label="Billboard Name" value={billboard_name} onChange={(e) => setBillboardName(e.target.value)} required />
-<<<<<<< HEAD
-            <CustomTextField value={billboard_series} label="Billboard Series" required disabled />
-            <CustomDropdown options={["Digital Billboard", "Prism Billboard", "Banner Billboard"]} label="Billboard Type" onChange={setBillboardType} />
-=======
             <CustomTextField value={billboard_series} onChange={(e) => setBillboardSeries(e.target.value)} label="Billboard Series" required />
 
             <CustomDropdown options={["Digital Billboard", "Prism Billboard", "Banner Billboard"]} label="Billboard Type"  onChange={setBillboardType} />
 
->>>>>>> 00fb98199a544a79957ab1b2277f2e271fd44efa
             <CustomTextField value={location} onChange={(e) => setLocation(e.target.value)} label="Location" required />
             <CustomTextField value={size} onChange={(e) => setSize(e.target.value)} label="Size (e.g., 10x20ft)" required />
             <CustomTextField type="number" value={campaignCapacity} onChange={(e) => setCampaignCapacity(e.target.value)} label="Campaign Capacity" />
