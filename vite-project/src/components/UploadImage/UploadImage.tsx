@@ -18,7 +18,7 @@ const UploadImages = ({ onImagesSelected }: UploadImagesProps) => {
   };
 
   return (
-    <div className="upload-images-container">
+    <div className="upload-images-container" style={{ width: "300px", height: "250px" }}>
       <label>Upload Images:</label>
       <input
         type="file"

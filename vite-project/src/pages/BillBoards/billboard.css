@@ -77,3 +77,6 @@ input[type="file"] {
   font-size: 14px;
   grid-column: span 2;
 }
+.billboardwidth{
+  width:400px ;
+}
