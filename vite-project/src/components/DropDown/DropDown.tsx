@@ -9,47 +9,73 @@ interface DropdownProps {
 }
 
 const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", onChange }) => {
+const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", onChange }) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
 
   const handleChange = (event: any) => {
     const value = event.target.value;
     setSelectedOption(value);
     onChange(value);
+    const value = event.target.value;
+    setSelectedOption(value);
+    onChange(value);
   };
 
   return (
-    <FormControl fullWidth>
-      <InputLabel>{label}</InputLabel>
+    <FormControl fullWidth sx={{ position: "relative", width: "400px" }}>
+      {/* Fixed Title */}
+      <InputLabel 
+        shrink 
+        sx={{ 
+          fontSize: "14px", 
+          fontWeight: "bold", 
+          color: "black", 
+          position: "absolute", 
+          top: "-10px", 
+          left: "10px", 
+          padding: "0 5px", 
+          fontFamily:"Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"
+        }}
+      >
+        {label}
+      </InputLabel>
+
       <Select
         value={selectedOption}
         onChange={handleChange}
         displayEmpty
         sx={{
-          borderRadius: "12px",
+          borderRadius: "8px",
           backgroundColor: "white",
+          borderBottom: "3px solid rgba(168, 85, 247, 1)",
+          marginBottom: "16px", 
+          height:45,
           "& .MuiSelect-select": {
-            padding: "12px 14px",
-            borderRadius: "12px",
+            padding: "16px",
+            borderRadius: "8px",
+            color: "#333",
+          },
+          "& .MuiSvgIcon-root": {
+            color: "rgba(168, 85, 247, 1)", 
           },
         }}
         MenuProps={{
           PaperProps: {
             sx: {
-              borderRadius: "12px",
+              borderRadius: "8px",
               boxShadow: 3,
             },
           },
         }}
       >
-        {options.length > 0 ? (
-          options.map((option) => (
-            <MenuItem key={option} value={option}>
-              {option}
-            </MenuItem>
-          ))
-        ) : (
-          <MenuItem disabled>No Clients Available</MenuItem>
-        )}
+        <MenuItem disabled value="">
+          <span style={{ color: "#888", fontSize:"14px" }}>Enter data here</span> 
+        </MenuItem>
+        {options.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
   );

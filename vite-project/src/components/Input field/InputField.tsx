@@ -8,7 +8,7 @@ const CustomTextField: React.FC<TextFieldProps> = (props) => {
       fullWidth
       {...props}
       sx={{
-        width: "700px", 
+        width: "400px", 
         height: "70px",
         bgcolor: "lightGray", 
         borderRadius: 2, 
