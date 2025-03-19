@@ -40,7 +40,7 @@ const ClientTable: React.FC = () => {
   }, []);
 
   const handleEdit = (client: Client) => {
-    alert(`Editing client with ID: ${client._id}`);
+    console.log(`Editing client with ID: ${client._id}`);
   };
 
   if (loading) {

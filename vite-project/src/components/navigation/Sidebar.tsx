@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, IconButton, Collapse, Divider, Box } from "@mui/material";
-import { Menu, Dashboard, ExpandLess, ExpandMore, Close, Business, Campaign, People } from "@mui/icons-material";
+import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, IconButton, Collapse, Box } from "@mui/material";
+import { Dashboard, ExpandLess, ExpandMore, Close, Business, Campaign, People } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import {NavLink, Outlet} from "react-router-dom";
 import logo from "../../assets/logo1.png";
@@ -35,11 +35,6 @@ const Sidebar: React.FC = () => {
 
   return (
 		<>
-			{/* Toggle Button */}
-			<IconButton onClick={handleToggle} sx={{ margin: "10px" }}>
-				<Menu />
-			</IconButton>
-
 			{/* Sidebar Drawer */}
 			<SidebarDrawer variant="permanent" anchor="left" open={open}>
 				{/* Sidebar Header */}
@@ -56,8 +51,6 @@ const Sidebar: React.FC = () => {
 						<Close />
 					</IconButton>
 				</Box>
-				<Divider />
-
 				{/* Sidebar Menu */}
 				<List>
 					{/* Dashboard */}
@@ -106,10 +99,10 @@ const Sidebar: React.FC = () => {
           </ListItem>
           <Collapse in={campaignOpen && open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItemButton sx={{ pl: 4 }}>
+              <ListItemButton sx={{ pl: 4 }} component={NavLink} to="/allcampaigns">
                 <ListItemText primary="All Campaigns" />
               </ListItemButton>
-              <ListItemButton sx={{ pl: 4 }}  component={NavLink} to="/AddCampaign">
+              <ListItemButton sx={{ pl: 4 }}  component={NavLink} to="/addcampaign">
                 <ListItemText primary="Add New Campaign" />
               </ListItemButton>
             </List>

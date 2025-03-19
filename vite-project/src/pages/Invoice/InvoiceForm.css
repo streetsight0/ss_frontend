@@ -1,3 +1,106 @@
+/* InvoiceForm.css */
+
+/* Container styling */
+.invoice-container {
+    padding: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+
+/* Left section (Form) */
+.invoice-form {
+    width: 60%;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.invoice-form h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Form fields */
+.invoice-form .MuiBox-root {
+    margin-bottom: 15px;
+}
+
+/* Input Fields */
 .invoice-text-field {
-  margin-bottom: 15px;  /* Adjust margin as needed */
+    width: 100%;
+}
+
+/* Dropdown Fields */
+.custom-dropdown {
+    width: 100%;
+}
+
+/* Buttons */
+.invoice-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.invoice-buttons button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.invoice-buttons button:hover {
+    background: #0056b3;
+}
+
+.invoice-buttons button:focus {
+    outline: 2px solid #0056b3;
+}
+
+.invoice-text-field:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+/* Invoice Preview Section */
+.invoice-preview {
+    width: 35%;
+    background: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.invoice-preview h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.invoice-preview iframe {
+    width: 100%;
+    height: 500px;
+    border: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .invoice-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .invoice-form, .invoice-preview {
+        width: 100%;
+        margin-bottom: 20px;
+    }
 }

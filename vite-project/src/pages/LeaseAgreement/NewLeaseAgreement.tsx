@@ -14,15 +14,23 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-
 const steps = ["General Lease Information", "Lease Terms & Payments", "Additional Terms & Actions"];
-
+interface Billboard {
+  _id: string;
+  billboard_series: string;
+  leaseEnd: string;
+  location: any;
+}
 export default function NewLeaseAgreement() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState<{ [k: number]: boolean }>({});
   const [clientDetails, setClientDetails] = useState<any[]>([]);
   const [companyName, setCompanyName] = useState<any[]>([]);
   const [clientAddress, setClientAddress] = useState<any[]>([]);
+  const [billboardData, setBillboardData] = useState<Billboard[]>([]);
+  const [billboardLocation, setBillboardLocation] = useState<any[]>([]);
+
+
   const navigate = useNavigate();
   useEffect(() => {
     const getAllClients = async () => {
@@ -34,6 +42,17 @@ export default function NewLeaseAgreement() {
         console.error("Error fetching clients:", error);
       }
     };
+    const getBillBoards = async () =>{
+      try {
+        const response = await axios.get(`${BASE_URL}/api/billboard/getbillboards`);
+        console.log(response.data)
+        setBillboardData(response.data); 
+      }
+      catch (error){
+        console.log(error);
+      }
+    };
+    getBillBoards();
     getAllClients();
   }, []);
 
@@ -69,19 +88,13 @@ export default function NewLeaseAgreement() {
     setActiveStep(newActiveStep);
   };
 
-  const handleBack = () => setActiveStep((prev) => prev - 1);
   const handleStep = (step: number) => () => setActiveStep(step);
-
-  const handleComplete = async () => {
-    setCompleted({ ...completed, [activeStep]: true });
-    handleNext();
-  };
 
   const handleSubmit = async () => {
     console.log("Final Form Data Before Submission:", formData);
     try {
       const response = await axios.post(`${BASE_URL}/api/leaseagreement/createLeaseAgreements`, formData);
-      navigate("/lease");
+      navigate("/viewLease", { state: { leaseData: formData } });
       console.log("Response from API:", response.data);
     } catch (error: any) {
       console.error("Error saving lease:", error);
@@ -100,7 +113,19 @@ export default function NewLeaseAgreement() {
       setFormData((prevState) => ({
         ...prevState,
         client: clientInfo._id,
+        paymentAddress: clientInfo.address
       }));
+    }
+  };
+const handleBillboardChange = (selectedBillboard: string) => {
+  let billBoardInfo = billboardData.find((billboard) => billboard.billboard_series === selectedBillboard);
+  if (billBoardInfo) {
+    console.log(`Selected Client ID: ${billBoardInfo._id}`);
+    setBillboardLocation(billBoardInfo.location)
+    setFormData((prevState) => ({
+      ...prevState,
+      billboardLocation: billBoardInfo.location,
+    }));
     }
   };
 
@@ -172,12 +197,13 @@ export default function NewLeaseAgreement() {
                 </Stack>
 
                 <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-                  <CustomTextField  label="Location" />
+                  <CustomDropdown options={billboardData.map((billboard) => billboard.billboard_series)} 
+                    onChange={handleBillboardChange} label="Choose BillBoard" />
                   <CustomTextField value={clientAddress} label="Client Address" />
                 </Stack>
                 <Typography>Billboard Details*</Typography>
                 <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-                  <CustomTextField  onChange={handleChange} name="billboardLocation"
+                  <CustomTextField  value={billboardLocation} name="billboardLocation"
                     label="Billboard Location" />
                   <CustomTextField onChange={handleChange} name="legalDescription" label="Legal Description" />
                 </Stack>
@@ -230,7 +256,7 @@ export default function NewLeaseAgreement() {
                   <CustomTextField name="rentPaymentFrequency" onChange={handleChange} label="How often will you pay rent?*" />
                   <CustomTextField name="lateFeeAmount" onChange={handleChange} label="Late Fee Amount" />
                 </Stack>
-                <CustomTextField name="paymentAddress" onChange={handleChange} label="Payment Address / Mailing Information*" />
+                <CustomTextField value={clientAddress} label="Payment Address / Mailing Information*" />
                 <Typography>Early Lease Termination Policy*</Typography>
                 <FormControl sx={{p:2}}>
                     <FormLabel>Can the Tenant Terminate the Lease Early?</FormLabel>
@@ -240,7 +266,7 @@ export default function NewLeaseAgreement() {
                     </RadioGroup>
                 </FormControl>
                 <FormControl sx={{p:2}}>
-                    <FormLabel>Will the Tenant Be Required to Pay an Early Termination Fee?</FormLabel>
+                    <FormLabel>Tenant Be Required to Pay Property Insurance?</FormLabel>
                     <RadioGroup onChange={handleChange}>
                       <FormControlLabel value="true" name="earlyTerminationFee" control={<Radio />} label="Yes" />
                       <FormControlLabel value="false" name="earlyTerminationFee" control={<Radio />} label="No" />
@@ -253,35 +279,19 @@ export default function NewLeaseAgreement() {
                       <FormControlLabel value="Tenant" name="maintenanceResponsibility" control={<Radio />} label="Tenant" />
                     </RadioGroup>
                 </FormControl>
-                <CustomButton 
-                sx={{ mt: 2 }} label="Save" onClick={handleSubmit} />
               </Box>
             )}
 
             {/* Stepper Controls */}
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Button
-                color="inherit"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ mr: 1 }}
-              >
-                Back
-              </Button>
               <Box sx={{ flex: "1 1 auto" }} />
-              <Button onClick={handleNext} sx={{ mr: 1 }}>
-                Next
-              </Button>
-              {activeStep !== steps.length &&
-                (completed[activeStep] ? (
-                  <Typography variant="caption" sx={{ display: "inline-block" }}>
-                    Step {activeStep + 1} already completed
-                  </Typography>
-                ) : (
-                  <Button onClick={handleComplete}>
-                    {completedSteps() === totalSteps() - 1 ? "Finish" : "Complete Step"}
-                  </Button>
-                ))}
+              {isLastStep() ? (
+                <>
+                  <CustomButton sx={{ mt: 2 }} label="Save & Preview" onClick={handleSubmit} />
+                </>
+              ) : (
+                <Button onClick={handleNext}>Next</Button>
+              )}
             </Box>
           </Box>
         )}
