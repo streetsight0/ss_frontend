@@ -141,8 +141,9 @@ const BillBoard = () => {
           button2="Add Bill"
         />
       ) : (
+        <div>
+           <h2>Add New Billboard</h2>
         <div className="billboard-form">
-          <h1>Add New Billboard</h1>
           <h3>Billboard Details</h3>
           <form>
             <CustomTextField label="Billboard Name" value={billboard_name} onChange={(e) => setBillboardName(e.target.value)} required />
@@ -165,8 +166,10 @@ const BillBoard = () => {
           {error && <p className="error-message">{error}</p>}
           {success && <p className="success-message">{success}</p>}
         </div>
+        </div>
       )}
     </div>
+    
   );
 };
 
