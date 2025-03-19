@@ -35,8 +35,4 @@ const UploadImages = ({ onImagesSelected }: UploadImagesProps) => {
   );
 };
 
-<<<<<<< HEAD
 export default UploadImages;
-=======
-export default UploadImages;
->>>>>>> 00fb98199a544a79957ab1b2277f2e271fd44efa
