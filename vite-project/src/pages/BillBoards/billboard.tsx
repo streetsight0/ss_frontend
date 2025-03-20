@@ -25,7 +25,7 @@ const BillBoard = () => {
   const [pricePerMonth, setPricePerMonth] = useState("");
   const [billboardImages, setBillboardImages] = useState<File[]>([]);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [success,] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showSubmitConfirmation, setShowSubmitConfirmation] = useState(false);
   const [confirmationText, setConfirmationText] = useState("");
