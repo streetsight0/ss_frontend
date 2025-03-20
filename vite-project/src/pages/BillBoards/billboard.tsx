@@ -6,6 +6,7 @@ import CustomTextField from "../../components/Input field/InputField";
 import CustomDropdown from "../../components/DropDown/DropDown";
 import ConfirmationCard from "../../components/confirmationcard/confirmationcard";
 import UploadImages from "../../components/UploadImage/UploadImage";
+import BillboardConfirmationCard from "../../components/confirmationcard/billboardconfirmationcard"
 import "./billboard.css";
 import { useNavigate } from "react-router-dom";
 
@@ -26,8 +27,8 @@ const BillBoard = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [formDataBackup, setFormDataBackup] = useState<any>(null);
-  const [alertIcon, setAlertIcon] = useState("??");
+  const [showSubmitConfirmation, setShowSubmitConfirmation] = useState(false);
+  const [confirmationText, setConfirmationText] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -58,20 +59,12 @@ const BillBoard = () => {
       formData.append("pricePerMonth", pricePerMonth);
       billboardImages.forEach((image) => formData.append("billboard_images", image));
 
-      const response = await axios.post(
-        `${BASE_URL}/api/billboard/createbillboards`,
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      await axios.post(`${BASE_URL}/api/billboard/createbillboards`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-      setSuccess("Billboard added successfully!");
-      console.log("Response:", response.data);
-
-      setTimeout(() => {
-        navigate("/getBillBoards");
-      }, 5000);
-
-      resetForm();
+      setConfirmationText(`Billboard added successfully with series name: ${billboard_series}`);
+      setShowSubmitConfirmation(true);
     } catch (error: any) {
       console.error("Error details:", error);
       setError(error.response?.data?.error || "Submission failed");
@@ -91,54 +84,37 @@ const BillBoard = () => {
     setBillboardImages([]);
   };
 
-  const handleDiscard = () => {
-    setFormDataBackup({
-      billboard_name,
-      billboard_series,
-      billboard_type,
-      location,
-      size,
-      campaignDuration,
-      campaignCapacity,
-      leaseStart,
-      leaseEnd,
-      pricePerMonth,
-      billboardImages,
-      alertIcon,
-    });
-    setShowConfirmation(true);
+  const handleConfirmSubmit = () => {
+    setShowSubmitConfirmation(false);
+    resetForm();
+    navigate("/getBillBoards");
   };
 
-  const handleCancel = () => {
-    if (formDataBackup) {
-      setBillboardName(formDataBackup.billboard_name);
-      setBillboardType(formDataBackup.billboard_type);
-      setLocation(formDataBackup.location);
-      setSize(formDataBackup.size);
-      setCampaignDuration(formDataBackup.campaignDuration);
-      setCampaignCapacity(formDataBackup.campaignCapacity);
-      setLeaseStart(formDataBackup.leaseStart);
-      setLeaseEnd(formDataBackup.leaseEnd);
-      setPricePerMonth(formDataBackup.pricePerMonth);
-      setBillboardImages(formDataBackup.billboardImages);
-      setAlertIcon(formDataBackup.alertIcon);
-    }
-    setShowConfirmation(false);
+  const handleDiscard = () => {
+    setShowConfirmation(true);
   };
 
   return (
     <div className="billboard-container">
-      {showConfirmation ? (
+      {showSubmitConfirmation ? (
+        <BillboardConfirmationCard
+          onCancel={() => setShowSubmitConfirmation(false)}
+          onConfirm={handleConfirmSubmit}
+          alertIcon="✅"
+          confirmationText={confirmationText}
+          button2="View Billboards"
+        />
+      ) : showConfirmation ? (
         <ConfirmationCard
-          onCancel={handleCancel}
+          onCancel={() => setShowConfirmation(false)}
           onConfirm={() => {
             saveBillboardToBackend();
             setShowConfirmation(false);
           }}
-          alertIcon={alertIcon}
-          confirmationText="Are you sure you want to cancel adding new billboard?" 
+          alertIcon="⚠️"
+          confirmationText="Are you sure you want to discard this form?"
           button1="Cancel"
-          button2="Add Bill"
+          button2="Discard"
         />
       ) : (
         <div className="billboard-form">
@@ -147,9 +123,7 @@ const BillBoard = () => {
           <form>
             <CustomTextField label="Billboard Name" value={billboard_name} onChange={(e) => setBillboardName(e.target.value)} required />
             <CustomTextField value={billboard_series} onChange={(e) => setBillboardSeries(e.target.value)} label="Billboard Series" required />
-
-            <CustomDropdown options={["Digital Billboard", "Prism Billboard", "Banner Billboard"]} label="Billboard Type"  onChange={setBillboardType} />
-
+            <CustomDropdown options={["Digital Billboard", "Prism Billboard", "Banner Billboard"]} label="Billboard Type" onChange={setBillboardType} />
             <CustomTextField value={location} onChange={(e) => setLocation(e.target.value)} label="Location" required />
             <CustomTextField value={size} onChange={(e) => setSize(e.target.value)} label="Size (e.g., 10x20ft)" required />
             <CustomTextField type="number" value={campaignCapacity} onChange={(e) => setCampaignCapacity(e.target.value)} label="Campaign Capacity" />

@@ -1,25 +1,30 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./Popup.css";
 
 interface PopupProps {
   message: string;
-  duration?: number; // in milliseconds
-  onClose: () => void;
+  onConfirm: () => void;
+  onCancel: () => void;
+  duration?: number;
 }
 
-const Popup: React.FC<PopupProps> = ({ message, duration = 5000, onClose }) => {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      onClose();
-    }, duration);
+const Popup: React.FC<PopupProps> = ({ message, onConfirm, onCancel }) => {
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     onCancel(); 
+  //   }, duration);
 
-    return () => clearTimeout(timer); // Cleanup the timer if component unmounts early
-  }, [duration, onClose]);
+  //   return () => clearTimeout(timer); 
+  // }, [duration, onCancel]);
 
   return (
     <div className="popup-overlay">
       <div className="popup">
         <p>{message}</p>
+        <div>
+          <button onClick={onConfirm}>Delete</button>
+          <button onClick={onCancel}>Cancel</button>
+        </div>
       </div>
     </div>
   );

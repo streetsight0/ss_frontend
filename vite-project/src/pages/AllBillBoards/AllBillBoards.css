@@ -1,50 +1,16 @@
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   margin: 0;
   padding: 0;
   background-color: #fff;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-h1 {
-  text-align: center;
-  color: #333;
-  font-size: 2.5rem;
-  margin-bottom: 30px;
-}
-
-/* Card Container Styles */
 .card-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 4 equal columns */
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  padding: 10px;
 }
 
-@media (max-width: 1200px) {
-  .card-container {
-      grid-template-columns: repeat(3, 1fr); /* 3 columns for medium screens */
-  }
-}
-
-@media (max-width: 900px) {
-  .card-container {
-      grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller screens */
-  }
-}
-
-@media (max-width: 600px) {
-  .card-container {
-      grid-template-columns: 1fr; /* 1 column for mobile screens */
-  }
-}
-
-/* Card Styling */
 .card {
   background-color: white;
   border-radius: 8px;
@@ -58,28 +24,18 @@ h1 {
 }
 
 .card-header {
-  /* background-color: #000000c3; */
   color: white;
-  padding: 15px;
+  padding: 0px;
   border-radius: 8px 8px 0 0;
 }
 
-.card-header h3 {
-  font-size: 1.5rem;
-  margin: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+
 
 .card-body {
   padding: 15px;
   font-size: 1rem;
 }
 
-.card-body p {
-  margin: 8px 0;
-}
 
 
 .status {
@@ -87,25 +43,27 @@ h1 {
   padding: 3px 10px;
   border-radius: 5px;
   font-size: 0.9rem;
+  color:white
 }
 
 
-.active {
-  /* background-color: green; */
-  color: white;
+
+
+@media (max-width: 1200px) {
+  .card-container {
+    grid-template-columns: repeat(3, 1fr);
+    margin-right:-70px;
+  }
 }
 
-.billboard-active {
-  background-color: yellow;
-  color: black;
+@media (max-width: 900px) {
+  .card-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-.campaign-active {
-  background-color: orange;
-  color: white;
-}
-
-.inactive {
-  /* background-color: red; */
-  color: white;
+@media (max-width: 600px) {
+  .card-container {
+    grid-template-columns: 1fr;
+  }
 }

@@ -119,7 +119,8 @@ const CampaignList: React.FC = () => {
       </Box>
         {/* Render the popup */}
         {selectedCampaign && (
-        <CampaignPopup campaign={selectedCampaign} onClose={() => setSelectedCampaign(null)} />
+        <CampaignPopup campaign={selectedCampaign} onClose={() => setSelectedCampaign(null)}
+         />
       )}
     </Box>
     

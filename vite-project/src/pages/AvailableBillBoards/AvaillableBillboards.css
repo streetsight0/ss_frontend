@@ -1,83 +1,53 @@
-.billboards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    background-color: #f4f4f4;
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
 }
 
-.billboard-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    font-family: 'Arial', sans-serif;
+.available_card-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
-.billboard-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+.available_card {
+  background-color: #E4DAFF;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding:3px 10px;
+ 
+}
+.available_card-header h3 {
+  font-size: 1.5rem;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
 }
 
-.billboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
+
+.available_card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
-.billboard-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #333;
-    display: flex;
-    align-items: center;
-    text-transform: capitalize;
-    letter-spacing: 0.5px;
-    flex-grow: 1; 
+@media (max-width: 1200px) {
+  .available_card-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-.billboard-location {
-    font-size: 14px;
-    color: #666;
-    margin-top: 10px;
+@media (max-width: 900px) {
+  .available_card-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-.available-text {
-    display: flex;
-    align-items: center;
-    color: #28a745;
-    font-size: 14px;
-    font-weight: 500;
-    margin-left: 10px;
-    justify-content: flex-end; 
-    text-align: right; 
-}
-
-.available-circle {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: #28a745;
-    margin-right: 8px;
-}
-
-.billboard-card p {
-    margin: 0;
-    padding: 0;
-}
-
-@media (max-width: 768px) {
-    .billboards-container {
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    .billboards-container {
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 600px) {
+  .available_card-container {
+    grid-template-columns: 1fr;
+  }
 }
