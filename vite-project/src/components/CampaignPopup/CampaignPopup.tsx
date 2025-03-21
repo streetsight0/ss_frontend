@@ -7,7 +7,7 @@ import {
   IconButton,
 } from "@mui/material";
 import CloseIcon from "../../assets/Icons/CloseBlack.png"; 
-import Button from "../../components/Button/Button"; 
+import Button from "../Button/Button"; 
 
 interface CampaignPopupProps {
   campaign: any;

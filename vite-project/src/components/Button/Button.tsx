@@ -8,9 +8,8 @@ interface CustomButtonProps {
   icon?: React.ReactNode;
   onClick?: () => void;
   sx?: SxProps;
-  children?: React.ReactNode; 
+  children?: React.ReactNode;
 }
-
 
 const CustomButton: React.FC<CustomButtonProps> = ({ label, icon, onClick, sx }) => {
   const isSmallScreen = useMediaQuery("(max-width:600px)");
@@ -18,23 +17,25 @@ const CustomButton: React.FC<CustomButtonProps> = ({ label, icon, onClick, sx })
   return (
     <Button
       variant="contained"
-      color="inherit"
       onClick={onClick}
       sx={{
-        bgcolor: "#F0F2E4",
-        color: "black",
-        borderRadius: 3,
-        padding: isSmallScreen ? "8px 12px" : "12px 20px",
+        bgcolor: "#212429",  
+        color: "#FFFFFF", 
+        borderRadius: "8px",
+        padding: isSmallScreen ? "8px 12px" : "10px 16px",
         fontSize: isSmallScreen ? "14px" : "16px",
-        fontWeight: "bold",
+        fontWeight: "500",
         textTransform: "none",
-        "&:hover": { bgcolor: "#E5E5C5" },
-        ...sx, 
+        fontFamily: "'Poppins', sans-serif !important",  
+        "&:hover": { bgcolor: "#333" }, 
+        ...sx,
       }}
     >
       <Stack direction="row" spacing={1} alignItems="center">
         {icon}
-        <Typography variant={isSmallScreen ? "body2" : "body1"}>{label}</Typography>
+        <Typography variant={isSmallScreen ? "body2" : "body1"} color="inherit" sx={{ fontFamily: "'Poppins', sans-serif !important" }}>
+          {label}
+        </Typography>
       </Stack>
     </Button>
   );

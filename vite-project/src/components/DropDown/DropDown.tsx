@@ -5,6 +5,7 @@ interface DropdownProps {
   options: string[];
   label?: string;
   onChange: (value: string) => void;
+  value:any
 }
 
 const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", onChange }) => {
@@ -27,8 +28,9 @@ const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", on
           color: "black", 
           position: "absolute", 
           top: "-10px", 
-          left: "10px", 
-          padding: "0 5px" 
+          fontFamily: "Poppins, sans-serif",
+          paddingBottom: "0",
+          marginBottom:"0"
         }}
       >
         {label}
@@ -43,27 +45,37 @@ const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", on
           backgroundColor: "white",
           borderBottom: "3px solid rgba(168, 85, 247, 1)",
           marginBottom: "16px", 
+          fontWeight: "500",
           height:45,
+          marginTop:"10px",
           "& .MuiSelect-select": {
             padding: "16px",
             borderRadius: "8px",
             color: "#333",
+            fontFamily: "Poppins, sans-serif !important", 
           },
           "& .MuiSvgIcon-root": {
             color: "rgba(168, 85, 247, 1)", 
+            fontWeight: "500",
           },
         }}
         MenuProps={{
           PaperProps: {
             sx: {
               borderRadius: "8px",
+              fontWeight: "500",
               boxShadow: 3,
+              fontFamily: "Poppins, sans-serif !important",
             },
           },
         }}
       >
-        <MenuItem disabled value="">
-          <span style={{ color: "#888", fontSize:"14px" }}>Enter data here</span> 
+      <MenuItem disabled value="" sx={{ 
+          color: "#888", 
+          fontSize: "14px", 
+          fontFamily: "Poppins, sans-serif !important" 
+        }}>
+          Select option
         </MenuItem>
         {options.map((option) => (
           <MenuItem key={option} value={option}>

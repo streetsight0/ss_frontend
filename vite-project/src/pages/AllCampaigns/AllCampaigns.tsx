@@ -4,7 +4,7 @@ import { Grid, Typography, Select, MenuItem, Box, CircularProgress, Pagination }
 import CampaignCard from "../../components/CampaignCard/CampaignCard";
 import Button from "../../components/Button/Button";
 import AddCampaignIcon from "../../assets/Icons/BillboardBlack.png";
-import CampaignPopup from "../../components/Popups/CampaignPopup";
+import CampaignPopup from "../../components/CampaignPopup/CampaignPopup";
 import defaultLogo from "../../assets/Icons/ProfileBlack.png";
 
 

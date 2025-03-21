@@ -3,7 +3,7 @@ import "./Popup.css";
 
 interface PopupProps {
   message: string;
-  duration?: number; // in milliseconds
+  duration?: number; 
   onClose: () => void;
 }
 
@@ -13,7 +13,7 @@ const Popup: React.FC<PopupProps> = ({ message, duration = 5000, onClose }) => {
       onClose();
     }, duration);
 
-    return () => clearTimeout(timer); // Cleanup the timer if component unmounts early
+    return () => clearTimeout(timer); 
   }, [duration, onClose]);
 
   return (

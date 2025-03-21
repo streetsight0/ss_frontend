@@ -11,7 +11,7 @@ interface CampaignCardProps {
   location: string;
   endDate: string;
   billboards: number;
-  logo: string;
+  logo: any;
   onClick: () => void;
 }
 
@@ -52,10 +52,10 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
         alt=""
         sx={{
           position: "absolute",
-          width: 200,
-          height: 200,
-          right: 20,
-          bottom: -30,
+          width: 100,
+          height: 100,
+          right: 40,
+          top:1,
           opacity: 0.08,
           zIndex: 0,
         }}

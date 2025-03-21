@@ -1,29 +1,75 @@
 import React, { useState } from "react";
-import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, IconButton, Collapse, Box } from "@mui/material";
-import { Dashboard, ExpandLess, ExpandMore, Close, Business, Campaign, People } from "@mui/icons-material";
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  IconButton,
+  Collapse,
+  Box,
+} from "@mui/material";
+import {
+  ExpandLess,
+  ExpandMore,
+} from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
-import {NavLink, Outlet} from "react-router-dom";
-import logo from "../../assets/logo1.png";
+import { NavLink, Outlet } from "react-router-dom";
+import logo from "../../assets/logo2.png";
+import DashboardIcon from "../../assets/Icons/DashboradYellow.png";
+import BillboardIcon from "../../assets/Icons/BillboardYellow.png";
+import CampaignIcon from "../../assets/Icons/CalenderYellow.png";
+import ClientIcon from "../../assets/Icons/ProfileYellow.png";
+import ExpandIcon from "../../assets/Icons/ExpandYellow.png";
+import { useNavigate } from "react-router-dom";
+import "../../App.css";
 
 const drawerWidth = 260;
-const collapsedWidth = 60; 
-let SidebarDrawer: any;
+const collapsedWidth = 65;
 
-SidebarDrawer = styled(Drawer)(({ theme, open }: { theme: any; open: boolean }) => ({
-  width: open ? drawerWidth : collapsedWidth,
-  flexShrink: 0,
-  whiteSpace: "nowrap",
-  "& .MuiDrawer-paper": {
-    width: open ? drawerWidth : collapsedWidth,
-    overflowX: "hidden",
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-}));
+const SidebarDrawer = styled(Drawer)<{ open: boolean }>(({ open, theme }) => ({
+	fontFamily: "Satoshi, sans-serif !important",
+	width: open ? drawerWidth : collapsedWidth,
+	flexShrink: 0,
+	whiteSpace: "nowrap",
+	"& .MuiDrawer-paper": {
+	  fontFamily: "Satoshi, sans-serif !important",
+	  width: open ? drawerWidth : collapsedWidth,
+	  overflowX: "hidden",
+	  backgroundColor: "#212429",
+	  borderRadius: 16,
+	  color: "#FFFFFF",
+	  transition: theme.transitions.create("width", {
+		easing: theme.transitions.easing.sharp,
+		duration: theme.transitions.duration.enteringScreen,
+	  }),
+	  paddingLeft: open ? "0px" : "8px", 
+	},
+  }));
+const StyledListItemButton = styled(ListItemButton)<{ subMenu?: boolean }>(
+  ({ subMenu }) => ({
+    color: "#FFFFFF",
+    borderRadius: "7px",
+    paddingLeft: subMenu ? "40px" : "24px", 
+    fontSize: subMenu ? "12px" : "14px", 
+    "&:hover": {
+      backgroundColor: "#DAF067",
+      color: "#000000",
+    },
+    "&.active": {
+      backgroundColor: "#DAF067",
+      color: "#000000",
+      fontWeight: "bold",
+    },
+    ".MuiListItemIcon-root": {
+      minWidth: "40px", 
+    },
+  })
+);
 
 const Sidebar: React.FC = () => {
+  const navigate = useNavigate(); 
   const [open, setOpen] = useState(true);
   const [billboardOpen, setBillboardOpen] = useState(false);
   const [campaignOpen, setCampaignOpen] = useState(false);
@@ -34,127 +80,150 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-		<>
-			{/* Sidebar Drawer */}
-			<SidebarDrawer variant="permanent" anchor="left" open={open}>
-				{/* Sidebar Header */}
-				<Box
-					sx={{
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "space-between",
-						p: 2,
-					}}
-				>
-					{open && <img src={logo} alt="Logo" style={{ width: "120px" }} />}
-					<IconButton onClick={handleToggle}>
-						<Close />
-					</IconButton>
-				</Box>
-				{/* Sidebar Menu */}
-				<List>
-					{/* Dashboard */}
-					<ListItem disablePadding>
-						<ListItemButton component={NavLink} to="/home">
-							<ListItemIcon>
-								<Dashboard />
-							</ListItemIcon>
-							{open && <ListItemText primary="Dashboard" />}
-						</ListItemButton>
-					</ListItem>
+    <>
+      <SidebarDrawer variant="permanent" anchor="left" open={open}>
+		<Box
+			sx={{
+				display: "flex",
+				alignItems: "center",
+				justifyContent: "space-between",
+				p: 2,
+			}}
+			>
+			{/* Logo */}
+			{open && (
+				<img
+				src={logo}
+				alt="Logo"
+				style={{ width: "120px", flexShrink: 0 }}
+				/>
+			)}
 
-          {/* Manage Billboards */}
-          <ListItem disablePadding>
-            <ListItemButton onClick={() => setBillboardOpen(!billboardOpen)}>
-              <ListItemIcon>
-                <Business />
-              </ListItemIcon>
-              {open && <ListItemText primary="Manage Billboards" />}
-              {open && (billboardOpen ? <ExpandLess /> : <ExpandMore />)}
-            </ListItemButton>
-          </ListItem>
-          <Collapse in={billboardOpen && open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItemButton component={NavLink} to="/getBillBoards" sx={{ pl: 4 }}>
-                <ListItemText primary="All Billboards" />
-              </ListItemButton>
-              <ListItemButton sx={{ pl: 4 }} component={NavLink} to="/billboards">
-                <ListItemText primary="Add Billboard"  />
-              </ListItemButton>
-              <ListItemButton sx={{ pl: 4 }}>
-                <ListItemText primary="Generate Report" />
-              </ListItemButton>
-            </List>
-          </Collapse>
-
-          {/* Manage Campaign */}
-          <ListItem disablePadding>
-            <ListItemButton onClick={() => setCampaignOpen(!campaignOpen)}>
-              <ListItemIcon>
-                <Campaign />
-              </ListItemIcon>
-              {open && <ListItemText primary="Manage Campaign" />}
-              {open && (campaignOpen ? <ExpandLess /> : <ExpandMore />)}
-            </ListItemButton>
-          </ListItem>
-          <Collapse in={campaignOpen && open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItemButton sx={{ pl: 4 }} component={NavLink} to="/allcampaigns">
-                <ListItemText primary="All Campaigns" />
-              </ListItemButton>
-              <ListItemButton sx={{ pl: 4 }}  component={NavLink} to="/addcampaign">
-                <ListItemText primary="Add New Campaign" />
-              </ListItemButton>
-            </List>
-          </Collapse>
-
-					{/* Manage Clients */}
-					<ListItem disablePadding>
-						<ListItemButton onClick={() => setClientsOpen(!clientsOpen)}>
-							<ListItemIcon>
-								<People />
-							</ListItemIcon>
-							{open && <ListItemText primary="Manage Clients" />}
-							{open && (clientsOpen ? <ExpandLess /> : <ExpandMore />)}
-						</ListItemButton>
-					</ListItem>
-					<Collapse in={clientsOpen && open} timeout="auto" unmountOnExit>
-						<List component="div" disablePadding>
-							<ListItemButton component={NavLink} to="/getClient" sx={{ pl: 4 }}>
-								<ListItemText primary="All Clients" />
-							</ListItemButton>
-							<ListItemButton component={NavLink} to="/client" sx={{ pl: 4 }}>
-								<ListItemText primary="Add New Client" />
-							</ListItemButton>
-              <ListItemButton component={NavLink} to="/clientStatus" sx={{ pl: 4 }}>
-                <ListItemText primary="Client Status table" />
-              </ListItemButton>
-							<ListItemButton sx={{ pl: 4 }}>
-								<ListItemText primary="Generate Quotation" />
-							</ListItemButton>
-							<ListItemButton sx={{ pl: 4 }} component={NavLink} to="/lease">
-								<ListItemText primary="Lease Agreement" />
-							</ListItemButton>
-							<ListItemButton component={NavLink} to="/invoice" sx={{ pl: 4 }}>
-								<ListItemText primary="Generate Invoice" />
-							</ListItemButton>
-						</List>
-					</Collapse>
-				</List>
-			</SidebarDrawer>
-			<Box
-				component="main"
+			<IconButton
+				onClick={handleToggle}
 				sx={{
-					flexGrow: 1,
-					marginLeft: open ? `${drawerWidth}px` : `${collapsedWidth}px`,
-					transition: "margin 0.3s ease",
-					p: 2,
+				color: "#C8EB4B",
+				"&:hover": { backgroundColor: "rgba(200, 235, 75, 0.2)" },
 				}}
 			>
-				<Outlet />
+				<img
+				src={ExpandIcon}
+				alt="Expand"
+				style={{
+					width: "24px",
+					height: "24px",
+					transform: open ? "rotate(180deg)" : "rotate(0deg)",
+					transition: "transform 0.3s ease",
+				}}
+				/>
+			</IconButton>
 			</Box>
-		</>
-	);
+
+        <List>
+          {/* Dashboard */}
+          <ListItem disablePadding>
+		  <StyledListItemButton onClick={() => navigate("/home")}>
+              <ListItemIcon>
+                <img src={DashboardIcon} alt="Dashboard" style={{ width: "16px", height:"16px" }} />
+              </ListItemIcon>
+              {open && <ListItemText primary="Dashboard" />}
+            </StyledListItemButton>
+          </ListItem>
+
+          {/* Billboards */}
+          <ListItem disablePadding>
+            <StyledListItemButton onClick={() => setBillboardOpen(!billboardOpen)}>
+              <ListItemIcon>
+                <img src={BillboardIcon} alt="Billboards" style={{width: "16px", height:"16px"}} />
+              </ListItemIcon>
+              {open && <ListItemText primary="Billboards" />}
+              {open && (billboardOpen ? <ExpandLess /> : <ExpandMore />)}
+            </StyledListItemButton>
+          </ListItem>
+          <Collapse in={billboardOpen && open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding sx={{ pl: 2 }}>
+			  <StyledListItemButton onClick={() => navigate("/getBillBoards")}>
+                <ListItemText primary="All Billboards" />
+              </StyledListItemButton>
+			  <StyledListItemButton onClick={() => navigate("/billboards")}>
+                <ListItemText primary="Add Billboard" />
+              </StyledListItemButton>
+              <StyledListItemButton>
+                <ListItemText primary="Generate Report" />
+              </StyledListItemButton>
+            </List>
+          </Collapse>
+
+          {/* Campaigns */}
+          <ListItem disablePadding>
+            <StyledListItemButton onClick={() => setCampaignOpen(!campaignOpen)}>
+              <ListItemIcon>
+                <img src={CampaignIcon} alt="Campaigns" style={{ width: "16px", height:"16px" }} />
+              </ListItemIcon>
+              {open && <ListItemText primary="Campaigns" />}
+              {open && (campaignOpen ? <ExpandLess /> : <ExpandMore />)}
+            </StyledListItemButton>
+          </ListItem>
+          <Collapse in={campaignOpen && open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding sx={{ pl: 2 }}>
+			  <StyledListItemButton onClick={() => navigate("/allcampaigns")}>
+                <ListItemText primary="All Campaigns" />
+              </StyledListItemButton>
+			  <StyledListItemButton onClick={() => navigate("/addcampaign")}>
+                <ListItemText primary="Add Campaign" />
+              </StyledListItemButton>
+            </List>
+          </Collapse>
+
+          {/* Clients */}
+          <ListItem disablePadding>
+            <StyledListItemButton onClick={() => setClientsOpen(!clientsOpen)}>
+              <ListItemIcon>
+                <img src={ClientIcon} alt="Clients" style={{ width: "16px", height:"16px" }} />
+              </ListItemIcon>
+              {open && <ListItemText primary="Clients" />}
+              {open && (clientsOpen ? <ExpandLess /> : <ExpandMore />)}
+            </StyledListItemButton>
+          </ListItem>
+          <Collapse in={clientsOpen && open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding sx={{ pl: 2 }}>
+			  <StyledListItemButton onClick={() => navigate("/getClient")}>
+                <ListItemText primary="All Clients" />
+              </StyledListItemButton>
+			  <StyledListItemButton onClick={() => navigate("/client")}>
+                <ListItemText primary="Add New Clients" />
+              </StyledListItemButton>
+              <StyledListItemButton>
+                <ListItemText primary="Client Status Table" />
+              </StyledListItemButton>
+              <StyledListItemButton>
+                <ListItemText primary="Generate Quotation" />
+              </StyledListItemButton>
+			  <StyledListItemButton onClick={() => navigate("/lease")}>
+                <ListItemText primary="Lease Agreement" />
+              </StyledListItemButton>
+			  <StyledListItemButton onClick={() => navigate("/invoice")}>
+                <ListItemText primary="Generate Invoice" />
+              </StyledListItemButton>
+            </List>
+          </Collapse>
+        </List>
+      </SidebarDrawer>
+
+      {/* Main Content */}
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          marginLeft: open ? `${drawerWidth}px` : `${collapsedWidth}px`,
+          transition: "margin 0.3s ease",
+          p: 2,
+        }}
+      >
+        <Outlet />
+      </Box>
+    </>
+  );
 };
 
 export default Sidebar;
