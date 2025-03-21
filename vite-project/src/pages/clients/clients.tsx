@@ -5,7 +5,7 @@ import CustomTextField from "../../components/Input field/InputField";
 import CustomButton from "../../components/Button/Button";
 import { Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import Popup from "../../components/Popup/Popup";
+// import Popup from "../../components/Popup/Popup";
 import './clients.css';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -20,7 +20,7 @@ const Clients = () => {
   const [Logo, setLogo] = useState<File | null>(null);
   const [error, setError] = useState("");
   const [, setSuccess] = useState("");
-  const [showPopup, setShowPopup] = useState(false);
+  const [, setShowPopup] = useState(false);
 
   const navigate = useNavigate();
 
@@ -63,7 +63,7 @@ const Clients = () => {
   return (
     <div>
       {error && <Typography color="error">{error}</Typography>}
-      {showPopup && <Popup message="Client added successfully! Redirecting to all clients..." onClose={() => setShowPopup(false)} />}
+     
       
       <form onSubmit={handleClient} className="client-form">
         <Typography variant="h4" gutterBottom>

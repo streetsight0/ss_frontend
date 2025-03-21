@@ -1,15 +1,29 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import BillboardCard from "../../components/billboardscards/billboardscards";
-import "./AllBillBoards.css"; // Assuming this is the CSS file
+import BillboardCampaignPopup from "../../components/Popups/BillboardCampaingPopup";
+import {
+  Box,
+  CircularProgress,
+  Pagination,
+  Select,
+  MenuItem,
+  Typography,
+} from "@mui/material";
+import "./AllBillBoards.css";
+import AddCampaignIcon from "../../assets/Icons/BillboardBlack.png";
+import { useNavigate } from "react-router-dom";
+import Button from "../../components/Button/Button";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+const ITEMS_PER_PAGE = 9;
 
 interface Billboard {
   _id: string;
   billboard_series: string;
   leaseEnd: string;
   location: string;
+  billboard_images: [];
 }
 
 interface Campaign {
@@ -18,31 +32,42 @@ interface Campaign {
   campaign_start_date: string;
   campaign_end_date: string;
   campaign_images: string[];
-  client_id: string;
-  company_name: string; // Assuming the company_name is inside Campaign object
+  client_id: {
+    company_name: string;
+    additional_companies: string[];
+    address: string;
+    client_email: string;
+    client_logo: string;
+    client_name: string;
+    contact: string;
+    _id: string;
+  } | null;
   billboards: Billboard[];
 }
 
 const CampaignsBillboards: React.FC = () => {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [billboards, setBillboards] = useState<Billboard[]>([]);
-  const [, setLoadingCampaigns] = useState<boolean>(true);
-  const [, setLoadingBillboards] = useState<boolean>(true);
-  const [, setErrorCampaigns] = useState<string | null>(null);
-  const [, setErrorBillboards] = useState<string | null>(null);
+  const [loadingCampaigns, setLoadingCampaigns] = useState<boolean>(true);
+  const [loadingBillboards, setLoadingBillboards] = useState<boolean>(true);
+  const [filter, setFilter] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<string>("date");
+  const [page, setPage] = useState<number>(1);
+  const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(
+    null
+  );
 
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get(`${BASE_URL}/api/campaign/getcampaigns`)
       .then((response) => {
         setCampaigns(response.data.data);
         setLoadingCampaigns(false);
-        console.log("Fetched Campaigns:", response.data.data);
       })
       .catch((error) => {
-        setErrorCampaigns("Error fetching campaigns. Please try again later.");
         setLoadingCampaigns(false);
-        console.error(error);
+        console.error("Error fetching campaigns:", error);
       });
 
     axios
@@ -52,18 +77,15 @@ const CampaignsBillboards: React.FC = () => {
         setLoadingBillboards(false);
       })
       .catch((error) => {
-        setErrorBillboards("Error fetching billboards. Please try again later.");
         setLoadingBillboards(false);
-        console.error(error);
+        console.error("Error fetching billboards:", error);
       });
   }, []);
 
   const getStatus = (leaseEnd: string) => {
     const leaseEndDate = new Date(leaseEnd);
-    // const campaignEndDateObj = new Date(campaignEndDate);
     const currentDate = new Date();
-
-    return leaseEndDate > currentDate ? "Active" : "Inactive";
+    return currentDate > leaseEndDate ? "Inactive" : "Active";
   };
 
   const matchedBillboards = campaigns.flatMap((campaign) =>
@@ -72,39 +94,154 @@ const CampaignsBillboards: React.FC = () => {
         billboards.some((billboard) => billboard._id === campaignBillboard._id)
       )
       .map((matchedBillboard) => {
-        console.log("Company Name:", campaign.company_name);
+        
+        const companyName = campaign.client_id
+        
+          ? campaign.client_id.company_name
+          : "Unknown Company";
+        const status = getStatus(matchedBillboard.leaseEnd);
+
         return {
+        
           campaign_name: campaign.campaign_name,
-          company_name: campaign.company_name, // Use company_name from campaign
+          campaign_id: campaign._id,
+          company_name: companyName,
+          client:campaign.client_id?._id,
           billboard_id: matchedBillboard._id,
           billboard_series: matchedBillboard.billboard_series,
           billboard_LeaseEnd: matchedBillboard.leaseEnd,
           billboard_Location: matchedBillboard.location,
-          status: getStatus(matchedBillboard.leaseEnd),
+          status,
+          campaign,
         };
       })
   );
 
+  const filteredBillboards = matchedBillboards.filter((item) => {
+    if (filter === "active") return item.status === "Active";
+    if (filter === "expired") return item.status === "Inactive";
+    return true;
+  });
+
+  const sortedBillboards = [...filteredBillboards].sort((a, b) => {
+    if (sortBy === "date") {
+      return (
+        new Date(a.billboard_LeaseEnd).getTime() -
+        new Date(b.billboard_LeaseEnd).getTime()
+      );
+    }
+    if (sortBy === "name") {
+      return a.billboard_series.localeCompare(b.billboard_series);
+    }
+    return 0;
+  });
+
+  const paginatedBillboards = sortedBillboards.slice(
+    (page - 1) * ITEMS_PER_PAGE,
+    page * ITEMS_PER_PAGE
+  );
+
+  if (loadingCampaigns || loadingBillboards) {
+    return (
+      <CircularProgress sx={{ display: "block", margin: "auto", mt: 4 }} />
+    );
+  }
+
   return (
-    <div className="container">
-      <h1>Matched Billboards and Campaigns</h1>
-      <div className="card-container">
-        {matchedBillboards.length > 0 ? (
-          matchedBillboards.map((item, index) => (
-            <BillboardCard
-              key={index}
-              series={item.billboard_series}
-              companyName={item.company_name}
-              campaignName={item.campaign_name}
-              location={item.billboard_Location}
-              leaseExpiry={item.billboard_LeaseEnd}
+    <Box sx={{ padding: "20px" }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Typography variant="h5" fontWeight="bold">
+          Matched Billboards and Campaigns | Total {matchedBillboards.length}
+        </Typography>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={2}
+        >
+          <Box display="flex" gap={2}>
+            <Select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              size="small"
+            >
+              <MenuItem value="all">Filter by</MenuItem>
+              <MenuItem value="active">Active</MenuItem>
+              <MenuItem value="expired">Expired</MenuItem>
+            </Select>
+            <Select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              size="small"
+            >
+              <MenuItem value="date">Sort by Date</MenuItem>
+              <MenuItem value="name">Sort by Name</MenuItem>
+            </Select>
+            <Button
+              label="Add Billboard"
+              icon={
+                <img
+                  src={AddCampaignIcon}
+                  alt="Add Campaign"
+                  width={20}
+                  height={20}
+                />
+              }
+              onClick={() => navigate("/billboards")}
+              sx={{ backgroundColor: "#C5FF6D", color: "#000" }}
             />
+          </Box>
+        </Box>
+      </Box>
+
+      <Box className="card-container">
+        {paginatedBillboards.length > 0 ? (
+          paginatedBillboards.map((item, index) => (
+            <div
+              key={index}
+              className={`card ${item.status.toLowerCase()}`}
+              style={
+                item.status === "Active"
+                  ? { backgroundColor: "#F4FFBD" }
+                  : { backgroundColor: "#CCB8FF" }
+              }
+              onClick={() => setSelectedCampaign(item.campaign)}
+            >
+              <BillboardCard
+                series={item.billboard_series}
+                companyName={item.company_name}
+                campaignName={item.campaign_name}
+                location={item.billboard_Location}
+                leaseExpiry={item.billboard_LeaseEnd}
+                status={item.status}
+              />
+            </div>
           ))
         ) : (
-          <p>No matched billboards found.</p>
+          <Typography variant="body1" textAlign="center" mt={2}>
+            No matched billboards found.
+          </Typography>
         )}
-      </div>
-    </div>
+      </Box>
+
+      {/* Pagination */}
+      <Box display="flex" justifyContent="center" mt={4}>
+        <Pagination
+          count={Math.ceil(sortedBillboards.length / ITEMS_PER_PAGE)}
+          page={page}
+          onChange={(_event, value) => setPage(value)}
+          color="primary"
+        />
+      </Box>
+
+      {/* Popup for selected campaign */}
+      {selectedCampaign && (
+        <BillboardCampaignPopup
+          campaign={selectedCampaign}
+          onClose={() => setSelectedCampaign(null)}
+        />
+      )}
+    </Box>
   );
 };
 
