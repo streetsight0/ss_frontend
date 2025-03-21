@@ -1,106 +1,114 @@
-/* InvoiceForm.css */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-/* Container styling */
-.invoice-container {
-    padding: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-    border-radius: 10px;
+/* General Styles */
+* {
+  font-family: "Poppins", sans-serif !important;
 }
 
-/* Left section (Form) */
-.invoice-form {
-    width: 60%;
-    background: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+/* Custom Text Field Styles */
+.custom-input-field.MuiTextField-root {
+  width: 100%;
+  height: 60px; /* Consistent height for all input fields */
+  
 }
 
-.invoice-form h2 {
-    color: #333;
-    margin-bottom: 20px;
+/* Label Styling (Ensures No Size Change on Selection) */
+/* Ensure dropdown labels align with text fields */
+.invoice-form .MuiInputLabel-root {
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  color: #212429 !important;
+  text-align: left !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
 }
 
-/* Form fields */
-.invoice-form .MuiBox-root {
-    margin-bottom: 15px;
+/* Prevent label movement on selection */
+.invoice-form .MuiInputLabel-root.Mui-focused,
+.invoice-form .MuiInputLabel-shrink {
+  transform: none !important;
 }
 
-/* Input Fields */
-.invoice-text-field {
-    width: 100%;
+/* Ensure consistent dropdown styles */
+.invoice-form .MuiSelect-root {
+  font-size: 16px !important;
+  color: #212429 !important;
+   font-weight: 500;
+}
+.invoice-form .MuiInputLabel-formControl {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
 }
 
-/* Dropdown Fields */
-.custom-dropdown {
-    width: 100%;
+/* Fix for Select component's label positioning */
+.invoice-form .MuiFormControl-root {
+  align-items: flex-start !important; /* Align label and input to the left */
 }
 
-/* Buttons */
-.invoice-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
+/* Fix for dropdown text alignment */
+.invoice-form .MuiSelect-root {
+  text-align: left !important;
+  padding-left: 0 !important;
 }
 
-.invoice-buttons button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 12px 18px;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.3s;
+/* Ensure text fields & dropdowns have a uniform width */
+.invoice-form .MuiFormControl-root {
+  width: 100%;
+  max-width: 455px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 16px; /* Adds space between each input field */ padding-top:18px;
+  padding-left: 0!important;
 }
 
-.invoice-buttons button:hover {
-    background: #0056b3;
+/* Buttons Styling */
+.MuiButtonBase-root.preview-button {
+  background-color: #DAF067;
+  color: #212429;
+  transition: none;
 }
 
-.invoice-buttons button:focus {
-    outline: 2px solid #0056b3;
+.MuiButtonBase-root.preview-button:hover {
+  background-color: #DAF067;
+  color: #212429;
 }
 
-.invoice-text-field:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-/* Invoice Preview Section */
-.invoice-preview {
-    width: 35%;
-    background: white;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+.MuiButtonBase-root.sendemial {
+  background-color: #212429;
+  color: #EDFF90;
+  transition: none;
 }
 
-.invoice-preview h3 {
-    margin-bottom: 10px;
-    color: #333;
+.MuiButtonBase-root.sendemial:hover {
+  background-color: #212429;
+  color: #EDFF90;
 }
 
-.invoice-preview iframe {
-    width: 100%;
-    height: 500px;
-    border: none;
+/* Button Text Styling */
+.MuiButtonBase-root.sendemial p,
+.MuiButtonBase-root.preview-button p {
+  font-weight: 500;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .invoice-container {
-        flex-direction: column;
-        align-items: center;
-    }
+.MuiButtonBase-root.sendemial p {
+  color: #EDFF90;
+  font-size: 17px;
+}
 
-    .invoice-form, .invoice-preview {
-        width: 100%;
-        margin-bottom: 20px;
-    }
+.MuiButtonBase-root.preview-button p {
+  color: #212429;
+  font-size: 17px;
+}
+
+/* Responsive Adjustments */
+@media screen and (min-width: 700px) {
+  .custom-input-field .MuiSelect-root,
+  .custom-input-field.MuiTextField-root {
+    width: 455px !important;
+  }
+
+  .custom-input-field.MuiTextField-root {
+    height: 69px;
+  }
 }
