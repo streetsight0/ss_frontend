@@ -3,9 +3,8 @@ import "./Popup.css";
 
 interface PopupProps {
   message: string;
-  onConfirm: () => void;
-  onCancel: () => void;
-  duration?: number;
+  duration?: number; 
+  onClose: () => void;
 }
 
 const Popup: React.FC<PopupProps> = ({ message, onConfirm, onCancel }) => {
@@ -14,8 +13,8 @@ const Popup: React.FC<PopupProps> = ({ message, onConfirm, onCancel }) => {
   //     onCancel(); 
   //   }, duration);
 
-  //   return () => clearTimeout(timer); 
-  // }, [duration, onCancel]);
+    return () => clearTimeout(timer); 
+  }, [duration, onClose]);
 
   return (
     <div className="popup-overlay">

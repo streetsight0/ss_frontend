@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; 
 import Button from "../../components/Button/Button";
 import InputField from "../../components/Input field/InputField";
 import CustomDropdown from "../../components/DropDown/DropDown";
 import Checklist from "../../components/Checklist/checkList";
+import BackButton from "../../assets/Icons/BackBlack.png";
 import axios from "axios";
 import "./AddCampaign.css";
+import ImageUpload from "../../components/ImageUpload/ImageUpload";
+import CampaignPopup from "../../components/CampaignPopup/CampaignPopup";
+// import SuccessPopup from "../../components/SuccessPopup/SuccessCampaignPopup";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -19,6 +24,8 @@ interface CampaignFormData {
 }
 
 const AddCampaign: React.FC = () => {
+  const navigate = useNavigate(); 
+
   const [formData, setFormData] = useState<CampaignFormData>({
     campaignName: "",
     startDate: "",
@@ -31,6 +38,8 @@ const AddCampaign: React.FC = () => {
 
   const [clients, setClients] = useState<{ _id: string; client_name: string }[]>([]);
   const [billboards, setBillboards] = useState<{ _id: string; billboard_series: string; location: string }[]>([]);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  // const [successPopup, setSuccessPopup] = useState(false);
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -50,11 +59,13 @@ const AddCampaign: React.FC = () => {
         const response = await axios.get(`${BASE_URL}/api/billboard/getbillboards`);
         const billboardArray = Array.isArray(response.data) ? response.data : response.data.billboards || [];
 
-        setBillboards(billboardArray.map((b: any) => ({
-          _id: String(b._id),
-          billboard_series: b.billboard_series,
-          location: b.location,
-        })));
+        setBillboards(
+          billboardArray.map((b: any) => ({
+            _id: String(b._id),
+            billboard_series: b.billboard_series,
+            location: b.location,
+          }))
+        );
       } catch (error) {
         console.error("Error fetching billboards", error);
       }
@@ -80,16 +91,13 @@ const AddCampaign: React.FC = () => {
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) return;
-
-    const fileNames = Array.from(e.target.files).map(file => file.name);
+  const handleImagesChange = (files: File[]) => {
     setFormData((prevState) => ({
       ...prevState,
-      campaignImages: [...prevState.campaignImages, ...fileNames],
+      campaignImages: files.map((file) => file.name),
     }));
   };
-
+  
   const handleSubmit = async () => {
     const formattedData = {
       campaign_name: formData.campaignName,
@@ -100,71 +108,130 @@ const AddCampaign: React.FC = () => {
       billboards: formData.billboards,
       campaign_images: formData.campaignImages,
     };
-
+  
     try {
       const response = await axios.post(`${BASE_URL}/api/campaign/createcampaigns`, formattedData);
+  
       if (response.status === 201) {
         console.log("Campaign saved successfully!");
+  
+        
+        setFormData({
+          campaignName: "",
+          startDate: "",
+          endDate: "",
+          rentMonthly: 0,
+          client: null, 
+          billboards: [],
+          campaignImages: [],
+        });
+  
+        setPreviewOpen(false);
+        // setSuccessPopup(true);
       } else {
         console.log("Something went wrong.");
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error saving campaign:", error);
       alert("Failed to save campaign.");
     }
   };
+  
+  // const handlePopupClose = () => {
+  //   setSuccessPopup(false);
+  //   setTimeout(() => setFormData({ ...formData }), 0); 
+  // }; 
 
   const billboardOptions = billboards.map((b) => ({
     id: b._id,
-    label: `${b.billboard_series}, ${b.location}`, 
+    label: `${b.billboard_series}, ${b.location}`,
   }));
 
   const handleBillboardSelect = (selectedIds: string[]) => {
     setFormData((prev) => ({
       ...prev,
-      billboards: selectedIds,
+      billboards: selectedIds, 
     }));
   };
 
   return (
     <div className="campaign-form">
-      <h2>Add New Campaign</h2>
+      {/* Back Button */}
+      <div className="campaign-header">
+        <img src={BackButton} alt="Back" className="back-icon" onClick={() => navigate(-1)} />
+        <h2>Add New Campaign</h2>
+      </div>
 
       <section>
         <h3>Campaign details *</h3>
         <div className="campaign-details">
-          <InputField name="campaignName" placeholder="Enter campaign name" onChange={handleChange} />
-          <InputField name="startDate" type="date" onChange={handleChange} className="date" />
-          <InputField name="endDate" type="date" onChange={handleChange} className="date" />
-          <InputField name="rentMonthly" type="number" placeholder="Enter monthly rent" onChange={handleChange} />
+          <InputField name="campaignName" placeholder="Enter campaign name" onChange={handleChange} label="Campaign Name"  value={formData.campaignName}/>
+          <InputField name="startDate" type="date" onChange={handleChange} className="date" label="Start Date" value={formData.startDate}/>
+          <InputField name="endDate" type="date" onChange={handleChange} className="date" label="End Date " value={formData.endDate}  />
+          
         </div>
 
-        <div className="image-upload">
-          <h3>Upload campaign images</h3>
-          <input type="file" multiple onChange={handleFileChange} />
+        <div className="image-upload-box">
+          <ImageUpload maxImages={3} onImagesChange={handleImagesChange}   resetTrigger={formData.campaignImages.length} />
         </div>
       </section>
 
       <section>
         <h3>Client details *</h3>
-        <div className="client-details">
-          <CustomDropdown label="Select Client" options={clients.map((client) => client.client_name)} onChange={handleClientChange} />
+        <div className="client">
+          <CustomDropdown
+            label="Select Client"
+            options={clients.map((client) => client.client_name)}
+            onChange={handleClientChange}
+            value={formData.client?._id ? clients.find(c => c._id === formData.client?._id)?.client_name : ""}
+          />
+
+          <InputField name="rentMonthly" type="number" placeholder="Enter monthly rent" onChange={handleChange} label="Monthly Rent" value={formData.rentMonthly || ""} />
         </div>
       </section>
 
       <section>
         <h3>Allot Billboard</h3>
-        <Checklist options={billboardOptions} onSelect={handleBillboardSelect} />
+        <Checklist 
+            options={billboardOptions} 
+            onSelect={handleBillboardSelect} 
+            label="Select Billboard" 
+            resetTrigger={formData.billboards.length} 
+        />
+
       </section>
 
       <footer className="form-actions">
-        <Button label="Preview" onClick={() => console.log("Preview clicked")} />
-        <Button label="Discard" onClick={() => console.log("Discard clicked")} />
-        <Button label="Save" onClick={handleSubmit} />
+        <Button 
+          label="Preview" 
+          onClick={() => setPreviewOpen(true)} 
+          sx={{ backgroundColor: "#E2FF70", color: "black",  width: "120px", "&:hover": { backgroundColor: "#E2FF70" } }} 
+        />
+        <Button 
+          label="Save" 
+          onClick={handleSubmit}
+          sx={{ 
+            width: "120px", 
+            height: "44px", 
+            maxWidth: "120px", 
+            borderRadius: "8px", 
+            padding: "10px 16px", 
+            backgroundColor: "#212429", 
+            color: "white !important",  
+            fontFamily: "Poppins, sans-serif !important",
+            "&:hover": { backgroundColor: "#333" },
+            margin: "0 12px" 
+          }} 
+        />
+        {previewOpen && <CampaignPopup campaign={formData} onClose={() => setPreviewOpen(false)} />}
+        {/* {successPopup && <SuccessPopup campaign={formData} onClose={handlePopupClose} message="Campaign added successfully!" />} */}
+
+          
       </footer>
     </div>
   );
 };
 
 export default AddCampaign;
+
 

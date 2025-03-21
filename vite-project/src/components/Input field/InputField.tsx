@@ -6,33 +6,38 @@ const InputField: React.FC<TextFieldProps> = (props) => {
     <TextField
       variant="outlined"
       fullWidth
-      InputLabelProps={{ shrink: true }} 
+      slotProps={{ inputLabel: { shrink: true } }} 
       {...props}
       sx={{
         width: "400px",
         borderRadius: "8px",
         fontWeight: "500",
+        fontFamily: "Poppins, sans-serif",
         "& .MuiOutlinedInput-root": {
-          bgcolor: "white", 
+          bgcolor: "white",
           borderRadius: "8px",
-          "& fieldset": { border: "none" }, 
+          "& fieldset": { border: "none" },
           borderBottom: "3px solid rgba(168, 85, 247, 1)",
-          marginBottom: "16px", 
-          height:45,
+          marginBottom: "16px",
+          marginTop:"10px",
+          height: 45,
         },
         "& .MuiInputBase-input": {
-          padding: "16px", 
+          padding: "16px",
           color: "black",
+          fontFamily: "Poppins, sans-serif !important", 
         },
         "& .MuiInputLabel-root": {
-          position: "absolute",
-          top: "-10px", 
-          fontSize: "16px",
+          fontSize: "14px",
           fontWeight: "bold",
-          color: "black", 
+          color: "black",
+          fontFamily: "Poppins, sans-serif !important", 
         },
         "& .MuiInputLabel-shrink": {
-          color: "black", 
+          color: "black",
+          fontSize: "14px",
+          fontWeight: "bold",
+          fontFamily: "Poppins, sans-serif !important", 
         },
         ...props.sx,
       }}
@@ -41,5 +46,3 @@ const InputField: React.FC<TextFieldProps> = (props) => {
 };
 
 export default InputField;
-
-
