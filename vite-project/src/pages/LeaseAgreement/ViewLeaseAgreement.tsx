@@ -5,7 +5,6 @@ import html2canvas from "html2canvas";
 import CustomButton from "../../components/Button/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import BackButton from "../../assets/Icons/BackBlack.png";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
