@@ -196,9 +196,6 @@ const Sidebar: React.FC = () => {
               <StyledListItemButton onClick={() => navigate("/clientStatus")}>
                 <ListItemText primary="Client Status Table" />
               </StyledListItemButton>
-              <StyledListItemButton>
-                <ListItemText primary="Generate Quotation" />
-              </StyledListItemButton>
 			  <StyledListItemButton onClick={() => navigate("/lease")}>
                 <ListItemText primary="Lease Agreement" />
               </StyledListItemButton>
