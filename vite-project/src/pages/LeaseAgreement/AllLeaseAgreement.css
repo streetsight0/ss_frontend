@@ -3,6 +3,8 @@ main{
     background-color: #F7F7F7;
     font-family:  "Poppins";
     min-height: 1040px;
+    padding: 0;
+    margin: 0;
 }
 
 
