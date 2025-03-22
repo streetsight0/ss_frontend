@@ -27,8 +27,11 @@ const customIcon = new L.Icon({
 const markers: MarkerData[] = [
   { id: 1, lat: 49.2827, lng: -123.1207, title: "Vancouver - Location 1" },
   { id: 2, lat: 49.225361152915646, lng: -123.10775180778471, title: "Vancouver - Location 2" },
+  { id: 3, lat: 49.23009136587047, lng: -123.01279055011292, title: "Patterson - Location 3" },
+  { id: 4, lat: 49.26071720083093, lng: -123.2460152617534, title: "UBC - Location 4" },
+  { id: 5, lat: 49.19468601640507, lng: -123.1750523863536, title: "YVR - Location 4" },
+  { id: 6, lat: 49.21728238785956, lng: -123.12827885011383, title: "Marpole - Location 4" },
 ];
-
 
 const MyMap: React.FC = () => {
   return (
