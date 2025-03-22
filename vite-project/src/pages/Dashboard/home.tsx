@@ -1,5 +1,5 @@
 import { Paper, Box } from "@mui/material";
-import AddCampaignIcon from "../../assets/Icons/BillboardBlack.png";
+import BillboardWhite from "../../assets/Icons/BillboardWhite.png";
 import Group  from "../../assets/Group.png";
 import Vector from "../../assets/Vector.png";
 import LineGraph from "../../components/Line Graph/LineGraph";
@@ -42,9 +42,9 @@ const Home = () => {
           </p>
           <CustomButton
             label="Add Billboard"
-            icon={<img src={AddCampaignIcon} alt="Add Billboard" width={20} height={20} />}
+            icon={<img src={BillboardWhite} alt="Add Billboard" width={20} height={20} />}
             onClick={() => navigate("/billboards")}
-            sx={{ backgroundColor: "", color: "#FFF", mt: 2 }}
+            sx={{ backgroundColor: "#212429", color: "#FFF", mt: 2 }}
           />
         </Box>
 
