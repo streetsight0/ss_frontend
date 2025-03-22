@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import InfoCard from "../../components/Card/Card";
 import CustomButton from "../../components/Button/Button";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import "./AllLeaseAgreement.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import AddIcon from "../../assets/Icons/add.png";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ITEMS_PER_PAGE = 9;
@@ -81,7 +81,7 @@ const [currentPage, setCurrentPage] = useState(1);
     <Stack direction="row" spacing={2} mt={2} sx={{marginRight:"12px", marginLeft:"12px", gap:"8px"}} justifyContent="space-between" alignItems="center">
       <Typography sx={{fontSize: "32px", fontWeight: "500"}}>All Lease | Total {leaseAgreement.length} </Typography>
       <CustomButton label="New Agreement"
-        icon={<AccessTimeIcon />}   sx={{ mt: 2 }} onClick={handleNewAgreement} />
+         icon={<img src={AddIcon} alt="Add Icon" style={{ width: 20, height: 20 }} />}   sx={{ mt: 2 }} onClick={handleNewAgreement} />
     </Stack>
     <Box
       display="grid"

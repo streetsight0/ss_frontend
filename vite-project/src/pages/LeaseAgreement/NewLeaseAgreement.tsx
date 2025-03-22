@@ -247,10 +247,14 @@ const handleBillboardChange = (selectedBillboard: string) => {
             {activeStep === 1 && (
               <Box>
                 <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-                  <CustomTextField label="leaseStart" type="date" name="campaignStartDate" onChange={handleChange} className="date" />
-                  <CustomTextField label="leaseEnd" type="date" name="campaignEndDate" onChange={handleChange} className="date" />
-                  <CustomTextField name="securityDeposit" onChange={handleChange} label="Amount of Security Deposit" />
-                </Stack>
+                  <CustomTextField label="leaseStart" type="date" name="campaignStartDate" onChange={handleChange} className="date" sx={{ width: "32vw" }} />
+                  <CustomTextField label="leaseEnd" type="date" name="campaignEndDate" onChange={handleChange} className="date" sx={{ width: "32vw" }} />
+                  </Stack>
+                  <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+                  <CustomTextField name="securityDeposit" onChange={handleChange} label="Amount of Security Deposit" sx={{ width: "32vw" }}  />
+                  <CustomTextField name="rentAmount" onChange={handleChange} label="Rent Amount" sx={{ width: "32vw" }}  />
+                  </Stack>
+                
                 <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                   <FormControl sx={{p:2}}>
                     <FormLabel>Will there be an annual increase in rent?</FormLabel>
@@ -259,12 +263,12 @@ const handleBillboardChange = (selectedBillboard: string) => {
                       <FormControlLabel value="false" name="annualRentIncrease" control={<Radio />} label="No" />
                     </RadioGroup>
                   </FormControl>
-                  <CustomTextField name="rentAmount" onChange={handleChange} label="Rent Amount" />
+                 
                 </Stack>
                 <Typography fontWeight="bold" >Pricing Details*</Typography>
                 <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-                  <CustomTextField name="percentageIncrease" onChange={handleChange} label="Percentage Increase" />
-                  <CustomTextField name="flatRateIncrease" onChange={handleChange} label="Flat Rate Increase" />
+                  <CustomTextField name="percentageIncrease" onChange={handleChange} label="Percentage Increase" sx={{ width: "32vw" }} />
+                  <CustomTextField name="flatRateIncrease" onChange={handleChange} label="Flat Rate Increase" sx={{ width: "32vw" }} />
                 </Stack>
               </Box>
             )}

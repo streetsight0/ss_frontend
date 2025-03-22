@@ -15,7 +15,7 @@ import {
   ExpandMore,
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
-import { NavLink, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import logo from "../../assets/logo2.png";
 import DashboardIcon from "../../assets/Icons/DashboradYellow.png";
 import BillboardIcon from "../../assets/Icons/BillboardYellow.png";
@@ -37,6 +37,7 @@ const SidebarDrawer = styled(Drawer)<{ open: boolean }>(({ open, theme }) => ({
 	  fontFamily: "Satoshi, sans-serif !important",
 	  width: open ? drawerWidth : collapsedWidth,
 	  overflowX: "hidden",
+    overflowY: "auto",
 	  backgroundColor: "#212429",
 	  borderRadius: 16,
 	  color: "#FFFFFF",
@@ -45,6 +46,14 @@ const SidebarDrawer = styled(Drawer)<{ open: boolean }>(({ open, theme }) => ({
 		duration: theme.transitions.duration.enteringScreen,
 	  }),
 	  paddingLeft: open ? "0px" : "8px", 
+    "&::-webkit-scrollbar": {
+      width: "0px",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: "transparent",
+    },
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
 	},
   }));
 const StyledListItemButton = styled(ListItemButton)<{ subMenu?: boolean }>(
