@@ -81,8 +81,9 @@ const Sidebar: React.FC = () => {
               <ListItemButton sx={{ pl: 4 }} component={NavLink} to="/billboards">
                 <ListItemText primary="Add Billboard"  />
               </ListItemButton>
-              <ListItemButton sx={{ pl: 4 }}>
-                <ListItemText primary="Generate Report" />
+              <ListItemButton component={NavLink} to="/aipricing"sx={{ pl: 4 }}>
+                <ListItemText primary="AI Price Estimation" />
+
               </ListItemButton>
             </List>
           </Collapse>
