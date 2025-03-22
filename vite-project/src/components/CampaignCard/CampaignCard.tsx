@@ -26,7 +26,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
 }) => {
   return (
     <Card
-      onClick={onClick} 
+      onClick={onClick}
       sx={{
         maxWidth: 500,
         borderRadius: "16px",
@@ -55,13 +55,19 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
           width: 100,
           height: 100,
           right: 40,
-          top:1,
+          top: 1,
           opacity: 0.08,
           zIndex: 0,
         }}
       />
 
-      <CardContent sx={{ paddingBottom: "16px !important", position: "relative", zIndex: 1 }}>
+      <CardContent
+        sx={{
+          paddingBottom: "16px !important",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
         <Box display="flex" alignItems="center" gap={1.5} mb={2}>
           <Box
             component="img"
@@ -78,14 +84,26 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
 
         <Box display="flex" justifyContent="space-between" mb={1.5}>
           <Box display="flex" alignItems="center" gap={1}>
-            <Box component="img" src={ProfileIcon} alt="Company" width={18} height={18} />
+            <Box
+              component="img"
+              src={ProfileIcon}
+              alt="Company"
+              width={18}
+              height={18}
+            />
             <Typography variant="body2" color="textSecondary">
               {company}
             </Typography>
           </Box>
 
           <Box display="flex" alignItems="center" gap={1}>
-            <Box component="img" src={DateIcon} alt="End Date" width={18} height={18} />
+            <Box
+              component="img"
+              src={DateIcon}
+              alt="End Date"
+              width={18}
+              height={18}
+            />
             <Typography variant="body2" color="textSecondary">
               {endDate}
             </Typography>
@@ -94,14 +112,26 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
 
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Box display="flex" alignItems="center" gap={1}>
-            <Box component="img" src={LocationIcon} alt="Location" width={18} height={18} />
+            <Box
+              component="img"
+              src={LocationIcon}
+              alt="Location"
+              width={18}
+              height={18}
+            />
             <Typography variant="body2" color="textSecondary">
               {location}
             </Typography>
           </Box>
 
           <Box display="flex" alignItems="center" gap={1}>
-            <Box component="img" src={BillboardIcon} alt="Billboards" width={18} height={18} />
+            <Box
+              component="img"
+              src={BillboardIcon}
+              alt="Billboards"
+              width={18}
+              height={18}
+            />
             <Typography variant="body2" color="textSecondary">
               {billboards} Billboards
             </Typography>
@@ -113,4 +143,3 @@ const CampaignCard: React.FC<CampaignCardProps> = ({
 };
 
 export default CampaignCard;
-

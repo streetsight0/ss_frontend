@@ -129,9 +129,9 @@ const Clients = () => {
             }
           }}
           alertIcon="✔️"
-          confirmationText="Are you sure you want to discard this form?"
+          confirmationText="Are you sure you want to submit this form?"
           button1="Cancel"
-          button2="Proceed to All Clients"
+          button2="Submit"
         />
       )}
     </div>
