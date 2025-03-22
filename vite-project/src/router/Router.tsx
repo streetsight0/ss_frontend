@@ -16,7 +16,7 @@ import Billboards from "../pages/BillBoards/billboard"
 import ViewLeaseAgreement from "../pages/LeaseAgreement/ViewLeaseAgreement";import AllCampaigns from "../pages/AllCampaigns/AllCampaigns";
 import Client from "../pages/clients/clients"
 import ClientStatus from "../pages/ClientStatus/clientStatus";
-
+import EditClient from "../pages/clients/EditClient";
 const router = createBrowserRouter([
 	{
 		element: (
@@ -118,6 +118,15 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Client />
+          </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/editclient",
+        element: (
+          <ProtectedRoute>
+            <EditClient />
           </ProtectedRoute>
         ),
         errorElement: <ErrorPage />,

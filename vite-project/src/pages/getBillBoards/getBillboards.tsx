@@ -23,7 +23,7 @@ const getBillBoards = () => {
   return (
     <div className="billboard-container">
         <h1 className="main-heading">Billboards |Total {billboardCount}</h1>
-      <h2 className="section-title">All Billboards</h2>
+     
       <AllBillBoards />
       {/* <h2 className="section-title">Available Billboards</h2> */}
       <AvailableBillBoards />

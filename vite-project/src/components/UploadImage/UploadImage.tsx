@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 interface UploadImagesProps {
   onImagesSelected: (files: File[]) => void;
@@ -6,6 +7,10 @@ interface UploadImagesProps {
 
 const UploadImages = ({ onImagesSelected }: UploadImagesProps) => {
   const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const location = useLocation();
+
+  // Adjust height based on the current page
+  const containerHeight = location.pathname === "/client" ? "150px" : "250px";
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -18,17 +23,18 @@ const UploadImages = ({ onImagesSelected }: UploadImagesProps) => {
   };
 
   return (
-    <div className="upload-images-container" style={{ width: "300px", height: "250px" }}>
+    <div className="upload-images-container" style={{ width: 200, height: 300 }}>
       <label>Upload Images:</label>
-      <input
-        type="file"
-        multiple
-        accept="image/*"
-        onChange={handleImageChange}
-      />
+      <input type="file" multiple accept="image/*" onChange={handleImageChange} />
       <div className="image-preview">
         {previewImages.map((src, index) => (
-          <img key={index} src={src} alt={`Preview ${index}`} className="preview-image" style={{ width: "250px", height: "250px" }} />
+          <img
+            key={index}
+            src={src}
+            alt={`Preview ${index}`}
+            className="preview-image"
+            style={{ width:containerHeight, height: containerHeight }}
+          />
         ))}
       </div>
     </div>

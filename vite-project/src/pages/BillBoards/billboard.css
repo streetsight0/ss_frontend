@@ -18,18 +18,18 @@
 }
 
 h2 {
-  font-size: 2rem;
+  /* font-size: 2rem; */
   color: #333;
   margin-bottom: 10px;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
 }
 
 h3 {
-  font-size: 22px;
+  /* font-size: 22px; */
   color: #666;
  
-  padding-bottom:40px;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  padding:10px;
+ 
 
 }
 
@@ -37,6 +37,7 @@ form {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
+  
 }
 
 label {

@@ -19,7 +19,7 @@ const ViewButton: React.FC<ViewButtonProps>  = ({ label, onClick }) => {
         padding: "8px 16px 8px 16px",
         minWidth: "80px",
         maxWidth: "100px",
-        height: "32px",
+        height: "40px",
         border: "1px solid", 
         borderColor: "primary.main", 
         "&:hover": {
