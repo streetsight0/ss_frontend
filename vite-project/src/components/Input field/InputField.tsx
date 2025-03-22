@@ -11,7 +11,6 @@ const InputField: React.FC<TextFieldProps> = (props) => {
       sx={{
         width: "400px",
         borderRadius: "8px",
-        fontWeight: "500",
         fontFamily: "Poppins, sans-serif",
         "& .MuiOutlinedInput-root": {
           bgcolor: "white",
@@ -29,14 +28,12 @@ const InputField: React.FC<TextFieldProps> = (props) => {
         },
         "& .MuiInputLabel-root": {
           fontSize: "14px",
-          fontWeight: "bold",
           color: "black",
           fontFamily: "Poppins, sans-serif !important", 
         },
         "& .MuiInputLabel-shrink": {
           color: "black",
           fontSize: "14px",
-          fontWeight: "bold",
           fontFamily: "Poppins, sans-serif !important", 
         },
         ...props.sx,

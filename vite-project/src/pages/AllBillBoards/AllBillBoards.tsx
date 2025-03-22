@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import BillboardCard from "../../components/billboardscards/billboardscards";
-import BillboardCampaignPopup from "../../components/Popups/BillboardCampaingPopup";
+// import BillboardCampaignPopup from "../../components/Popups/BillboardCampaingPopup";
 import {
   Box,
   CircularProgress,

@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { MenuItem, FormControl, InputLabel, Select } from "@mui/material";
-
+import { MenuItem, FormControl, InputLabel, Select, SxProps } from "@mui/material";
 
 interface DropdownProps {
   options: string[];
   label?: string;
   onChange: (value: string) => void;
-  value:any
+  value?: any;
+  sx?: SxProps; 
 }
 
-const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", onChange }) => {
+const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", onChange, sx }) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
 
   const handleChange = (event: any) => {
@@ -19,7 +19,7 @@ const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", on
   };
 
   return (
-    <FormControl fullWidth sx={{ position: "relative", width: "400px" }}>
+    <FormControl fullWidth sx={{ position: "relative", width: "400px", ...sx }}>
       {/* Fixed Title */}
       <InputLabel 
         shrink 
@@ -47,8 +47,8 @@ const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", on
           borderBottom: "3px solid rgba(168, 85, 247, 1)",
           marginBottom: "16px", 
           fontWeight: "500",
-          height:45,
-          marginTop:"10px",
+          height: 45,
+          marginTop: "10px",
           "& .MuiSelect-select": {
             padding: "16px",
             borderRadius: "8px",
@@ -59,6 +59,7 @@ const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", on
             color: "rgba(168, 85, 247, 1)", 
             fontWeight: "500",
           },
+          ...sx, 
         }}
         MenuProps={{
           PaperProps: {
@@ -71,7 +72,7 @@ const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", on
           },
         }}
       >
-      <MenuItem disabled value="" sx={{ 
+        <MenuItem disabled value="" sx={{ 
           color: "#888", 
           fontSize: "14px", 
           fontFamily: "Poppins, sans-serif !important" 
