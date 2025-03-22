@@ -30,40 +30,6 @@
     text-transform: capitalize;
   }
   
-  input {
-    padding: 1rem;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    background-color: #fff;
-    width: 100%;
-    transition: border-color 0.3s ease;
-  }
-  
-  input:focus {
-    border-color: #4CAF50;
-    outline: none;
-  }
-  
-  button {
-    padding: 1rem;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  button:active {
-    background-color: #3e8e41;
-  }
   
   /* Error and success message styling */
   .error-message, .success-message {
