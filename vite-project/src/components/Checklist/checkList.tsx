@@ -26,8 +26,7 @@ const CustomChecklist: React.FC<ChecklistProps> = ({ options, label = "Filter By
       <InputLabel 
         shrink 
         sx={{ 
-          fontSize: "14px", 
-          fontWeight: "500", 
+          fontSize: "16px", 
           color: "black", 
           position: "absolute", 
           top: "-10px",
@@ -50,7 +49,6 @@ const CustomChecklist: React.FC<ChecklistProps> = ({ options, label = "Filter By
           backgroundColor: "white",
           borderBottom: "3px solid rgba(168, 85, 247, 1)",
           marginBottom: "16px", 
-          fontWeight: "500",
           height: "45",
           paddingLeft: "16px",
           "& .MuiSelect-select": {
@@ -61,7 +59,7 @@ const CustomChecklist: React.FC<ChecklistProps> = ({ options, label = "Filter By
           },
           "& .MuiSvgIcon-root": {
             color: "rgba(168, 85, 247, 1)",
-            fontWeight: "500",
+
             right: "12px",
           },
           "&:hover": {
@@ -79,7 +77,6 @@ const CustomChecklist: React.FC<ChecklistProps> = ({ options, label = "Filter By
             sx: {
               borderRadius: "12px",
               boxShadow: 4,
-              fontWeight: "500",
               fontFamily: "Poppins, sans-serif"
             },
           },

@@ -32,8 +32,7 @@ const CustomDropdown: React.FC<DropdownProps> = ({
       <InputLabel 
         shrink 
         sx={{ 
-          fontSize: "14px", 
-          fontWeight: "bold", 
+          fontSize: "16px", 
           color: "black", 
           position: "absolute", 
           top: "-10px", 
@@ -54,7 +53,6 @@ const CustomDropdown: React.FC<DropdownProps> = ({
           backgroundColor: "white",
           borderBottom: "3px solid rgba(168, 85, 247, 1)",
           marginBottom: "16px", 
-          fontWeight: "500",
           height: 45,
           marginTop: "10px",
           "& .MuiSelect-select": {
@@ -65,7 +63,6 @@ const CustomDropdown: React.FC<DropdownProps> = ({
           },
           "& .MuiSvgIcon-root": {
             color: "rgba(168, 85, 247, 1)", 
-            fontWeight: "500",
           },
           ...sx, 
         }}
@@ -73,7 +70,6 @@ const CustomDropdown: React.FC<DropdownProps> = ({
           PaperProps: {
             sx: {
               borderRadius: "8px",
-              fontWeight: "500",
               boxShadow: 3,
               fontFamily: "Poppins, sans-serif !important",
             },
@@ -81,7 +77,7 @@ const CustomDropdown: React.FC<DropdownProps> = ({
         }}
       >
         <MenuItem disabled value="">
-		<span style={{ color: "#888", fontSize: "14px", fontFamily:"Poppins"}}>{placeholder}</span>
+		<span style={{ color: "#888", fontSize: "16px", fontFamily:"Poppins"}}>{placeholder}</span>
         </MenuItem>
         {options.map((option) => (
           <MenuItem key={option} value={option}>
