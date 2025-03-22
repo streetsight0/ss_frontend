@@ -4,6 +4,7 @@ import CustomButton from "../../components/Button/Button";
 import CustomDropdown from "../../components/DropDown/DropDown";
 import { CircularProgress, Typography, Box, Alert } from "@mui/material";
 import "./AiPricing.css"; // Import the CSS file
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 interface Billboard {
 	_id: string;
@@ -29,7 +30,7 @@ const AiPricingPage: React.FC = () => {
 	// Fetch billboards from the backend
 	useEffect(() => {
 		axios
-			.get("http://localhost:5000/api/billboard/getbillboards")
+			.get(`${BASE_URL}/api/billboard/getbillboards`)
 			.then((response) => {
 				setBillboards(response.data);
 			})
@@ -55,7 +56,7 @@ const AiPricingPage: React.FC = () => {
 
 		try {
 			const response = await axios.post(
-				"http://localhost:5000/api/aipricing/billboardprice",
+				`${BASE_URL}/api/aipricing/billboardprice`,
 				formData
 			);
 			setPrice(response.data.price);
