@@ -25,7 +25,7 @@ const ClientCard: React.FC<ClientCardProps> = ({
       <CardContent >
         <Box display="flex" alignItems="center" justifyContent="space-between" gap={1} sx={{ width: "291px", height: "21px" }}>
          
-           <Typography sx={{ fontWeight: "600", fontSize: "16px", color: "#34383E", fontFamily: "Poppins",fontWeight:"bold"}}>
+           <Typography sx={{ fontWeight: "600", fontSize: "16px", color: "#34383E", fontFamily: "Poppins"}}>
             {clientName}
           </Typography>
           <Avatar

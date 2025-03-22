@@ -15,7 +15,7 @@ interface Client {
 
 interface Campaign {
   _id: string;
-  client_id: string;
+  client_id: { _id: string };
   billboards: { _id: string }[];
   campaign_name: string;
 }

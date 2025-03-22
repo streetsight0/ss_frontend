@@ -35,7 +35,7 @@ interface LeaseAgreement {
 
 interface Campaign {
   _id: string;
-  client_id: string;
+  client_id: { _id: string };
   billboards: { _id: string }[];
   campaign_name: string;
 }
@@ -124,7 +124,7 @@ const AllClients = () => {
  
   const enhancedBillboards = billboards.map((client) => {
     const clientCampaigns = campaigns.filter((campaign) => campaign.client_id?._id === client._id );
-    // campaign.client_id === client._id
+    
     const billboardCount = clientCampaigns.reduce((count, campaign) => count + campaign.billboards.length, 0);
     return { ...client, billboardCount };
   });
