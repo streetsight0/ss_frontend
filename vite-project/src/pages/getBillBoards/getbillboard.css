@@ -1,44 +1,8 @@
-.billboard-container {
-    width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-  }
-  
-  h2.section-title {
-    color: #fff;
-    font-size: 2rem;
-    margin-bottom: 20px;
-    text-align: center;
-    padding: 10px;
-    background-color: #00000091;
-    border-radius: 8px;
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-  
-  .billboard-container > div {
-    margin-bottom: 40px;
-  }
-  
-  
-  
-  .AllBillBoards, .AvailableBillBoards {
-    padding: 15px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .AllBillBoards:hover, .AvailableBillBoards:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  
-  .billboard-container h3 {
-    margin-top: 20px;
-    margin-bottom: 15px;
-  }
+.main-heading{
+  width: 644px;
+  height: 45px;
+  font-family: "poppins";
+  font-size: 32px;
+  line-height: 150%;
+}
   

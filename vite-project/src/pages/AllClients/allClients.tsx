@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ClientCard from "../../components/Card/ClientCard";
+import ClientCard from "../../../../Card/ClientCard";
 import "./allClients.css";
 import { useNavigate } from "react-router-dom";
 import BillboardConfirmationCard from "../../components/confirmationcard/billboardconfirmationcard";

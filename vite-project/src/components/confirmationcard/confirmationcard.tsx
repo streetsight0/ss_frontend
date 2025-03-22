@@ -18,7 +18,7 @@ const ConfirmationCard: React.FC<ConfirmationCardProps> = ({ onCancel, onConfirm
           <div className="icon-wrapper">
             <span className="alert-icon">{alertIcon}</span> 
           </div>
-          <p className="confirmation-text">{confirmationText}</p> 
+          <p className="confirmation-text1">{confirmationText}</p> 
           <div className="button-group">
             <button className="cancel-button" onClick={onCancel}>{button1}</button>
             <button className="confirm-button" onClick={onConfirm}>{button2}</button>

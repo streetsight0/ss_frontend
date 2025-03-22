@@ -10,7 +10,8 @@ const UploadImages = ({ onImagesSelected }: UploadImagesProps) => {
   const location = useLocation();
 
   // Adjust height based on the current page
-  const containerHeight = location.pathname === "/client" ? "150px" : "250px";
+  const containerHeight = location.pathname === "/client" ? "150px" : "100px";
+  const containerwidth = location.pathname === "/client" ? "150px" : "200px";
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -23,7 +24,7 @@ const UploadImages = ({ onImagesSelected }: UploadImagesProps) => {
   };
 
   return (
-    <div className="upload-images-container" style={{ width: 200, height: 300 }}>
+    <div className="upload-images-container" style={{ width: 300, height: 300 }}>
       <label>Upload Images:</label>
       <input type="file" multiple accept="image/*" onChange={handleImageChange} />
       <div className="image-preview">
@@ -33,7 +34,7 @@ const UploadImages = ({ onImagesSelected }: UploadImagesProps) => {
             src={src}
             alt={`Preview ${index}`}
             className="preview-image"
-            style={{ width:containerHeight, height: containerHeight }}
+            style={{ width:containerwidth, height: containerHeight }}
           />
         ))}
       </div>

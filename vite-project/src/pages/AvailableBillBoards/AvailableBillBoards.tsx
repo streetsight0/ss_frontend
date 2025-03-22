@@ -57,6 +57,7 @@ const AvailableBillboards: React.FC = () => {
           unassignedBillboards.map((billboard, index) => (
             <div key={index} className="available_card">
               <BillboardCard
+              logo={billboard.billboard_images}
                 series={billboard.billboard_series}
                 companyName="Unassigned"
                 campaignName="No Campaign"
