@@ -8,8 +8,6 @@ interface UploadImagesProps {
 const UploadImages = ({ onImagesSelected }: UploadImagesProps) => {
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const location = useLocation();
-
-  // Adjust height based on the current page
   const containerHeight = location.pathname === "/client" ? "150px" : "100px";
   const containerwidth = location.pathname === "/client" ? "150px" : "200px";
 
@@ -24,10 +22,32 @@ const UploadImages = ({ onImagesSelected }: UploadImagesProps) => {
   };
 
   return (
-    <div className="upload-images-container" style={{ width: 300, height: 300 }}>
-      <label>Upload Images:</label>
+    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          gap: "10px",
+          background: "#fff",
+          border: "2px solid #e0e0e0",
+          borderRadius: "8px",
+          padding: "10px",
+          minHeight: "100px",
+          width: "100%",
+        }}
+      >
       <input type="file" multiple accept="image/*" onChange={handleImageChange} />
-      <div className="image-preview">
+      <div style={{
+              width: "80px",
+              height: "80px",
+              borderRadius: "8px",
+              overflow: "hidden",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              border: "1px solid #ddd",
+            }}>
         {previewImages.map((src, index) => (
           <img
             key={index}
@@ -38,6 +58,7 @@ const UploadImages = ({ onImagesSelected }: UploadImagesProps) => {
           />
         ))}
       </div>
+    </div>
     </div>
   );
 };

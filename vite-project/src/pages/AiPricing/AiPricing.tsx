@@ -4,8 +4,8 @@ import CustomButton from "../../components/Button/Button";
 import CustomDropdown from "../../components/DropDown/DropDown";
 import { CircularProgress, Typography, Box, Alert } from "@mui/material";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-import "../../components/CampaignCard/CampaignDashboard.css"
-import "../AddCampaign/AddCampaign.css"
+import "../../components/CampaignCard/CampaignDashboard.css";
+import "../AddCampaign/AddCampaign.css";
 
 interface Billboard {
 	_id: string;
@@ -76,9 +76,7 @@ const AiPricingPage: React.FC = () => {
 
 	return (
 		<div className="campaign-form">
-			<p className="mainHeading">
-				AI Pricing Estimation
-			</p>
+			<p className="mainHeading">AI Pricing Estimation</p>
 
 			<form onSubmit={(e) => e.preventDefault()} className="aipricing-form">
 				{/* First Row: Location & Type */}
@@ -91,7 +89,7 @@ const AiPricingPage: React.FC = () => {
 							.filter((value, index, self) => self.indexOf(value) === index)}
 						label="Select Billboard Location"
 						onChange={(value) => handleInputChange("location", value)}
-						sx={{ width: "38vw" }} 
+						sx={{ width: "33vw" }}
 					/>
 
 					<CustomDropdown
@@ -104,7 +102,7 @@ const AiPricingPage: React.FC = () => {
 						label="Select Billboard Type"
 						onChange={(value) => handleInputChange("type", value)}
 						placeholder="Select the type of billboard"
-						sx={{ width: "38vw" }} 
+						sx={{ width: "33vw" }}
 					/>
 				</section>
 				<br />
@@ -118,7 +116,7 @@ const AiPricingPage: React.FC = () => {
 						label="Select Billboard Size"
 						placeholder="Select the size of the billboard"
 						onChange={(value) => handleInputChange("size", value)}
-						sx={{ width: "38vw" }}
+						sx={{ width: "33vw" }}
 					/>
 
 					<CustomDropdown
@@ -139,7 +137,7 @@ const AiPricingPage: React.FC = () => {
 						label="Select Rental Month"
 						placeholder="Select the month for rental"
 						onChange={(value) => handleInputChange("month", value)}
-						sx={{ width: "38vw" }}
+						sx={{ width: "33vw" }}
 					/>
 				</section>
 				<br />
@@ -157,13 +155,16 @@ const AiPricingPage: React.FC = () => {
 			</form>
 
 			{/* Display AI Price */}
-			{price && (
-				<Box className="aipricing-price-box">
-					<Typography variant="h5" color="primary">
-						Estimated Price: {price}
-					</Typography>
-				</Box>
-			)}
+			<div className="aidisplay">
+				<div className="billboard-image" />
+				{price && (
+					<Box className="aipricing-price-box">
+						<Typography variant="h5" color="primary">
+							Estimated Price: {price}
+						</Typography>
+					</Box>
+				)}
+			</div>
 
 			{/* Display Error or Success Message */}
 			{error && (

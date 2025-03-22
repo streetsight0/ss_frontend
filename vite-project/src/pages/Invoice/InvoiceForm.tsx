@@ -8,6 +8,7 @@ import CustomButton from "../../components/Button/Button";
 import { Box, Stack } from "@mui/material";
 import logo from "../../assets/logo1.png";
 import "./InvoiceForm.css";
+import BackButton from "../../assets/Icons/BackBlack.png";
 import  SuccessPopup from "../../components/Message/SuccessPopup";
 
 import { useNavigate } from "react-router-dom";
@@ -576,22 +577,18 @@ const InvoiceForm: React.FC = () => {
 	};
 
 	return (
-		<Box className="invoice-form">
-			<Box
-				sx={{
-					p: 10,
-					display: "flex",
-					justifyContent: "space-between",
-					// flexWrap: "wrap", // Ensures that the elements wrap for smaller screens
-				}}
-			>
-				<Box
-					sx={{
-						width: { xs: "100%", sm: "60%" }, // Full width on small screens, 60% on larger screens
-						mb: { xs: 4, sm: 0 }, // Add margin at the bottom for small screens
-					}}
-				>
-					<h2>Create Invoice</h2>
+		<div className="campaign-form">
+			<div className="conatiner">
+				<div>
+					<div className="campaign-header">
+						<img
+							src={BackButton}
+							alt="Back"
+							className="back-icon"
+							onClick={() => navigate(-1)}
+						/>
+						<h2>Create Invoice</h2>
+					</div>
 
 					<Box sx={{ mb: 2, mt: 4 }}>
 						{/* Dropdown for clients */}
@@ -654,15 +651,15 @@ const InvoiceForm: React.FC = () => {
 
 					{/* Location input */}
 					<Box sx={{ mb: 2 }}>
-  <CustomTextField
-    label="Location"
-    name="location"
-    value={invoiceDetails.location || ''}  
-    onChange={handleInputChange}
-    className="custom-input-field"
-    placeholder="Enter location"
-  />
-</Box>
+						<CustomTextField
+							label="Location"
+							name="location"
+							value={invoiceDetails.location || ""}
+							onChange={handleInputChange}
+							className="custom-input-field"
+							placeholder="Enter location"
+						/>
+					</Box>
 
 					{/* Amount input */}
 					<Box sx={{ mb: 2 }}>
@@ -674,7 +671,6 @@ const InvoiceForm: React.FC = () => {
 							onChange={handleInputChange}
 							className="custom-input-field"
 							placeholder="Enter amount"
-							
 						/>
 					</Box>
 
@@ -725,37 +721,24 @@ const InvoiceForm: React.FC = () => {
 						{message && <div className="notification">{message}</div>}
 						{/* Add more buttons as needed */}
 					</Stack>
-				</Box>
+				</div>
 
-				<Box
-					sx={{
-						width: { xs: "100%", sm: "441px" }, // Full width on small screens, fixed width on larger screens
-						height: { xs: "auto", sm: "599px" }, // Auto height on small screens, fixed height on larger screens
-						padding: "20px",
-						border: "1px solid #ccc",
-						borderRadius: "8px",
-						position: "relative",
-						top: { xs: "20px", sm: "60px" }, // Top margin for smaller screens
-						alignSelf: "flex-start", // Aligns the preview to the top on larger screens
-						marginTop: { xs: "20px", sm: "0" }, // Prevents overlap on smaller screens
-						marginBottom: { xs: "20px", sm: "80px" },
-					}}
-				>
+				<div className="previewpdf">
 					<h3>Invoice Preview</h3>
 					{pdfPreview ? (
 						<iframe
 							src={pdfPreview}
 							width="100%"
-							height="90%"
+							height="80%"
 							title="Invoice Preview"
 						/>
 					) : (
 						<p>No preview available. Please generate a preview first.</p>
 					)}
-				</Box>
+				</div>
 				{showConfirmation && <SuccessPopup message="Email Sent!" />}
-			</Box>
-		</Box>
+			</div>
+		</div>
 	);
 };
 
