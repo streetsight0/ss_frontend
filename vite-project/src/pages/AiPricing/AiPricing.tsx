@@ -3,8 +3,9 @@ import axios from "axios";
 import CustomButton from "../../components/Button/Button";
 import CustomDropdown from "../../components/DropDown/DropDown";
 import { CircularProgress, Typography, Box, Alert } from "@mui/material";
-import "./AiPricing.css"; // Import the CSS file
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+import "../../components/CampaignCard/CampaignDashboard.css"
+import "../AddCampaign/AddCampaign.css"
 
 interface Billboard {
 	_id: string;
@@ -74,23 +75,14 @@ const AiPricingPage: React.FC = () => {
 		.map((billboard) => billboard.size);
 
 	return (
-		<Box
-			sx={{
-				padding: 4,
-				display: "flex",
-				flexDirection: "column",
-				alignItems: "center",
-				maxWidth: "1200px", // Limit max width
-				margin: "0 auto", // Center the container
-			}}
-		>
-			<Typography variant="h3" gutterBottom className="aipricing-title">
+		<div className="campaign-form">
+			<p className="mainHeading">
 				AI Pricing Estimation
-			</Typography>
+			</p>
 
 			<form onSubmit={(e) => e.preventDefault()} className="aipricing-form">
 				{/* First Row: Location & Type */}
-				<Box sx={{ display: "flex", gap: 2, width: "100%" }}>
+				<section className="client">
 					<CustomDropdown
 						placeholder="Select location of the billboard"
 						className="aipricing-dropdown"
@@ -99,6 +91,7 @@ const AiPricingPage: React.FC = () => {
 							.filter((value, index, self) => self.indexOf(value) === index)}
 						label="Select Billboard Location"
 						onChange={(value) => handleInputChange("location", value)}
+						sx={{ width: "38vw" }} 
 					/>
 
 					<CustomDropdown
@@ -111,11 +104,12 @@ const AiPricingPage: React.FC = () => {
 						label="Select Billboard Type"
 						onChange={(value) => handleInputChange("type", value)}
 						placeholder="Select the type of billboard"
+						sx={{ width: "38vw" }} 
 					/>
-				</Box>
-
+				</section>
+				<br />
 				{/* Second Row: Size & Month */}
-				<Box sx={{ display: "flex", gap: 2, width: "100%", mt: 2 }}>
+				<section className="client">
 					<CustomDropdown
 						className="aipricing-dropdown"
 						options={availableSizes.filter(
@@ -124,10 +118,10 @@ const AiPricingPage: React.FC = () => {
 						label="Select Billboard Size"
 						placeholder="Select the size of the billboard"
 						onChange={(value) => handleInputChange("size", value)}
+						sx={{ width: "38vw" }}
 					/>
 
 					<CustomDropdown
-						className="aipricing-dropdown"
 						options={[
 							"January",
 							"February",
@@ -145,9 +139,10 @@ const AiPricingPage: React.FC = () => {
 						label="Select Rental Month"
 						placeholder="Select the month for rental"
 						onChange={(value) => handleInputChange("month", value)}
+						sx={{ width: "38vw" }}
 					/>
-				</Box>
-
+				</section>
+				<br />
 				{/* Button Section */}
 				<Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
 					<CustomButton
@@ -176,7 +171,7 @@ const AiPricingPage: React.FC = () => {
 					{error}
 				</Alert>
 			)}
-		</Box>
+		</div>
 	);
 };
 
