@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, Typography, Box, Avatar } from "@mui/material";
-import ViewButton from "../vite-project/src/components/Button/ViewButton";
+import ViewButton from "../../components/Button/ViewButton";
 
 interface ClientCardProps {
   clientName: string;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, Typography,Box, Avatar } from "@mui/material";
-import RenewButton from "../vite-project/src/components/Button/RenewButton";
-import ViewButton from "../vite-project/src/components/Button/ViewButton";
+import RenewButton from "../../components/Button/RenewButton";
+import ViewButton from "../../components/Button/ViewButton";
 
 interface CardProps {
   company: string;
