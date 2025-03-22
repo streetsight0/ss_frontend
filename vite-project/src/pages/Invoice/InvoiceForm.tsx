@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./InvoiceForm.css"
 import { jsPDF } from "jspdf";
 import axios from "axios";
 import CustomDropdown from "../../components/DropDown/DropDown";
@@ -6,9 +7,12 @@ import CustomTextField from "../../components/Input field/InputField";
 import CustomButton from "../../components/Button/Button";
 import { Box, Stack } from "@mui/material";
 import logo from "../../assets/logo1.png";
-import "./InvoiceForm.css"
-
 import "./InvoiceForm.css";
+import  SuccessPopup from "../../components/Message/SuccessPopup";
+
+import { useNavigate } from "react-router-dom";
+import "./InvoiceForm.css";
+
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 interface InvoiceDetails {
@@ -40,12 +44,32 @@ const InvoiceForm: React.FC = () => {
 		totalAmount: "",
 		email: "",
 	});
+	const navigate = useNavigate();
 	const [message, setMessage] = useState("");
 	const [clients, setClients] = useState<ClientData[]>([]); // Store full client data
 	const [companyNames, setCompanyNames] = useState<string[]>([]);
 	const [pdfPreview, setPdfPreview] = useState<string | null>(null); // State to store PDF preview
-
-	useEffect(() => {
+	const [showConfirmation, setShowConfirmation] = useState(false);
+	// const [invoiceDetails, setInvoiceDetails] = useState({
+	// 		amount: "",
+	// 		totalAmount: "",
+	// 	});
+	  // Reset form values when the component is mounted (useEffect)
+  useEffect(() => {
+    // Reset form values on component mount
+    setInvoiceDetails({
+      client: "",
+      companyName: "",
+      invoiceNumber: "",
+      month: "",
+      location: "",
+      amount: "",
+      totalAmount: "",
+      email: "",
+    });
+  
+	
+	
 		// Fetching clients data from the API
 		axios
 			.get(`${BASE_URL}/api/client/getclients`)
@@ -70,6 +94,62 @@ const InvoiceForm: React.FC = () => {
 	}, []);
 
 	// Handle client change
+	// const handleClientChange = async (value: string) => {
+	// 	// Find selected client by name
+	// 	const selectedClient = clients.find(
+	// 		(client) => client.client_name === value
+	// 	);
+
+	// 	if (selectedClient) {
+	// 		// Set the client ID instead of name for backend
+	// 		setInvoiceDetails((prevState) => ({
+	// 			...prevState,
+	// 			client: selectedClient._id, // Use client ID, not name
+	// 		}));
+
+	// 		// Set company names related to the client
+	// 		const allCompanies = [
+	// 			selectedClient.company_name,
+	// 			...selectedClient.additional_companies,
+	// 		];
+	// 		setCompanyNames(allCompanies);
+
+	// 		// Automatically set the first company name
+	// 		setInvoiceDetails((prevState) => ({
+	// 			...prevState,
+	// 			companyName: allCompanies.length > 0 ? allCompanies[0] : "",
+	// 		}));
+
+	// 		try {
+	// 			// Fetch campaigns assigned to this client
+	// 			const response = await axios.get(
+	// 				`${BASE_URL}/api/campaign/getcampaigns/${selectedClient._id}`
+	// 			);
+	// 			const campaigns = response.data.campaigns;
+
+	// 			if (campaigns.length > 0) {
+	// 				setInvoiceDetails((prevState) => ({
+	// 					...prevState,
+	// 					amount: campaigns[0].campaign_rent_monthly.toString(),
+	// 				}));
+	// 			} else {
+	// 				setInvoiceDetails((prevState) => ({ ...prevState, amount: "" }));
+	// 			}
+	// 		} catch (error) {
+	// 			console.error("Error fetching campaigns", error);
+	// 			setInvoiceDetails((prevState) => ({ ...prevState, amount: "" }));
+	// 		}
+	// 	} else {
+	// 		// Reset state if no client is found
+	// 		setCompanyNames([]);
+	// 		setInvoiceDetails((prevState) => ({
+	// 			...prevState,
+	// 			client: "",
+	// 			companyName: "",
+	// 			amount: "",
+	// 		}));
+	// 	}
+	// };
 	const handleClientChange = async (value: string) => {
 		// Find selected client by name
 		const selectedClient = clients.find(
@@ -97,7 +177,7 @@ const InvoiceForm: React.FC = () => {
 			}));
 
 			try {
-				// Fetch campaigns assigned to this client
+				// Fetch campaigns assigned to this client, including billboards with locations
 				const response = await axios.get(
 					`${BASE_URL}/api/campaign/getcampaigns/${selectedClient._id}`
 				);
@@ -108,25 +188,37 @@ const InvoiceForm: React.FC = () => {
 						...prevState,
 						amount: campaigns[0].campaign_rent_monthly.toString(),
 					}));
+
+					// Ensure billboardLocations exists and is an array before accessing its length
+					const locations = response.data.billboardLocations || [];
+					if (locations.length > 0) {
+						setInvoiceDetails((prevState) => ({
+							...prevState,
+							location: locations[0], // Set first location as default
+						}));
+					} else {
+						setInvoiceDetails((prevState) => ({
+							...prevState,
+							location: "", // Handle empty locations
+						}));
+					}
 				} else {
-					setInvoiceDetails((prevState) => ({ ...prevState, amount: "" }));
+					setInvoiceDetails((prevState) => ({
+						...prevState,
+						amount: "",
+						location: "",
+					}));
 				}
 			} catch (error) {
 				console.error("Error fetching campaigns", error);
-				setInvoiceDetails((prevState) => ({ ...prevState, amount: "" }));
+				setInvoiceDetails((prevState) => ({
+					...prevState,
+					amount: "",
+					location: "",
+				}));
 			}
-		} else {
-			// Reset state if no client is found
-			setCompanyNames([]);
-			setInvoiceDetails((prevState) => ({
-				...prevState,
-				client: "",
-				companyName: "",
-				amount: "",
-			}));
 		}
 	};
-
 
 
 	// Handle company name change
@@ -141,12 +233,19 @@ const InvoiceForm: React.FC = () => {
 	};
 
 	// Auto-generate total amount
-	const handleAutoGenerateInvoice = () => {
+	// const handleAutoGenerateInvoice = () => {
+	// 	const amount = parseFloat(invoiceDetails.amount || "0"); // Convert amount to a number
+	// 	const totalAmount = (amount * 1.12).toFixed(2); // Add 12% and format to 2 decimal places
+
+	// 	setInvoiceDetails((prevState) => ({ ...prevState, totalAmount }));
+	// };
+
+	useEffect(() => {
 		const amount = parseFloat(invoiceDetails.amount || "0"); // Convert amount to a number
 		const totalAmount = (amount * 1.12).toFixed(2); // Add 12% and format to 2 decimal places
 
 		setInvoiceDetails((prevState) => ({ ...prevState, totalAmount }));
-	};
+	}, [invoiceDetails.amount]); // Runs whenever 'amount' changes
 
 	const generatePDF = () => {
 		const doc = new jsPDF();
@@ -348,7 +447,9 @@ const InvoiceForm: React.FC = () => {
 		}
 	};
 
+
 	const handleSendEmail = async () => {
+		
 		const doc = new jsPDF();
 
 		// Header: Title or company name
@@ -407,163 +508,207 @@ const InvoiceForm: React.FC = () => {
 			await axios.post(`${BASE_URL}/api/invoice/sendInvoiceEmail`, formData, {
 				headers: { "Content-Type": "multipart/form-data" }, // Ensure it's sent as FormData
 			});
-			setMessage("Invoice email sent successfully!"); // Set success message
+			
+			setShowConfirmation(true);
+			 setTimeout(() => {
+					setShowConfirmation(false);
+					 setInvoiceDetails({
+							client: "",
+							companyName: "",
+							invoiceNumber: "",
+							month: "",
+							location: "",
+							amount: "",
+							totalAmount: "",
+							email: "",
+						});
+						
+					navigate("/invoice");
+				}, 3000);
 		} catch (error) {
 			setMessage("Failed to send invoice email. Please try again."); // Set error message
 		}
 	};
 
 	return (
-		<Box sx={{ p: 10, display: "flex", justifyContent: "space-between" }}>
-			<Box sx={{ width: "60%" }}>
-				<h2>Create Invoice</h2>
-
-				<Box sx={{ mb: 2 }}>
-					{/* Dropdown for clients */}
-					<CustomDropdown
-						options={clients.map((client) => client.client_name)}
-						label="Client"
-						onChange={handleClientChange}
-					/>
-				</Box>
-
-				{/* Dropdown for companies */}
-				<Box sx={{ mb: 2 }}>
-					<CustomDropdown
-						options={companyNames} // List of company names
-						label="Company Name"
-						onChange={handleCompanyChange} // When company changes, update the form
-					/>
-				</Box>
-
-				{/* Invoice Number (auto-generated) */}
-				<Box sx={{ mb: 2 }}>
-					<CustomTextField
-						className="invoice-text-field"
-						label="Invoice Number"
-						name="invoiceNumber"
-						value={invoiceDetails.invoiceNumber}
-						disabled
-					/>
-				</Box>
-
-				{/* Dropdown for selecting the month */}
-				<Box sx={{ mb: 2 }}>
-					<CustomDropdown
-						options={[
-							"January",
-							"February",
-							"March",
-							"April",
-							"May",
-							"June",
-							"July",
-							"August",
-							"September",
-							"October",
-							"November",
-							"December",
-						]}
-						label="Month"
-						onChange={(value) =>
-							setInvoiceDetails((prev) => ({ ...prev, month: value }))
-						}
-					/>
-				</Box>
-
-				{/* Location input */}
-				<Box sx={{ mb: 2 }}>
-					<CustomTextField
-						className="invoice-text-field"
-						label="Location"
-						name="location"
-						value={invoiceDetails.location}
-						onChange={handleInputChange}
-					/>
-				</Box>
-
-				{/* Amount input */}
-				<Box sx={{ mb: 2 }}>
-					<CustomTextField
-						label="Amount"
-						name="amount"
-						type="number"
-						value={invoiceDetails.amount}
-						onChange={handleInputChange}
-					/>
-				</Box>
-
-				{/* Total amount input */}
-				<Box sx={{ mb: 2 }}>
-					<CustomTextField
-						label="Total Amount (incl of tax 12%)"
-						name="totalAmount"
-						type="number"
-						value={invoiceDetails.totalAmount}
-						disabled
-					/>
-				</Box>
-
-				{/* Email input */}
-				<Box sx={{ mb: 2 }}>
-					<CustomTextField
-						label="Email"
-						name="email"
-						value={invoiceDetails.email}
-						onChange={handleInputChange}
-					/>
-				</Box>
-
-				{/* Button to auto-generate total amount */}
-				<Box sx={{ mb: 2 }}>
-					<CustomButton
-						label="Auto-generate Total"
-						icon={<span></span>}
-						onClick={handleAutoGenerateInvoice}
-					/>
-				</Box>
-
-				{/* Buttons to generate PDF, preview, and send email */}
-				<Stack direction="row" spacing={2} mt={2}>
-					<CustomButton
-						label="Download PDF"
-						icon={<span></span>}
-						onClick={generatePDF}
-					/>
-					<CustomButton
-						label="Preview PDF"
-						icon={<span>👀</span>}
-						onClick={previewPDF}
-					/>
-					<CustomButton
-						label="Send Email"
-						icon={<span></span>}
-						onClick={handleSendEmail}
-					/>
-					{message && <div className="notification">{message}</div>}
-					{/* Add more buttons as needed */}
-				</Stack>
-			</Box>
-
+		<Box className="invoice-form">
 			<Box
 				sx={{
-					width: "35%",
-					padding: "20px",
-					border: "1px solid #ccc",
-					borderRadius: "8px",
+					p: 10,
+					display: "flex",
+					justifyContent: "space-between",
+					// flexWrap: "wrap", // Ensures that the elements wrap for smaller screens
 				}}
 			>
-				<h3>Invoice Preview</h3>
-				{pdfPreview ? (
-					<iframe
-						src={pdfPreview}
-						width="100%"
-						height="500px"
-						title="Invoice Preview"
-					/>
-				) : (
-					<p>No preview available. Please generate a preview first.</p>
-				)}
+				<Box
+					sx={{
+						width: { xs: "100%", sm: "60%" }, // Full width on small screens, 60% on larger screens
+						mb: { xs: 4, sm: 0 }, // Add margin at the bottom for small screens
+					}}
+				>
+					<h2>Create Invoice</h2>
+
+					<Box sx={{ mb: 2, mt: 4 }}>
+						{/* Dropdown for clients */}
+						<CustomDropdown
+							className="custom-input-field"
+							options={clients.map((client) => client.client_name)}
+							label="Select Client"
+							onChange={handleClientChange}
+							placeholder="Select a client"
+						/>
+					</Box>
+
+					{/* Dropdown for companies */}
+					<Box sx={{ mb: 2 }}>
+						<CustomDropdown
+							className="custom-input-field"
+							options={companyNames} // List of company names
+							label="Company Name"
+							onChange={handleCompanyChange} // When company changes, update the form
+							placeholder="Select a company"
+						/>
+					</Box>
+
+					{/* Invoice Number (auto-generated) */}
+					<Box sx={{ mb: 2 }}>
+						<CustomTextField
+							label="Invoice Number"
+							name="invoiceNumber"
+							value={invoiceDetails.invoiceNumber}
+							disabled
+							className="custom-input-field"
+						/>
+					</Box>
+
+					{/* Dropdown for selecting the month */}
+					<Box sx={{ mb: 2 }}>
+						<CustomDropdown
+							className="custom-input-field"
+							options={[
+								"January",
+								"February",
+								"March",
+								"April",
+								"May",
+								"June",
+								"July",
+								"August",
+								"September",
+								"October",
+								"November",
+								"December",
+							]}
+							label="Month"
+							onChange={(value) =>
+								setInvoiceDetails((prev) => ({ ...prev, month: value }))
+							}
+							placeholder="Select a month"
+						/>
+					</Box>
+
+					{/* Location input */}
+					<Box sx={{ mb: 2 }}>
+  <CustomTextField
+    label="Location"
+    name="location"
+    value={invoiceDetails.location || ''}  
+    onChange={handleInputChange}
+    className="custom-input-field"
+    placeholder="Enter location"
+  />
+</Box>
+
+					{/* Amount input */}
+					<Box sx={{ mb: 2 }}>
+						<CustomTextField
+							label="Amount"
+							name="amount"
+							type="number"
+							value={invoiceDetails.amount}
+							onChange={handleInputChange}
+							className="custom-input-field"
+							placeholder="Enter amount"
+							
+						/>
+					</Box>
+
+					{/* Total amount input */}
+					<Box sx={{ mb: 2 }}>
+						<CustomTextField
+							label="Total Amount (incl of 12% tax)"
+							name="totalAmount"
+							type="number"
+							value={invoiceDetails.totalAmount}
+							disabled
+							className="custom-input-field"
+							placeholder="Enter amount"
+						/>
+					</Box>
+
+					{/* Email input */}
+					<Box sx={{ mb: 3 }}>
+						<CustomTextField
+							label="Email"
+							name="email"
+							value={invoiceDetails.email}
+							onChange={handleInputChange}
+							className="custom-input-field"
+							placeholder="Enter client's email"
+						/>
+					</Box>
+
+					<Stack direction="row" spacing={2} mt={2}>
+						<CustomButton
+							className="sendemial"
+							label="Download PDF"
+							icon={<span></span>}
+							onClick={generatePDF}
+						/>
+						<CustomButton
+							className="preview-button"
+							label="Preview PDF"
+							icon={<span></span>}
+							onClick={previewPDF}
+						/>
+						<CustomButton
+							className="sendemial"
+							label="Send Email"
+							icon={<span></span>}
+							onClick={handleSendEmail}
+						/>
+						{message && <div className="notification">{message}</div>}
+						{/* Add more buttons as needed */}
+					</Stack>
+				</Box>
+
+				<Box
+					sx={{
+						width: { xs: "100%", sm: "441px" }, // Full width on small screens, fixed width on larger screens
+						height: { xs: "auto", sm: "599px" }, // Auto height on small screens, fixed height on larger screens
+						padding: "20px",
+						border: "1px solid #ccc",
+						borderRadius: "8px",
+						position: "relative",
+						top: { xs: "20px", sm: "60px" }, // Top margin for smaller screens
+						alignSelf: "flex-start", // Aligns the preview to the top on larger screens
+						marginTop: { xs: "20px", sm: "0" }, // Prevents overlap on smaller screens
+						marginBottom: { xs: "20px", sm: "80px" },
+					}}
+				>
+					<h3>Invoice Preview</h3>
+					{pdfPreview ? (
+						<iframe
+							src={pdfPreview}
+							width="100%"
+							height="90%"
+							title="Invoice Preview"
+						/>
+					) : (
+						<p>No preview available. Please generate a preview first.</p>
+					)}
+				</Box>
+				{showConfirmation && <SuccessPopup message="Email Sent!" />}
 			</Box>
 		</Box>
 	);

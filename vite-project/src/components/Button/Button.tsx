@@ -4,20 +4,28 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { Typography, Stack, SxProps } from "@mui/material";
 
 interface CustomButtonProps {
-  label: string;
-  icon?: React.ReactNode;
-  onClick?: () => void;
-  sx?: SxProps;
-  children?: React.ReactNode;
+	label: string;
+	icon?: React.ReactNode;
+	onClick?: () => void;
+	sx?: SxProps;
+	className?: string;
+	children?: React.ReactNode;
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ label, icon, onClick, sx }) => {
-  const isSmallScreen = useMediaQuery("(max-width:600px)");
+const CustomButton: React.FC<CustomButtonProps> = ({
+	label,
+	icon,
+	onClick,
+	sx,
+	className,
+}) => {
+	const isSmallScreen = useMediaQuery("(max-width:600px)");
 
   return (
     <Button
       variant="contained"
       onClick={onClick}
+	  className={className}
       sx={{
         bgcolor: "#212429",  
         color: "#FFFFFF", 

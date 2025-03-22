@@ -1,0 +1,78 @@
+/* AiPricing.css */
+.aipricing-dropdown .MuiInputLabel-root {
+  font-size: 1.25rem; /* Adjust the size as needed */
+  font-weight: 600;  /* Optional: make the label bold */
+  margin-bottom: 125px !important;
+}
+/* AiPricing.css */
+button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedInherit.MuiButton-sizeMedium.MuiButton-containedSizeMedium.MuiButton-colorInherit.MuiButton-root.MuiButton-contained.MuiButton-containedInherit.MuiButton-sizeMedium.MuiButton-containedSizeMedium.MuiButton-colorInherit.aipricing-button.css-1umbua9-MuiButtonBase-root-MuiButton-root {
+    background-color:#EDFF90;
+    color:#212429;
+}
+
+/* Custom styling for typography */
+.aipricing-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Custom styling for form elements */
+.aipricing-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Adds space between form fields */
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+
+.aipricing-title, .MuiTypography-root.aipricing-title {
+    font-size: 32px;
+    text-align: left;
+    margin-bottom: 20px;
+    display: block;
+}
+/* Custom dropdown styles */
+.aipricing-dropdown {
+  width: 563px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.MuiBox-root css-1ekvzcq{
+    padding: 0;
+}
+/* Custom button styles */
+.aipricing-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #1976d2;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aipricing-button:disabled {
+  background-color: #b0bec5;
+}
+
+.aipricing-price-box {
+  background-color: #e8f5e9;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.aipricing-error {
+  margin-top: 20px;
+}

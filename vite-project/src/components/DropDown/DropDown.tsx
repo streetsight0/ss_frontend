@@ -2,24 +2,32 @@ import { useState } from "react";
 import { MenuItem, FormControl, InputLabel, Select, SxProps } from "@mui/material";
 
 interface DropdownProps {
-  options: string[];
-  label?: string;
-  onChange: (value: string) => void;
+	options: string[];
+	label?: string;
+	onChange: (value: string) => void;
   value?: any;
   sx?: SxProps; 
+	className?: string; // Added className here
+	placeholder?: string; // Add a placeholder prop
 }
 
-const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", onChange, sx }) => {
-  const [selectedOption, setSelectedOption] = useState<string>("");
+const CustomDropdown: React.FC<DropdownProps> = ({
+	options,
+	label = "Select",
+	onChange, sx,
+	className,
+	placeholder = "Enter data here",
+}) => {
+	const [selectedOption, setSelectedOption] = useState<string>("");
 
-  const handleChange = (event: any) => {
-    const value = event.target.value;
-    setSelectedOption(value);
-    onChange(value);
-  };
+	const handleChange = (event: any) => {
+		const value = event.target.value;
+		setSelectedOption(value);
+		onChange(value);
+	};
 
   return (
-    <FormControl fullWidth sx={{ position: "relative", width: "400px", ...sx }}>
+    <FormControl fullWidth sx={{ position: "relative", width: "400px", ...sx }}className={className}>
       {/* Fixed Title */}
       <InputLabel 
         shrink 
@@ -72,12 +80,8 @@ const CustomDropdown: React.FC<DropdownProps> = ({ options, label = "Select", on
           },
         }}
       >
-        <MenuItem disabled value="" sx={{ 
-          color: "#888", 
-          fontSize: "14px", 
-          fontFamily: "Poppins, sans-serif !important" 
-        }}>
-          Select option
+        <MenuItem disabled value="">
+		<span style={{ color: "#888", fontSize: "14px", fontFamily:"Poppins"}}>{placeholder}</span>
         </MenuItem>
         {options.map((option) => (
           <MenuItem key={option} value={option}>
