@@ -1,0 +1,33 @@
+.heading-c{
+    font-family: Satoshi,  sans-serif;
+    font-weight: 500;
+    color: #FFFF;
+    font-size: 16px;
+    margin: 0;
+}
+
+.heading-2c{
+    font-family: Poppins;
+    font-weight: 600;
+    font-size: 30px;
+    width: 59px;
+    height: 45px;
+    padding-top: 0;
+    margin: 0;
+    color: #FFFF;
+}
+
+.percentage{
+    font-family: Satoshi;
+    font-weight: 700;
+    font-size: 20px;
+    margin: 0;
+}
+
+.lastMonthc{
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 10px;
+    margin: 0;
+    color: #FFF;
+}

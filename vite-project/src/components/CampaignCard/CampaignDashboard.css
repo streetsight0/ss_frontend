@@ -1,0 +1,51 @@
+.heading{
+    font-family: Satoshi,  sans-serif;
+    font-weight: 500;
+    color: #000000;
+    font-size: 16px;
+    margin: 0;
+}
+
+.heading-2{
+    font-family: Poppins;
+    font-weight: 600;
+    font-size: 30px;
+    width: 59px;
+    height: 45px;
+    padding-top: 0;
+    margin: 0;
+}
+
+.percentage{
+    font-family: Satoshi;
+    font-weight: 700;
+    font-size: 20px;
+    margin: 0;
+}
+
+.lastMonth{
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 10px;
+    margin: 0;
+}
+
+.heading-3{
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 24px;
+    padding-top: 0;
+    margin: 0;
+}
+
+.heading-4{
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.caption{
+    font-family: Satoshi;
+    font-weight: 400;
+    font-size: 16px;
+}
