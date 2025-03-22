@@ -5,7 +5,7 @@ import html2canvas from "html2canvas";
 import CustomButton from "../../components/Button/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import BackButton from "../../assets/Icons/BackBlack.png";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -24,7 +24,7 @@ const ViewLeaseAgreement: React.FC = () => {
         html2canvas(input).then((canvas) => {
             const imgData = canvas.toDataURL("image/png");
             const pdf = new jsPDF("p", "mm", "a4");
-            const imgWidth = 190; // Adjust width for PDF
+            const imgWidth = 190; 
             const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
             pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
@@ -55,7 +55,7 @@ const ViewLeaseAgreement: React.FC = () => {
 
         // Prepare FormData
         const formData = new FormData();
-        formData.append("pdf", pdfBlob, "Lease_Agreement.pdf"); // Attach PDF
+        formData.append("pdf", pdfBlob, "Lease_Agreement.pdf"); 
         formData.append("to", "maraheemkhanazher@gmail.com");
         formData.append("subject", "Lease Agreement");
         formData.append(
@@ -90,8 +90,14 @@ const ViewLeaseAgreement: React.FC = () => {
   };
   return (
     <>
-      <Paper id="lease-agreement" elevation={3} sx={{ padding: 3, maxWidth: 800, margin: "auto", mt: 4 }}>
-        <Typography variant="h4" fontWeight="bold" mb={2}>
+      <Paper id="lease-agreement" elevation={3} sx={{ padding: 4,
+          maxWidth: 1000,
+          borderRadius: "16px",
+          border: "2px solid #D9D9D9",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          backgroundColor:"#F4F2FF",
+          margin:"0 auto"}}>
+        <Typography variant="h4" fontWeight="bold" mb={2} textAlign="center">
           Lease Agreement
         </Typography>
 
@@ -159,12 +165,56 @@ const ViewLeaseAgreement: React.FC = () => {
           The responsibility for maintaining the billboard, including cleaning graffiti, repairing weather damage, and ensuring its general upkeep, will fall upon <strong>{leaseData?.maintenanceResponsibility}</strong>.
         </Typography>
       </Paper>
-      <CustomButton sx={{ mt: 2, display: "block", margin: "auto" }} onClick={downloadPDF}
-        label="Download" />
-      <CustomButton sx={{ mt: 2, display: "block", margin: "auto" }} onClick={handleBack}
-        label="Back to All Lease Agreement" />
-      <CustomButton sx={{ mt: 2, display: "block", margin: "auto" }} onClick={sendEmail}
-        label="Send to Client" />
+        <Paper
+        sx={{
+          padding: "20px",
+          borderRadius: "12px",
+          textAlign: "center",
+          border: "2px solid #D9D9D9",
+          backgroundColor:"#F4F2FF",
+          width: "920px",
+          margin: "20px auto",
+          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <Typography variant="h6" fontWeight="bold" mb={2}>
+          Your document is ready
+        </Typography>
+        <CustomButton
+          sx={{
+            display: "block",
+            margin: "10px auto",
+            backgroundColor: "black",
+            color: "white",
+            "&:hover": { backgroundColor: "#333" },
+          }}
+          onClick={downloadPDF}
+          label="Download"
+        />
+        <CustomButton
+          sx={{
+            display: "block",
+            margin: "10px auto",
+            backgroundColor: "black",
+            color: "white",
+            "&:hover": { backgroundColor: "#333" },
+          }}
+          onClick={sendEmail}
+          label="Send Mail"
+        />
+        <CustomButton
+          sx={{
+            display: "block",
+            margin: "10px auto",
+            border: "1px solid black",
+            color: "black",
+            backgroundColor: "white",
+            "&:hover": { backgroundColor: "#f0f0f0" },
+          }}
+          onClick={handleBack}
+          label="Back to All Lease Agreement"
+        />
+      </Paper>
     </>
   );
 };
