@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
-import InfoCard from "../../../../Card/Card";
+import InfoCard from "../../components/Card/Card";
 import CustomButton from "../../components/Button/Button";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import "./AllLeaseAgreement.css";

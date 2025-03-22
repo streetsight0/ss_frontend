@@ -4,7 +4,6 @@ import axios from "axios";
 import CustomTextField from "../../components/Input field/InputField";
 import CustomButton from "../../components/Button/Button";
 import { Typography } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import "./clients.css";
 import UploadImages from "../../components/UploadImage/UploadImage";
 import ConfirmationCard from "../../components/confirmationcard/confirmationcard";
