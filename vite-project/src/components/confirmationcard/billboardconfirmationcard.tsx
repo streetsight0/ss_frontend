@@ -1,6 +1,7 @@
 import React from "react";
 import "./confirmationcard.css";
 
+
 interface billboardConfirmationCardProps {
   onCancel: () => void;
   onConfirm: () => void;
@@ -18,8 +19,8 @@ const BillboardConfirmationCard: React.FC<billboardConfirmationCardProps> = ({ o
             <span className="alert-icon">{alertIcon}</span> 
           </div>
           <p className="confirmation-text">{confirmationText}</p> 
-          <div className="button-group">
-            <button className="confirm-button" onClick={onConfirm}>{button2}</button>
+          <div className="button-group" style={{display:"flex",justifyContent:"center"}}>
+            <button style={{padding:"10px 50px"}}className="confirm-button" onClick={onConfirm}>{button2}</button>
           </div>
         </div>
       </div>

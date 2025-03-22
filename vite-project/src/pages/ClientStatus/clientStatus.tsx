@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './clientStatus.css';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./clientStatus.css";
 
 interface Client {
-  _id: string; 
+  _id: string;
   client_name: string;
   client_email: string;
   company_name: string;
@@ -12,25 +13,47 @@ interface Client {
   contact: string;
 }
 
+interface Campaign {
+  _id: string;
+  client_id: string;
+  billboards: { _id: string }[];
+  campaign_name: string;
+}
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const ClientTable: React.FC = () => {
   const [clients, setClients] = useState<Client[]>([]);
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
-  const apiEndpoint = `${BASE_URL}/api/client/getclients`;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const response = await axios.get(apiEndpoint);
-        if (Array.isArray(response.data.data)) {
-          setClients(response.data.data);
-        } else {
-          setError('Unexpected response format');
+        if (!BASE_URL) {
+          throw new Error("BASE_URL is not defined. Check your .env file.");
         }
-      } catch (err) {
-        setError('Failed to fetch client data');
+
+        const [clientsResponse, campaignsResponse] = await Promise.all([
+          axios.get(`${BASE_URL}/api/client/getclients`),
+          axios.get(`${BASE_URL}/api/campaign/getcampaigns`),
+        ]);
+
+        if (Array.isArray(clientsResponse.data.data)) {
+          setClients(clientsResponse.data.data);
+        } else {
+          setClients([]);
+        }
+
+        if (Array.isArray(campaignsResponse.data.data)) {
+          setCampaigns(campaignsResponse.data.data);
+        } else {
+          setCampaigns([]);
+        }
+      } catch (err: any) {
+        setError(err.message || "Failed to fetch client data");
       } finally {
         setLoading(false);
       }
@@ -40,7 +63,7 @@ const ClientTable: React.FC = () => {
   }, []);
 
   const handleEdit = (client: Client) => {
-    console.log(`Editing client with ID: ${client._id}`);
+    navigate("/editClient", { state: { client } });
   };
 
   if (loading) {
@@ -51,9 +74,22 @@ const ClientTable: React.FC = () => {
     return <div>{error}</div>;
   }
 
-  if (!Array.isArray(clients)) {
-    return <div>Unexpected data format</div>;
+  if (!Array.isArray(clients) || clients.length === 0) {
+    return <p>No clients found.</p>;
   }
+
+  const clientsWithStats = clients.map((client) => {
+    const clientCampaigns = campaigns.filter(
+      (campaign) => campaign.client_id?._id === client._id
+    );
+    const billboardCount = clientCampaigns.reduce(
+      (count, campaign) => count + campaign.billboards.length,
+      0
+    );
+    const campaignCount = clientCampaigns.length;
+
+    return { ...client, billboardCount, campaignCount };
+  });
 
   return (
     <div className="table-container">
@@ -64,21 +100,19 @@ const ClientTable: React.FC = () => {
             <th>Client Name</th>
             <th>Client Email</th>
             <th>Company Name</th>
-            <th>Additional Companies</th>
-            <th>Address</th>
-            <th>Contact</th>
+            <th>Total Billboards</th>
+            <th>Total Campaigns</th>
             <th>Edit</th>
           </tr>
         </thead>
         <tbody>
-          {clients.map((client, index) => (
-            <tr key={index}>
+          {clientsWithStats.map((client) => (
+            <tr key={client._id}>
               <td>{client.client_name}</td>
               <td>{client.client_email}</td>
               <td>{client.company_name}</td>
-              <td>{client.additional_companies.join(', ')}</td>
-              <td>{client.address}</td>
-              <td>{client.contact}</td>
+              <td>{client.billboardCount}</td>
+              <td>{client.campaignCount}</td>
               <td>
                 <button onClick={() => handleEdit(client)}>Edit</button>
               </td>
