@@ -3,6 +3,8 @@ import axios from "axios";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import "../../components/CampaignCard/CampaignDashboard.css"
+import "../AddCampaign/AddCampaign.css"
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -41,26 +43,26 @@ const Login = () => {
     };
 
     return (
-        <div className="container">
-            <h1>Login</h1>
+        <div  id="container">
+            <h1 id="nametags" className="mainHeading">Login</h1>
+            <p id="cap" className="caption">Effortless Billboard Management Starts here</p>
             <div className="login-container">
                 <form onSubmit={handleLogin} className="login-form">
-                    <h2>Login</h2>
-                    <input
+                    <p id="nametags" className="heading">Email</p>
+                    <input className="input"
                         type="email"
                         id="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Email"
                     />
-                    <input
+                    <p id="nametags"className="heading">Password</p>
+                    <input className="input"
                         type="password"
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Password"
                     />
-                    <button type="submit">Login</button>
+                    <button className="loginButton" type="submit">Login</button>
                     {error && <div className="error">{error}</div>}
                 </form>
             </div>

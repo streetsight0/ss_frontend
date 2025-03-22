@@ -1,0 +1,36 @@
+.login-form{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.input{
+    width: 600px;
+}
+
+#container{
+    margin: 8rem 0 0 28rem;
+    max-width: 40vw;
+    height: 500px;
+    padding: 20px;
+    background: #212429;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+}
+
+#nametags{
+    color: #FFF;
+    margin-bottom: 0;
+}
+
+#cap{
+    color: #AFAFAF;
+    margin: 0;
+}
+
+.loginButton{
+    background-color: #DAF067;
+    color: #212429;
+}
