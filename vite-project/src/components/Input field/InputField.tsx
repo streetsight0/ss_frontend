@@ -27,13 +27,13 @@ const InputField: React.FC<TextFieldProps> = (props) => {
           fontFamily: "Poppins, sans-serif !important", 
         },
         "& .MuiInputLabel-root": {
-          fontSize: "14px",
+          fontSize: "16px",
           color: "black",
           fontFamily: "Poppins, sans-serif !important", 
         },
         "& .MuiInputLabel-shrink": {
           color: "black",
-          fontSize: "14px",
+          fontSize: "16px",
           fontFamily: "Poppins, sans-serif !important", 
         },
         ...props.sx,

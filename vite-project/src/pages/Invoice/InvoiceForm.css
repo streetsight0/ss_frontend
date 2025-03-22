@@ -1,6 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 /* General Styles */
+.campaign-form {
+  max-width: 70vw;
+  margin: auto;
+  padding: 20px;
+  background: #F4F2FF;
+  border-radius: 12px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+}
+
+.conatiner{
+  display: flex;
+  gap:10rem;
+  /* max-width: 1000px; */
+  /* margin:auto; */
+}
+.previewpdf{
+    width: 400px;
+    border-radius: 12px;
+    border:solid 1px rgb(1, 1, 1);
+    height:720px;
+}
+.previewpdf p{
+  font-size: 12px;
+  padding-left:10px;
+}
 * {
   font-family: "Poppins", sans-serif !important;
 }

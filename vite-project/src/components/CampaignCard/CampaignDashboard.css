@@ -52,8 +52,88 @@
 
 .mainHeading{
     font-family: 'Poppins', sans-serif;
-    font-size: 36px;
+    font-size: 24px;
     font-weight: 700;
     margin-bottom: 30px;
     color: #212738;
 }
+/* //ai display */
+.aidisplay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* Adjust the height */
+  padding: 20px;
+  color: white;
+}
+
+.aipricing-price-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  font-size: 24px;
+  opacity: 0; /* Initially hidden */
+  animation: fadeInUp 1s ease-out forwards; /* Animation for price */
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px); /* Start below */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* End at normal position */
+  }
+}
+
+.aipricing-price-box h5 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #000000; /* Adjust the color for the price */
+}
+
+.billboard-image {
+  width: 50%; /* Adjust the width of the image (increased for better side-by-side layout) */
+  height: 100%;
+  background-image: url('../../assets/Group.png'); /* Your image path */
+  background-size: contain; /* Ensures the whole image is visible */
+  background-position: center;
+  background-repeat: no-repeat; /* Avoid repeating the image */
+  border-radius: 8px;
+  animation: slideIn 2s ease-out forwards; /* Animation for image */
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%); /* Start off-screen to the left */
+  }
+  100% {
+    transform: translateX(0); /* Slide in to the normal position */
+  }
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .aidisplay {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px; /* Adjust padding for small screens */
+  }
+
+  .billboard-image {
+    width: 100%; /* Full width for smaller screens */
+    height: 200px; /* Adjust based on the design */
+    margin-bottom: 20px; /* Space between image and price */
+  }
+
+  .aipricing-price-box {
+    width: 100%; /* Full width for smaller screens */
+  }
+}
+

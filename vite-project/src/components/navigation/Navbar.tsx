@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { AppBar, Toolbar, IconButton, InputBase, Box, Typography } from "@mui/material";
 import { Search as SearchIcon, Notifications as NotificationsIcon, AccountCircle } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
@@ -15,20 +14,6 @@ const StyledSearch = styled("div")(() => ({
 }));
 
 const Navbar: React.FC = () => {
-  const [userName, setUserName] = useState<string>("User");
-
-  useEffect(() => {
-    const fetchUserName = async () => {
-      try {
-        const userData = await Promise.resolve({ name: "User" });
-        setUserName(userData.name);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchUserName();
-  }, []);
 
   return (
     <>
@@ -51,7 +36,7 @@ const Navbar: React.FC = () => {
         <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
           <Box display="flex" alignItems="center" gap={2} sx={{ marginLeft: "260px" }}>
             <Typography variant="h6" sx={{ color: "#1A1A1A", fontWeight: "500" }}>
-              Welcome, {userName} 👋
+              Welcome 👋
             </Typography>
           </Box>
 

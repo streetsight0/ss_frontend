@@ -39,7 +39,7 @@ const SidebarDrawer = styled(Drawer)<{ open: boolean }>(({ open, theme }) => ({
 	  overflowX: "hidden",
     overflowY: "auto",
 	  backgroundColor: "#212429",
-	  borderRadius: 16,
+    borderRadius: "0px 16px 16px 0px",
 	  color: "#FFFFFF",
 	  transition: theme.transitions.create("width", {
 		easing: theme.transitions.easing.sharp,
