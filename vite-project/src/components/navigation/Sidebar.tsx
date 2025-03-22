@@ -148,8 +148,8 @@ const Sidebar: React.FC = () => {
 			  <StyledListItemButton onClick={() => navigate("/billboards")}>
                 <ListItemText primary="Add Billboard" />
               </StyledListItemButton>
-              <StyledListItemButton>
-                <ListItemText primary="Generate Report" />
+              <StyledListItemButton onClick={() => navigate("/aipricing")}> 
+                <ListItemText primary="AI Price Estimation" />
               </StyledListItemButton>
             </List>
           </Collapse>
