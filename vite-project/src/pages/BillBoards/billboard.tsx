@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import CustomButton from "../../components/Button/Button";
-import AddIcon from "@mui/icons-material/Add";
 import CustomTextField from "../../components/Input field/InputField";
 import CustomDropdown from "../../components/DropDown/DropDown";
 import ConfirmationCard from "../../components/confirmationcard/confirmationcard";
 import UploadImages from "../../components/UploadImage/UploadImage";
 import BillboardConfirmationCard from "../../components/confirmationcard/billboardconfirmationcard"
 import "./billboard.css";
+
 import { useNavigate } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -117,30 +117,52 @@ const BillBoard = () => {
           button2="Discard"
         />
       ) : (
-        <div>
-           <h2>Add New Billboard</h2>
         <div className="billboard-form">
+        <div className="billboard-header">
+        <h2>Add New Billboard</h2>
+          
+          </div>
+          <section>
           <h3>Billboard Details</h3>
+          <div className="billboard-details"></div>
+          </section>
           <form>
-            <CustomTextField label="Billboard Name" value={billboard_name} onChange={(e) => setBillboardName(e.target.value)} required />
-            <CustomTextField value={billboard_series} onChange={(e) => setBillboardSeries(e.target.value)} label="Billboard Series" required />
-            <CustomDropdown options={["Digital Billboard", "Prism Billboard", "Banner Billboard"]} label="Billboard Type" onChange={setBillboardType} />
-            <CustomTextField value={location} onChange={(e) => setLocation(e.target.value)} label="Location" required />
-            <CustomTextField value={size} onChange={(e) => setSize(e.target.value)} label="Size (e.g., 10x20ft)" required />
-            <CustomTextField type="number" value={campaignCapacity} onChange={(e) => setCampaignCapacity(e.target.value)} label="Campaign Capacity" />
-            <CustomTextField type="date" value={leaseStart} onChange={(e) => setLeaseStart(e.target.value)} required label="Lease Start Date" />
-            <CustomTextField type="date" value={leaseEnd} onChange={(e) => setLeaseEnd(e.target.value)} required label="Lease End Date" />
-            <CustomTextField type="number" value={pricePerMonth} onChange={(e) => setPricePerMonth(e.target.value)} label="Price Per Month" required />
+            <CustomTextField label="Billboard Name" value={billboard_name} onChange={(e) => setBillboardName(e.target.value)} required sx={{ width: "38vw" }}/>
+            <CustomTextField value={billboard_series} onChange={(e) => setBillboardSeries(e.target.value)} label="Billboard Series" required sx={{ width: "38vw" }}/>
+            <CustomDropdown options={["Digital Billboard", "Prism Billboard", "Banner Billboard"]} label="Billboard Type" onChange={setBillboardType}sx={{ width: "38vw" }} />
+            <CustomTextField value={location} onChange={(e) => setLocation(e.target.value)} label="Location" required sx={{ width: "38vw" }} />
+            <CustomTextField value={size} onChange={(e) => setSize(e.target.value)} label="Size (e.g., 10x20ft)" required sx={{ width: "38vw" }} />
+            <CustomTextField type="number" value={campaignCapacity} onChange={(e) => setCampaignCapacity(e.target.value)} label="Campaign Capacity" sx={{ width: "38vw" }}/>
+            <CustomTextField type="date" value={leaseStart} onChange={(e) => setLeaseStart(e.target.value)} required label="Lease Start Date" sx={{ width: "38vw" }}/>
+            <CustomTextField type="date" value={leaseEnd} onChange={(e) => setLeaseEnd(e.target.value)} required label="Lease End Date"sx={{ width: "38vw" }} />
+            <CustomTextField type="number" value={pricePerMonth} onChange={(e) => setPricePerMonth(e.target.value)} label="Price Per Month" required sx={{ width: "38vw" }}/>
             <UploadImages onImagesSelected={setBillboardImages} />
             <div className="button-group">
-              <CustomButton label="Submit" icon={<AddIcon />} onClick={saveBillboardToBackend} />
-              <CustomButton label="Discard" onClick={handleDiscard} />
+              
+              <CustomButton label="Discard" onClick={handleDiscard}  sx={{
+        color: "#212429",
+        fontSize: "12px",
+        textTransform: "none",
+        borderRadius: "8px",
+        fontWeight: 700,
+        padding: "8px 16px 8px 16px",
+        minWidth: "222px",
+        maxWidth: "100px",
+        height: "51.43px",
+        border: "1px solid", 
+        borderColor: "#2C2C2C", 
+        backgroundColor:"white",
+        "&:hover": {
+          backgroundColor: "rgba(0, 0, 0, 0.1)",
+        },
+      }}  />
+              <CustomButton label="Save" onClick={saveBillboardToBackend} sx={{width:"187px",height:"51.43px",color:"#E2FF70"}} />
             </div>
           </form>
           {error && <p className="error-message">{error}</p>}
           {success && <p className="success-message">{success}</p>}
         </div>
-        </div>
+       
       )}
     </div>
     

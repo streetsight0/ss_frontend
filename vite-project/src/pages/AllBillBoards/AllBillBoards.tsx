@@ -94,7 +94,7 @@ const CampaignsBillboards: React.FC = () => {
         billboards.some((billboard) => billboard._id === campaignBillboard._id)
       )
       .map((matchedBillboard) => {
-        
+      
         const companyName = campaign.client_id
         
           ? campaign.client_id.company_name
@@ -111,6 +111,7 @@ const CampaignsBillboards: React.FC = () => {
           billboard_series: matchedBillboard.billboard_series,
           billboard_LeaseEnd: matchedBillboard.leaseEnd,
           billboard_Location: matchedBillboard.location,
+          billboard_images:matchedBillboard.billboard_images,
           status,
           campaign,
         };
@@ -148,10 +149,10 @@ const CampaignsBillboards: React.FC = () => {
   }
 
   return (
-    <Box sx={{ padding: "20px" }}>
+    <Box sx={{  }}>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h5" fontWeight="bold">
-          Matched Billboards and Campaigns | Total {matchedBillboards.length}
+        <Typography variant="h6" fontWeight="bold">
+        Matched Billboards and Campaigns | Total {matchedBillboards.length}
         </Typography>
         <Box
           display="flex"
@@ -162,6 +163,7 @@ const CampaignsBillboards: React.FC = () => {
           <Box display="flex" gap={2}>
             <Select
               value={filter}
+              style={{width:"97",height:"23"}}
               onChange={(e) => setFilter(e.target.value)}
               size="small"
             >
@@ -188,13 +190,13 @@ const CampaignsBillboards: React.FC = () => {
                 />
               }
               onClick={() => navigate("/billboards")}
-              sx={{ backgroundColor: "#C5FF6D", color: "#000" }}
+              sx={{ backgroundColor: "#C5FF6D", color: "#000",width:"160px",height:"50px" }}
             />
           </Box>
         </Box>
       </Box>
 
-      <Box className="card-container">
+      <div className="card-container">
         {paginatedBillboards.length > 0 ? (
           paginatedBillboards.map((item, index) => (
             <div
@@ -208,6 +210,7 @@ const CampaignsBillboards: React.FC = () => {
               onClick={() => setSelectedCampaign(item.campaign)}
             >
               <BillboardCard
+                logo={item.billboard_images}
                 series={item.billboard_series}
                 companyName={item.company_name}
                 campaignName={item.campaign_name}
@@ -222,7 +225,7 @@ const CampaignsBillboards: React.FC = () => {
             No matched billboards found.
           </Typography>
         )}
-      </Box>
+      </div>
 
       {/* Pagination */}
       <Box display="flex" justifyContent="center" mt={4}>

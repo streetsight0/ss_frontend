@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, Typography,Box, Avatar } from "@mui/material";
-import RenewButton from "../Button/RenewButton";
-import ViewButton from "../Button/ViewButton";
+import RenewButton from "../../components/Button/RenewButton";
+import ViewButton from "../../components/Button/ViewButton";
 
 interface CardProps {
   company: string;

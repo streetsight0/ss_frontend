@@ -18,7 +18,7 @@ const BillboardConfirmationCard: React.FC<billboardConfirmationCardProps> = ({ o
           <div className="icon-wrapper">
             <span className="alert-icon">{alertIcon}</span> 
           </div>
-          <p className="confirmation-text">{confirmationText}</p> 
+          <p className="confirmation-text1">{confirmationText}</p> 
           <div className="button-group" style={{display:"flex",justifyContent:"center"}}>
             <button style={{padding:"10px 50px"}}className="confirm-button" onClick={onConfirm}>{button2}</button>
           </div>

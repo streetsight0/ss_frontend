@@ -93,7 +93,7 @@ const ClientTable: React.FC = () => {
 
   return (
     <div className="table-container">
-      <h1>Client List</h1>
+      <h1>Client Status</h1>
       <table>
         <thead>
           <tr>
