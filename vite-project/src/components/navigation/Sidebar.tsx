@@ -15,7 +15,7 @@ import {
   ExpandMore,
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
-import { NavLink, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import logo from "../../assets/logo2.png";
 import DashboardIcon from "../../assets/Icons/DashboradYellow.png";
 import BillboardIcon from "../../assets/Icons/BillboardYellow.png";
