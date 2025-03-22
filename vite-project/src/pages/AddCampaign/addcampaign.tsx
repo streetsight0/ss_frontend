@@ -156,7 +156,6 @@ const AddCampaign: React.FC = () => {
 
   return (
     <div className="campaign-form">
-      {/* Back Button */}
       <div className="campaign-header">
         <img src={BackButton} alt="Back" className="back-icon" onClick={() => navigate(-1)} />
         <h2>Add New Campaign</h2>
@@ -184,9 +183,10 @@ const AddCampaign: React.FC = () => {
             options={clients.map((client) => client.client_name)}
             onChange={handleClientChange}
             value={formData.client?._id ? clients.find(c => c._id === formData.client?._id)?.client_name : ""}
+            sx={{ width: "38vw" }} 
           />
 
-          <InputField name="rentMonthly" type="number" placeholder="Enter monthly rent" onChange={handleChange} label="Monthly Rent" value={formData.rentMonthly || ""} />
+          <InputField name="rentMonthly" type="number" placeholder="Enter monthly rent" onChange={handleChange} label="Monthly Rent" value={formData.rentMonthly || ""} sx={{ width: "38vw" }} />
         </div>
       </section>
 

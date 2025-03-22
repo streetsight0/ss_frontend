@@ -12,6 +12,7 @@ import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack } fr
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../../assets/Icons/BackBlack.png";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const steps = ["General Lease Information", "Lease Terms & Payments", "Additional Terms & Actions"];
@@ -160,14 +161,33 @@ const handleBillboardChange = (selectedBillboard: string) => {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Typography variant="h4" sx={{ mb: 2 }}>
-        New Lease Agreement
-      </Typography>
+    <Box sx={{ width: "100%" , display: "flex", justifyContent: "center"}}>
+        <Box
+          sx={{
+            width: "80%",
+            backgroundColor: "#F4F2FF",
+            borderRadius: "46px", 
+            p: 4, 
+          }}
+        >
+      <div className="header-container" style={{ display: "flex", alignItems: "center", gap: "8px", paddingBottom:"10px" }}>
+        <img src={BackButton} alt="Back" className="back-icon" onClick={() => navigate(-1)} style={{ cursor: "pointer" }} />
+        <Typography variant="h4" fontWeight="bold" >
+          New Lease Agreement
+        </Typography>
+      </div>
+
       <Stepper nonLinear activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label} completed={completed[index]}>
-            <StepButton color="inherit" onClick={handleStep(index)}>
+            <StepButton color="inherit" onClick={handleStep(index)}
+             sx={{
+              padding: "8px", 
+              margin: "0", 
+              "&:hover": {
+                backgroundColor: "transparent", 
+              },
+            }}>
               {label}
             </StepButton>
           </Step>
@@ -177,7 +197,7 @@ const handleBillboardChange = (selectedBillboard: string) => {
       <Box sx={{ mt: 3 }}>
         {allStepsCompleted() ? (
           <Box>
-            <Typography sx={{ mt: 2, mb: 1 }}>
+            <Typography sx={{ mt: 2, mb: 1 }} fontWeight="bold" >
               All steps completed - you&apos;re finished
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
@@ -189,23 +209,23 @@ const handleBillboardChange = (selectedBillboard: string) => {
           <Box>
             {activeStep === 0 && (
               <Box sx={{p:2}}>
-                <Typography>Client Details*</Typography>
+                <Typography fontWeight="bold" fontSize="20px" paddingBottom=".7rem">Client Details*</Typography>
                 <Stack direction="row" spacing={2} sx={{ mt: 1 }}>
                   <CustomDropdown options={clientDetails.map((client) => client.client_name)} 
-                    onChange={handleClientChange} label="Choose Client" />
-                  <CustomTextField  value={companyName} label="Choose Company" />
+                    onChange={handleClientChange} label="Choose Client"  sx={{ width: "30vw" }} />
+                  <CustomTextField  value={companyName} label="Choose Company" sx={{ width: "30vw" }} />
                 </Stack>
 
                 <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                   <CustomDropdown options={billboardData.map((billboard) => billboard.billboard_series)} 
-                    onChange={handleBillboardChange} label="Choose BillBoard" />
-                  <CustomTextField value={clientAddress} label="Client Address" />
+                    onChange={handleBillboardChange} label="Choose BillBoard"  sx={{ width: "30vw" }}/>
+                  <CustomTextField value={clientAddress} label="Client Address"  sx={{ width: "30vw" }} />
                 </Stack>
                 <Typography>Billboard Details*</Typography>
                 <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                   <CustomTextField  value={billboardLocation} name="billboardLocation"
-                    label="Billboard Location" />
-                  <CustomTextField onChange={handleChange} name="legalDescription" label="Legal Description" />
+                    label="Billboard Location"  sx={{ width: "30vw" }}/>
+                  <CustomTextField onChange={handleChange} name="legalDescription" label="Legal Description"  sx={{ width: "30vw" }}/>
                 </Stack>
                 <FormControl sx={{p:2}}>
                   <FormLabel>Will the Tenant be the only party allowed to use the property during this Agreement?</FormLabel>
@@ -241,7 +261,7 @@ const handleBillboardChange = (selectedBillboard: string) => {
                   </FormControl>
                   <CustomTextField name="rentAmount" onChange={handleChange} label="Rent Amount" />
                 </Stack>
-                <Typography>Pricing Details*</Typography>
+                <Typography fontWeight="bold" >Pricing Details*</Typography>
                 <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                   <CustomTextField name="percentageIncrease" onChange={handleChange} label="Percentage Increase" />
                   <CustomTextField name="flatRateIncrease" onChange={handleChange} label="Flat Rate Increase" />
@@ -251,13 +271,13 @@ const handleBillboardChange = (selectedBillboard: string) => {
 
             {activeStep === 2 && (
               <Box sx={{p:2}}>
-                <Typography>Rental Payment Terms & Policies*</Typography>
+                <Typography fontWeight="bold" >Rental Payment Terms & Policies*</Typography>
                 <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-                  <CustomTextField name="rentPaymentFrequency" onChange={handleChange} label="How often will you pay rent?*" />
-                  <CustomTextField name="lateFeeAmount" onChange={handleChange} label="Late Fee Amount" />
+                  <CustomTextField name="rentPaymentFrequency" onChange={handleChange} label="How often will you pay rent?*"  sx={{ width: "30vw" }} />
+                  <CustomTextField name="lateFeeAmount" onChange={handleChange} label="Late Fee Amount"  sx={{ width: "30vw" }} />
                 </Stack>
-                <CustomTextField value={clientAddress} label="Payment Address / Mailing Information*" />
-                <Typography>Early Lease Termination Policy*</Typography>
+                <CustomTextField value={clientAddress} label="Payment Address / Mailing Information*"  sx={{ width: "30vw" }} />
+                <Typography fontWeight="bold" >Early Lease Termination Policy*</Typography>
                 <FormControl sx={{p:2}}>
                     <FormLabel>Can the Tenant Terminate the Lease Early?</FormLabel>
                     <RadioGroup onChange={handleChange}>
@@ -290,12 +310,23 @@ const handleBillboardChange = (selectedBillboard: string) => {
                   <CustomButton sx={{ mt: 2 }} label="Save & Preview" onClick={handleSubmit} />
                 </>
               ) : (
-                <Button onClick={handleNext}>Next</Button>
+                <Button onClick={handleNext}
+                variant="contained"
+                sx={{
+                  backgroundColor: "black",
+                  color: "white",
+                  borderRadius: "8px",
+                  textTransform: "none",
+                  "&:hover": {
+                    backgroundColor: "black", 
+                  },
+                }}>Next</Button>
               )}
             </Box>
           </Box>
         )}
       </Box>
+    </Box>
     </Box>
   );
 }
