@@ -17,6 +17,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 interface InvoiceDetails {
 	client: string;
+	clientName:string;
 	companyName: string;
 	invoiceNumber: string;
 	month: string;
@@ -36,6 +37,7 @@ interface ClientData {
 const InvoiceForm: React.FC = () => {
 	const [invoiceDetails, setInvoiceDetails] = useState<InvoiceDetails>({
 		client: "",
+		clientName: "",
 		companyName: "",
 		invoiceNumber: "",
 		month: "",
@@ -58,15 +60,16 @@ const InvoiceForm: React.FC = () => {
   useEffect(() => {
     // Reset form values on component mount
     setInvoiceDetails({
-      client: "",
-      companyName: "",
-      invoiceNumber: "",
-      month: "",
-      location: "",
-      amount: "",
-      totalAmount: "",
-      email: "",
-    });
+			client: "",
+			clientName: "",
+			companyName: "",
+			invoiceNumber: "",
+			month: "",
+			location: "",
+			amount: "",
+			totalAmount: "",
+			email: "",
+		});
   
 	
 	
@@ -160,7 +163,8 @@ const InvoiceForm: React.FC = () => {
 			// Set the client ID instead of name for backend
 			setInvoiceDetails((prevState) => ({
 				...prevState,
-				client: selectedClient._id, // Use client ID, not name
+				client: selectedClient._id,
+				clientName: selectedClient.client_name, // Use client ID, not name
 			}));
 
 			// Set company names related to the client
@@ -232,13 +236,7 @@ const InvoiceForm: React.FC = () => {
 		setInvoiceDetails((prevState) => ({ ...prevState, [name]: value }));
 	};
 
-	// Auto-generate total amount
-	// const handleAutoGenerateInvoice = () => {
-	// 	const amount = parseFloat(invoiceDetails.amount || "0"); // Convert amount to a number
-	// 	const totalAmount = (amount * 1.12).toFixed(2); // Add 12% and format to 2 decimal places
-
-	// 	setInvoiceDetails((prevState) => ({ ...prevState, totalAmount }));
-	// };
+	
 
 	useEffect(() => {
 		const amount = parseFloat(invoiceDetails.amount || "0"); // Convert amount to a number
@@ -284,7 +282,7 @@ const InvoiceForm: React.FC = () => {
 
 		doc.setFontSize(12);
 		doc.setFont("helvetica", "normal");
-		doc.text(`Client: ${invoiceDetails.client}`, 20, 85);
+		doc.text(`Client: ${invoiceDetails.clientName}`, 20, 85);
 		doc.text(`Company Name: ${invoiceDetails.companyName}`, 20, 100);
 		doc.text(`Invoice Number: ${invoiceDetails.invoiceNumber}`, 20, 115);
 		doc.text(`Month: ${invoiceDetails.month}`, 20, 130);
@@ -332,6 +330,10 @@ const InvoiceForm: React.FC = () => {
 
 		// Save the PDF
 		doc.save("invoice.pdf");
+		// Convert to Blob
+		const pdfBlob = doc.output("blob");
+
+		return pdfBlob; // Return the PDF as a Blob
 	};
 
 	const previewPDF = async () => {
@@ -399,7 +401,7 @@ const InvoiceForm: React.FC = () => {
 
 			doc.setFontSize(12);
 			doc.setFont("helvetica", "normal");
-			doc.text(`Client: ${invoiceDetails.client}`, 20, 85);
+			doc.text(`Client: ${invoiceDetails.clientName}`, 20, 85);
 			doc.text(`Company Name: ${invoiceDetails.companyName}`, 20, 95);
 			doc.text(`Invoice Number: ${invoiceDetails.invoiceNumber}`, 20, 105);
 			doc.text(`Month: ${invoiceDetails.month}`, 20, 115);
@@ -452,42 +454,84 @@ const InvoiceForm: React.FC = () => {
 		
 		const doc = new jsPDF();
 
-		// Header: Title or company name
-		doc.setFontSize(18);
+		doc.addImage(logo, "PNG", 10, 10, 40, 40); // x, y, width, height
+
+		// Header Section: Title, company name, and address
+		doc.setFontSize(22);
 		doc.setFont("helvetica", "bold");
-		doc.text("INVOICE DETAILS", 20, 20); // Title at the top
+		const title = "STREET SIGHT";
+		const titleWidth = doc.getTextWidth(title); // Get the width of the title
+		doc.text(title, (doc.internal.pageSize.width - titleWidth) / 2, 30); // Center the title
 
-		// Optional: Add logo to the top left (replace with your actual logo path)
-		doc.addImage(logo, "PNG", 10, 10, 40, 50); // x, y, width, height
-
-		// Company Name and Address
 		doc.setFontSize(12);
 		doc.setFont("helvetica", "normal");
-		doc.text("Your Company Name", 70, 60);
-		doc.text("Address: IG road, Chickmanglur", 20, 80);
-
-		// Main Invoice Content
-		doc.setFontSize(12);
-		doc.text(`Client: ${invoiceDetails.client}`, 20, 100);
-		doc.text(`Company Name: ${invoiceDetails.companyName}`, 20, 110);
-		doc.text(`Invoice Number: ${invoiceDetails.invoiceNumber}`, 20, 120);
-		doc.text(`Month: ${invoiceDetails.month}`, 20, 130);
-		doc.text(`Location: ${invoiceDetails.location}`, 20, 140);
-		doc.text(`Amount: ${invoiceDetails.amount}`, 20, 150);
+		const companyName = "INVOICE DETAILS";
+		const companyNameWidth = doc.getTextWidth(companyName); // Get the width of the company name
 		doc.text(
-			`Total Amount (incl 12% tax): ${invoiceDetails.totalAmount}`,
+			companyName,
+			(doc.internal.pageSize.width - companyNameWidth) / 2,
+			40
+		); // Center the company name
+
+		doc.setFontSize(10);
+		const address = "Address: Langara 49th Ave,Vancouver";
+		const addressWidth = doc.getTextWidth(address); // Get the width of the address
+		doc.text(address, (doc.internal.pageSize.width - addressWidth) / 2, 50); // Center the address
+
+		doc.line(10, 55, 200, 55); // Horizontal line for separation
+
+		// Invoice Details Section
+		doc.setFontSize(14);
+		doc.setFont("helvetica", "bold");
+		doc.text("Invoice Information", 20, 70);
+
+		doc.setFontSize(12);
+		doc.setFont("helvetica", "normal");
+		doc.text(`Client: ${invoiceDetails.clientName}`, 20, 85);
+		doc.text(`Company Name: ${invoiceDetails.companyName}`, 20, 100);
+		doc.text(`Invoice Number: ${invoiceDetails.invoiceNumber}`, 20, 115);
+		doc.text(`Month: ${invoiceDetails.month}`, 20, 130);
+		doc.text(`Location: ${invoiceDetails.location}`, 20, 145);
+		doc.text(`Amount: $${invoiceDetails.amount}`, 20, 160);
+
+		// Calculate and display Total Amount including tax
+		doc.setFont("helvetica", "bold");
+		doc.text(
+			`Total Amount (incl. 12% tax): $${invoiceDetails.totalAmount}`,
 			20,
-			160
+			175
 		);
 
-		// Footer Content: Add current date
-		const pageHeight = doc.internal.pageSize.height;
-		const footerText = `Date: ${new Date().toLocaleDateString()}`;
+		doc.line(10, 185, 200, 185); // Horizontal line for separation
 
-		// Footer at the bottom of the page
+		// Footer: Contact info and copyright
 		doc.setFontSize(10);
-		doc.text(footerText, 20, pageHeight - 20); // Footer text
+		doc.setFont("helvetica", "normal");
 
+		const footerText1 = "STREET SIGHT";
+		const footerText2 = "Contact: StreetSight@gmail.com";
+		const footerText3 = "© 2025 STREET SIGHT. All rights reserved.";
+
+		const footerText1Width = doc.getTextWidth(footerText1);
+		const footerText2Width = doc.getTextWidth(footerText2);
+		const footerText3Width = doc.getTextWidth(footerText3);
+
+		// Position the footer texts
+		doc.text(
+			footerText1,
+			(doc.internal.pageSize.width - footerText1Width) / 2,
+			200
+		);
+		doc.text(
+			footerText2,
+			(doc.internal.pageSize.width - footerText2Width) / 2,
+			210
+		);
+		doc.text(
+			footerText3,
+			(doc.internal.pageSize.width - footerText3Width) / 2,
+			220
+		);
 		// Convert PDF to Blob
 		const pdfBlob = doc.output("blob");
 
@@ -501,7 +545,7 @@ const InvoiceForm: React.FC = () => {
 		);
 		formData.append(
 			"body",
-			`Hi ${invoiceDetails.client},\nYour invoice for the campaign advertisement for this month is ready.Please take a moment to review the details.\n Your total payable amount, including all taxes, is ${invoiceDetails.totalAmount}.Please make the payment by the 21st of this month to avoid any late fees.Amount\nBest regards,\nTeam Steet Sight`
+			`Hi ${invoiceDetails.clientName},\nYour invoice for the campaign advertisement for this month is ready.Please take a moment to review the details.\n Your total payable amount, including all taxes, is ${invoiceDetails.totalAmount}.Please make the payment by the 21st of this month to avoid any late fees.Amount\nBest regards,\nTeam Steet Sight`
 		);
 
 		try {
@@ -514,6 +558,7 @@ const InvoiceForm: React.FC = () => {
 					setShowConfirmation(false);
 					 setInvoiceDetails({
 							client: "",
+							clientName: "",
 							companyName: "",
 							invoiceNumber: "",
 							month: "",
