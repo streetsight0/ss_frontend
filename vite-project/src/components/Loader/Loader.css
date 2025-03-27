@@ -1,0 +1,24 @@
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #0000006b;
+  }
+  
+  .loader-gif {
+    width: 500px;  
+    height: 500px;
+    object-fit: contain;
+    animation: fade-in 0.5s ease-in-out;
+  }
+  
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  

@@ -22,7 +22,11 @@ interface Billboard {
   _id: string;
   billboard_series: string;
   leaseEnd: string;
-  location: string;
+  location: {
+  name:string;
+  latitude:string;
+  longitude:string;
+  };
   billboard_images: [];
 }
 
@@ -110,7 +114,7 @@ const CampaignsBillboards: React.FC = () => {
           billboard_id: matchedBillboard._id,
           billboard_series: matchedBillboard.billboard_series,
           billboard_LeaseEnd: matchedBillboard.leaseEnd,
-          billboard_Location: matchedBillboard.location,
+          billboard_Location: matchedBillboard.location.name.split(',')[0],
           billboard_images:matchedBillboard.billboard_images,
           status,
           campaign,

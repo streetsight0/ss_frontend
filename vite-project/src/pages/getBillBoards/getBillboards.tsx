@@ -4,7 +4,7 @@ import "./getbillboard.css";
 import axios from "axios";
 import { useEffect,useState } from "react";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-const getBillBoards = () => {
+const GetBillBoards = () => {
   const [billboardCount, setBillboardCount] = useState(0);
 
   useEffect(()=>{
@@ -31,4 +31,4 @@ const getBillBoards = () => {
   );
 };
 
-export default getBillBoards;
+export default GetBillBoards;

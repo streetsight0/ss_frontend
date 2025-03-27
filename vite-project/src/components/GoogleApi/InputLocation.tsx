@@ -1,56 +1,70 @@
-import React, { useState } from "react";
+import { SxProps, TextField } from "@mui/material";
+import React, { useState,useEffect,useRef } from "react";
 
 interface Location {
   place_id: number;
-  display_name: string;
+  name: string;
+  display_name:string;
+  lat:string;
+  lon:string;
+  sx?:SxProps
 }
 
 interface LocationInputProps {
-  onSelectLocation?: (location: string) => void;
+  onSelectLocation?: (location: string,lat:string,lon:string ,name:string) => void;
 }
 
 const LocationInput: React.FC<LocationInputProps> = ({ onSelectLocation }) => {
   const [query, setQuery] = useState<string>("");
   const [suggestions, setSuggestions] = useState<Location[]>([]);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(()=>{
+    const handler = setTimeout(()=>{
+      if(query) fetchLocations(query);
+    },300);
+    return ()=> clearTimeout(handler);
+  },[query]);
 
   const fetchLocations = async (value: string) => {
-    if (!value) {
-      setSuggestions([]);
-      return;
-    }
+    // if (!value) {
+    //   setSuggestions([]);
+    //   return;
+    // }
     
     try {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(value)}`
       );
       const data: Location[] = await response.json();
+      console.log(data)
       setSuggestions(data);
     } catch (error) {
       console.error("Error fetching location suggestions:", error);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setQuery(value);
-    fetchLocations(value);
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = e.target.value;
+  //   setQuery(value);
+  //   fetchLocations(value);
+  // };
 
   const handleSelect = (location: Location) => {
     setQuery(location.display_name);
     setSuggestions([]);
-    if (onSelectLocation) onSelectLocation(location.display_name);
+    if (onSelectLocation) onSelectLocation(location.display_name,location.lat,location.lon,location.name);
   };
 
   return (
-    <div style={{ position: "relative", width: "100%" }}>
-      <input
+    <div ref={dropdownRef} style={{ position: "relative", width: "100%" }}>
+      <TextField
         type="text"
         value={query}
-        onChange={handleChange}
+        onChange={(e) => setQuery(e.target.value)}
         placeholder="Enter location..."
-        style={{
-            width: "700px",
+        sx={{
+            width: "38vw",
             borderRadius: "8px",
             fontWeight: "500",
           }}
@@ -59,7 +73,7 @@ const LocationInput: React.FC<LocationInputProps> = ({ onSelectLocation }) => {
         <ul
           style={{
             position: "absolute",
-            width: "720px",
+            width: "37vw",
             background: "#fff",
             border: "1px solid #ccc",
             borderRadius: "5px",

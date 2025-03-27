@@ -7,6 +7,7 @@ import ConfirmationCard from "../../components/confirmationcard/confirmationcard
 import UploadImages from "../../components/UploadImage/UploadImage";
 import BillboardConfirmationCard from "../../components/confirmationcard/billboardconfirmationcard"
 import "./billboard.css";
+import LocationInput from "../../components/GoogleApi/InputLocation"
 
 import { useNavigate } from "react-router-dom";
 
@@ -17,6 +18,8 @@ const BillBoard = () => {
   const [billboard_series, setBillboardSeries] = useState("B3001");
   const [billboard_type, setBillboardType] = useState("");
   const [location, setLocation] = useState("");
+  const [latitude,setLatitude] = useState("");
+  const [longitude,setLongitude] = useState("");
   const [size, setSize] = useState("");
   const [campaignDuration, setCampaignDuration] = useState("");
   const [campaignCapacity, setCampaignCapacity] = useState("");
@@ -50,7 +53,9 @@ const BillBoard = () => {
       formData.append("billboard_name", billboard_name);
       formData.append("billboard_series", billboard_series);
       formData.append("billboard_type", billboard_type);
-      formData.append("location", location);
+      formData.append("location[name]", location);
+      formData.append("location[latitude]", latitude);
+      formData.append("location[longitude]", longitude);
       formData.append("size", size);
       formData.append("campaignDuration", campaignDuration);
       formData.append("campaignCapacity", campaignCapacity);
@@ -75,6 +80,8 @@ const BillBoard = () => {
     setBillboardName("");
     setBillboardType("");
     setLocation("");
+    setLatitude("");
+    setLongitude("");
     setSize("");
     setCampaignDuration("");
     setCampaignCapacity("");
@@ -130,7 +137,12 @@ const BillBoard = () => {
             <CustomTextField label="Billboard Name" value={billboard_name} onChange={(e) => setBillboardName(e.target.value)} required sx={{ width: "38vw" }}/>
             <CustomTextField value={billboard_series} onChange={(e) => setBillboardSeries(e.target.value)} label="Billboard Series" required sx={{ width: "38vw" }}/>
             <CustomDropdown options={["Digital Billboard", "Prism Billboard", "Banner Billboard"]} label="Billboard Type" onChange={setBillboardType}sx={{ width: "38vw" }} />
-            <CustomTextField value={location} onChange={(e) => setLocation(e.target.value)} label="Location" required sx={{ width: "38vw" }} />
+            <LocationInput   onSelectLocation={(name, lat, lon) => {
+             
+        setLocation(name);
+        setLatitude(lat);
+        setLongitude(lon);
+      }} />
             <CustomTextField value={size} onChange={(e) => setSize(e.target.value)} label="Size (e.g., 10x20ft)" required sx={{ width: "38vw" }} />
             <CustomTextField type="number" value={campaignCapacity} onChange={(e) => setCampaignCapacity(e.target.value)} label="Campaign Capacity" sx={{ width: "38vw" }}/>
             <CustomTextField type="date" value={leaseStart} onChange={(e) => setLeaseStart(e.target.value)} required label="Lease Start Date" sx={{ width: "38vw" }}/>
