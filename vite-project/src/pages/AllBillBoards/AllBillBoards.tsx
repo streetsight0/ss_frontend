@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import "./AllBillBoards.css";
 import AddCampaignIcon from "../../assets/Icons/BillboardBlack.png";
+import AddCampaignIconBlack from "../../assets/Icons/BillboardYellow.png";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
 
@@ -151,8 +152,8 @@ const CampaignsBillboards: React.FC = () => {
   return (
     <Box sx={{  }}>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h6" fontWeight="bold">
-        Matched Billboards and Campaigns | Total {matchedBillboards.length}
+        <Typography variant="h5">
+         Active Billboards
         </Typography>
         <Box
           display="flex"
@@ -185,12 +186,25 @@ const CampaignsBillboards: React.FC = () => {
                 <img
                   src={AddCampaignIcon}
                   alt="Add Campaign"
-                  width={20}
-                  height={20}
+                  width={16}
+                  height={16}
                 />
               }
               onClick={() => navigate("/billboards")}
-              sx={{ backgroundColor: "#C5FF6D", color: "#000",width:"160px",height:"50px" }}
+              sx={{ backgroundColor: "#C5FF6D",
+                color: "#000",
+                width: "190px",
+                height: "50px",
+                "&:hover": {
+                  backgroundColor: "black",
+                  color:"white",
+                },
+                "& img": {
+                  transition: "all 0.3s ease",
+                },
+                "&:hover img": {
+                  content: `url(${AddCampaignIconBlack})`, 
+                }, }}
             />
           </Box>
         </Box>
@@ -198,17 +212,8 @@ const CampaignsBillboards: React.FC = () => {
 
       <div className="card-container">
         {paginatedBillboards.length > 0 ? (
-          paginatedBillboards.map((item, index) => (
-            <div
-              key={index}
-              className={`card ${item.status.toLowerCase()}`}
-              style={
-                item.status === "Active"
-                  ? { backgroundColor: "#F4FFBD" }
-                  : { backgroundColor: "#CCB8FF" }
-              }
-              onClick={() => setSelectedCampaign(item.campaign)}
-            >
+          paginatedBillboards.map((item) => (
+           
               <BillboardCard
                 logo={item.billboard_images}
                 series={item.billboard_series}
@@ -218,7 +223,6 @@ const CampaignsBillboards: React.FC = () => {
                 leaseExpiry={item.billboard_LeaseEnd}
                 status={item.status}
               />
-            </div>
           ))
         ) : (
           <Typography variant="body1" textAlign="center" mt={2}>
