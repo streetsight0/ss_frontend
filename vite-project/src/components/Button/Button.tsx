@@ -34,9 +34,14 @@ const CustomButton: React.FC<CustomButtonProps> = ({
         fontSize: isSmallScreen ? "14px" : "16px",
         fontWeight: "500",
         textTransform: "none",
-        fontFamily: "'Poppins', sans-serif !important",  
-        "&:hover": { bgcolor: "#333" }, 
-        ...sx,
+        fontFamily: "'Poppins', sans-serif !important",
+        "&:hover": { 
+          bgcolor: "#212429", 
+          color: "#FFFFFF",    
+          boxShadow: "none"    
+        },
+        ...sx,  
+      
       }}
     >
       <Stack direction="row" spacing={1} alignItems="center">

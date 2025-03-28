@@ -6,6 +6,7 @@ import Button from "../../components/Button/Button";
 import AddCampaignIcon from "../../assets/Icons/BillboardBlack.png";
 import CampaignPopup from "../../components/CampaignPopup/CampaignPopup";
 import defaultLogo from "../../assets/Icons/ProfileBlack.png";
+import AddCampaignIconBlack from "../../assets/Icons/BillboardYellow.png";
 
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -83,7 +84,20 @@ const CampaignList: React.FC = () => {
             label="Add Campaign"
             icon={<img src={AddCampaignIcon} alt="Add Campaign" width={20} height={20} />}
             onClick={() => navigate("/addcampaign")}
-            sx={{ backgroundColor: "#C5FF6D", color: "#000" }}
+            sx={{ backgroundColor: "#C5FF6D",
+                            color: "#000",
+                            width: "190px",
+                            height: "50px",
+                            "&:hover": {
+                              backgroundColor: "black",
+                              color:"white",
+                            },
+                            "& img": {
+                              transition: "all 0.3s ease",
+                            },
+                            "&:hover img": {
+                              content: `url(${AddCampaignIconBlack})`, 
+                            }, }}
           />
         </Box>
       </Box>

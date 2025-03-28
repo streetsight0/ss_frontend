@@ -1,13 +1,3 @@
-
-/* 
-.billboard-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f8f8f8;
-  padding: 20px;
-} */
-
 .billboard-form {
   max-width: 80vw;
   margin-left: 40px;
@@ -17,24 +7,12 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   font-family: 'Poppins', sans-serif;
 }
-.billboard-details{
+
+.campaign-header {
   display: flex;
-  gap: 2rem;
-}
-h2 {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  margin-top: 0;
-  padding-top: 0;
-
-}
-
-h3 {
-  padding-bottom: 1rem;
-  color: #333;
-  padding-top: 1rem;
- 
-
+  align-items: center;
+  gap: 1rem; 
+  margin-bottom: 20px;
 }
 
 form {
@@ -44,13 +22,24 @@ form {
   
 }
 
-label {
-  font-weight: bold;
-  color: #444;
-  font-size: 14px;
+.lease-price-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
-input, select {
+.image-uploader-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 0px;
+  padding-top: 0px; 
+}
+
+input {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;

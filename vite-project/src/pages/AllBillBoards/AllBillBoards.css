@@ -1,8 +1,7 @@
 body {
-  font-family: "Arial", sans-serif;
+  font-family: "Satoshi", sans-serif !important;
   margin: 0;
   padding: 0;
-  background-color: #fff;
 }
 
 .card-container {
@@ -15,15 +14,7 @@ body {
 .card  {
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-}
-
 .card-header {
   color: white;
   padding: 0px;
@@ -36,16 +27,15 @@ body {
 
 .card-body {
   padding: 15px;
-  font-size: 1rem;
+  font-size: .8rem;
 }
 
 
 
 .status {
-  font-weight: bold;
-  padding: 3px 10px;
+  padding: 2px 8px;
   border-radius: 5px;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color:white
 }
 

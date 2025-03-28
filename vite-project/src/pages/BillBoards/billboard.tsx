@@ -8,6 +8,7 @@ import UploadImages from "../../components/UploadImage/UploadImage";
 import BillboardConfirmationCard from "../../components/confirmationcard/billboardconfirmationcard"
 import "./billboard.css";
 import LocationInput from "../../components/GoogleApi/InputLocation"
+import BackIcon from "../../assets/Icons/BackBlack.png";
 
 import { useNavigate } from "react-router-dom";
 
@@ -126,12 +127,14 @@ const BillBoard = () => {
       ) : (
         <div className="billboard-form">
         <div className="billboard-header">
-        <h2>Add New Billboard</h2>
           
           </div>
           <section>
-          <h3>Billboard Details</h3>
-          <div className="billboard-details"></div>
+          <div className="campaign-header">
+            <img src={BackIcon} alt="Back" className="back-icon" onClick={() => navigate(-1)} />
+            <h2>Add New Billboard</h2>
+          </div>
+  
           </section>
           <form>
             <CustomTextField label="Billboard Name" value={billboard_name} onChange={(e) => setBillboardName(e.target.value)} required sx={{ width: "38vw" }}/>
@@ -145,29 +148,36 @@ const BillBoard = () => {
       }} />
             <CustomTextField value={size} onChange={(e) => setSize(e.target.value)} label="Size (e.g., 10x20ft)" required sx={{ width: "38vw" }} />
             <CustomTextField type="number" value={campaignCapacity} onChange={(e) => setCampaignCapacity(e.target.value)} label="Campaign Capacity" sx={{ width: "38vw" }}/>
-            <CustomTextField type="date" value={leaseStart} onChange={(e) => setLeaseStart(e.target.value)} required label="Lease Start Date" sx={{ width: "38vw" }}/>
-            <CustomTextField type="date" value={leaseEnd} onChange={(e) => setLeaseEnd(e.target.value)} required label="Lease End Date"sx={{ width: "38vw" }} />
-            <CustomTextField type="number" value={pricePerMonth} onChange={(e) => setPricePerMonth(e.target.value)} label="Price Per Month" required sx={{ width: "38vw" }}/>
-            <UploadImages onImagesSelected={setBillboardImages} />
-            <div className="button-group">
-              
+            <div className="lease-price-container">
+              <CustomTextField type="date" value={leaseStart} onChange={(e) => setLeaseStart(e.target.value)} required label="Lease Start Date" sx={{ width: "18.5vw" }} />
+              <CustomTextField type="date" value={leaseEnd} onChange={(e) => setLeaseEnd(e.target.value)} required label="Lease End Date" sx={{ width: "18.5vw" }} />
+              <CustomTextField type="number" value={pricePerMonth} onChange={(e) => setPricePerMonth(e.target.value)} label="Price Per Month" required sx={{ width: "38vw" }} />
+            </div>
+            
+            <div className="image-uploader-container">
+            <p style={{fontSize: "14px", fontFamily: "Satoshi, sans-serif !important", margin:"0", padding:"0", fontWeight:"400"}}>
+              Upload Billboard Images
+            </p>
+              <UploadImages onImagesSelected={setBillboardImages}  />
+            </div>
+            <div className="button-group">    
               <CustomButton label="Discard" onClick={handleDiscard}  sx={{
-        color: "#212429",
-        fontSize: "12px",
-        textTransform: "none",
-        borderRadius: "8px",
-        fontWeight: 700,
-        padding: "8px 16px 8px 16px",
-        minWidth: "222px",
-        maxWidth: "100px",
-        height: "51.43px",
-        border: "1px solid", 
-        borderColor: "#2C2C2C", 
-        backgroundColor:"white",
-        "&:hover": {
-          backgroundColor: "rgba(0, 0, 0, 0.1)",
-        },
-      }}  />
+                color: "#212429",
+                fontSize: "12px",
+                textTransform: "none",
+                borderRadius: "8px",
+                fontWeight: 700,
+                padding: "8px 16px 8px 16px",
+                minWidth: "222px",
+                maxWidth: "100px",
+                height: "51.43px",
+                border: "1px solid", 
+                borderColor: "#2C2C2C", 
+                backgroundColor:"white",
+                "&:hover": {
+                  backgroundColor: "rgba(0, 0, 0, 0.1)",
+                },
+              }}  />
               <CustomButton label="Save" onClick={saveBillboardToBackend} sx={{width:"187px",height:"51.43px",color:"#E2FF70"}} />
             </div>
           </form>

@@ -29,7 +29,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ maxImages = 5, onImagesChange
   }, [resetTrigger]);
 
   return (
-    <Box className="upload-container">
+    <Box sx={{ 
+      maxWidth: "1100px", 
+      padding: "10px", 
+      border: "1px solid #ddd", 
+      borderRadius: "8px" 
+    }}>
       <h3 className="UploadImageTitle">Upload images</h3>
       <Box className="image-grid">
         {images.map((file, index) => (

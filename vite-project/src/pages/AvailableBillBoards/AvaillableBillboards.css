@@ -1,39 +1,76 @@
 body {
-  font-family: "Arial", sans-serif;
+  font-family: "Satoshi", sans-serif !important;
   margin: 0;
   padding: 0;
-  background-color: #fff;
+}
+.available_card {
+  width: 400px; 
+  height: 250px; 
+  max-width: 600px;
+  overflow: visible;
+  word-wrap: break-word; 
+  white-space: normal; 
+}
+
+.billboard-details {
+  max-width: 100%;
+  overflow-wrap: break-word; 
+  word-break: break-word; 
 }
 
 .available_card-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 65px;
   
 }
 
-.available_card {
-  background-color: #E4DAFF;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  padding:3px 10px;
- 
-}
 .available_card-header h3 {
-  font-size: 1.5rem;
+  font-size: 1rem;
   margin: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
 }
 
 
-.available_card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+.pagination-btn {
+  border: none;
+  background: none;
+  font-size: 24px;
+  color: gray;
+  cursor: pointer;
+  outline: none;
 }
+
+
+.pagination-btn:disabled {
+  color: lightgray;
+  cursor: not-allowed;
+}
+
+
+.pagination-number {
+  width: 40px;
+  height: 40px;
+  background-color: #007bff;
+  color: white;
+  font-size: 14px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 
 @media (max-width: 1200px) {
   .available_card-container {

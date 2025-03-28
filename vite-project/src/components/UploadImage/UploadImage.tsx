@@ -34,7 +34,7 @@ const UploadImages = ({ onImagesSelected }: UploadImagesProps) => {
           borderRadius: "8px",
           padding: "10px",
           minHeight: "100px",
-          width: "100%",
+          width: "37vw",
         }}
       >
       <input type="file" multiple accept="image/*" onChange={handleImageChange} />

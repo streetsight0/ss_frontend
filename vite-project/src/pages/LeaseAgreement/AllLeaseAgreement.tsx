@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AddIcon from "../../assets/Icons/add.png";
 
+
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ITEMS_PER_PAGE = 9;
 const AllLeaseAgreements: React.FC = () => {
