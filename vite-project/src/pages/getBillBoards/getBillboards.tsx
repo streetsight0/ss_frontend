@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import AvailableBillBoards from "../AvailableBillBoards/AvailableBillBoards";
 import AllBillBoards from "../AllBillBoards/AllBillBoards";
 import Loader from "../../components/Loader/Loader"; 
