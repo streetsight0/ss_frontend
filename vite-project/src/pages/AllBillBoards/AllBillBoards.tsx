@@ -264,7 +264,7 @@ const CampaignsBillboards: React.FC = () => {
         />
       </Box>
 
-      {/* Popup for selected campaign */}
+     
       {selectedCampaign && (
         <BillboardCampaignPopup
           campaign={selectedCampaign}

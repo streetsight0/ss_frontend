@@ -58,7 +58,7 @@ const BillboardCard: React.FC<BillboardCardProps> = ({
               color: "#34383E",
               fontFamily: "Poppins",
             }}
-          >
+          />
           <Typography
             sx={{
               fontWeight: "600",
