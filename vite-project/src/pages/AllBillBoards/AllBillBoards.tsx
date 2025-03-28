@@ -235,8 +235,17 @@ const CampaignsBillboards: React.FC = () => {
 
       <div className="card-container">
         {paginatedBillboards.length > 0 ? (
-          paginatedBillboards.map((item) => (
-           
+          paginatedBillboards.map((item,index) => (
+            <div
+              key={index}
+              className={`card ${item.status.toLowerCase()}`}
+              style={
+                item.status === "Active"
+                  ? { backgroundColor: "#F4FFBD" }
+                  : { backgroundColor: "#CCB8FF" }
+              }
+              onClick={() => setSelectedCampaign(item.campaign)}
+            >
               <BillboardCard
                 logo={item.billboard_images}
                 series={item.billboard_series}
@@ -246,6 +255,7 @@ const CampaignsBillboards: React.FC = () => {
                 leaseExpiry={item.billboard_LeaseEnd}
                 status={item.status}
               />
+              </div>
           ))
         ) : (
           <Typography variant="body1" textAlign="center" mt={2}>
@@ -264,7 +274,7 @@ const CampaignsBillboards: React.FC = () => {
         />
       </Box>
 
-     
+      {/* Popup for selected campaign */}
       {selectedCampaign && (
         <BillboardCampaignPopup
           campaign={selectedCampaign}
