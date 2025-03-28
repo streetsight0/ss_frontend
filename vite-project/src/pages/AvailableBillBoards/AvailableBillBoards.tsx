@@ -9,8 +9,11 @@ interface Billboard {
   _id: string;
   billboard_series: string;
   leaseEnd: string;
-  location: string;
+  location: {
+    name: string;
+  };
   billboard_images: [];
+  status: string;
 }
 
 const AvailableBillboards: React.FC = () => {
@@ -36,10 +39,29 @@ const AvailableBillboards: React.FC = () => {
   }, []);
 
   const unassignedBillboards = billboards.filter(
-    (billboard) => !campaigns.some((campaign) =>
-      campaign.billboards.some((campaignBillboard: Billboard) => campaignBillboard._id === billboard._id)
-    )
+    (billboard) =>
+      !campaigns.some((campaign) =>
+        campaign.billboards.some(
+          (campaignBillboard: Billboard) => campaignBillboard._id === billboard._id
+        )
+      )
   );
+
+  // Update the status of the unassigned billboards to "available" in the backend
+  useEffect(() => {
+    if (unassignedBillboards.length > 0) {
+      unassignedBillboards.forEach(async (billboard) => {
+        try {
+          await axios.put(`${BASE_URL}/api/billboard/updatebillboards/${billboard._id}`, {
+            status: "available", // Update status to "available"
+          });
+        } catch (error) {
+          console.error(`Failed to update status for billboard ${billboard._id}:`, error);
+        }
+      });
+      console.log(unassignedBillboards)
+    }
+  }, [unassignedBillboards]); // This effect runs when the `unassignedBillboards` list changes
 
   if (loading) {
     return <div>Loading...</div>;
@@ -57,13 +79,13 @@ const AvailableBillboards: React.FC = () => {
           unassignedBillboards.map((billboard, index) => (
             <div key={index} className="available_card">
               <BillboardCard
-              logo={billboard.billboard_images}
+                logo={billboard.billboard_images}
                 series={billboard.billboard_series}
                 companyName="Unassigned"
                 campaignName="No Campaign"
-                location={billboard.location}
+                location={billboard.location.name.split(",")[0]}
                 leaseExpiry={billboard.leaseEnd}
-                status="Available"
+                status="available" // Status will now always be "available"
               />
             </div>
           ))
