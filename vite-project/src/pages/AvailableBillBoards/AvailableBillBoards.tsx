@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import BillboardCard from "../../components/billboardscards/billboardscards";
-import Loader from "../../components/Loader/Loader";
 import "./AvaillableBillboards.css";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -14,6 +13,7 @@ interface Billboard {
     name: string;
   };
   billboard_images: [];
+  status: string;
 }
 
 const AvailableBillboards: React.FC = () => {
@@ -23,38 +23,48 @@ const AvailableBillboards: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [billboardRes, campaignRes] = await Promise.all([
-          axios.get(`${BASE_URL}/api/billboard/getbillboards`),
-          axios.get(`${BASE_URL}/api/campaign/getcampaigns`),
-        ]);
-
+    Promise.all([
+      axios.get(`${BASE_URL}/api/billboard/getbillboards`),
+      axios.get(`${BASE_URL}/api/campaign/getcampaigns`),
+    ])
+      .then(([billboardRes, campaignRes]) => {
         setBillboards(billboardRes.data);
         setCampaigns(campaignRes.data.data);
-
-        setTimeout(() => {
-          setLoading(false);
-        }, 3000);
-      } catch {
+        setLoading(false);
+      })
+      .catch(() => {
         setError("Error fetching data. Please try again later.");
         setLoading(false);
-      }
-    };
-
-    fetchData();
+      });
   }, []);
 
   const unassignedBillboards = billboards.filter(
-    (billboard) => !campaigns.some((campaign) =>
-      campaign.billboards.some(
-        (campaignBillboard: Billboard) => campaignBillboard._id === billboard._id
+    (billboard) =>
+      !campaigns.some((campaign) =>
+        campaign.billboards.some(
+          (campaignBillboard: Billboard) => campaignBillboard._id === billboard._id
+        )
       )
-    )
   );
 
+  // Update the status of the unassigned billboards to "available" in the backend
+  useEffect(() => {
+    if (unassignedBillboards.length > 0) {
+      unassignedBillboards.forEach(async (billboard) => {
+        try {
+          await axios.put(`${BASE_URL}/api/billboard/updatebillboards/${billboard._id}`, {
+            status: "available", // Update status to "available"
+          });
+        } catch (error) {
+          console.error(`Failed to update status for billboard ${billboard._id}:`, error);
+        }
+      });
+      console.log(unassignedBillboards)
+    }
+  }, [unassignedBillboards]); // This effect runs when the `unassignedBillboards` list changes
+
   if (loading) {
-    return <Loader />;
+    return <div>Loading...</div>;
   }
 
   if (error) {
@@ -73,9 +83,9 @@ const AvailableBillboards: React.FC = () => {
                 series={billboard.billboard_series}
                 companyName="Unassigned"
                 campaignName="No Campaign"
-                location={billboard.location.name.split(',')[0]}
+                location={billboard.location.name.split(",")[0]}
                 leaseExpiry={billboard.leaseEnd}
-                status="Available"
+                status="available" // Status will now always be "available"
               />
             </div>
           ))

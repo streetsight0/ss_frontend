@@ -23,11 +23,12 @@ interface Billboard {
   billboard_series: string;
   leaseEnd: string;
   location: {
-  name:string;
-  latitude:string;
-  longitude:string;
+    name: string;
+    latitude: string;
+    longitude: string;
   };
   billboard_images: [];
+  status: string;
 }
 
 interface Campaign {
@@ -62,6 +63,7 @@ const CampaignsBillboards: React.FC = () => {
   );
 
   const navigate = useNavigate();
+
   useEffect(() => {
     axios
       .get(`${BASE_URL}/api/campaign/getcampaigns`)
@@ -86,6 +88,23 @@ const CampaignsBillboards: React.FC = () => {
       });
   }, []);
 
+  const updateBillboardStatus = (billboardId: string, newStatus: string) => {
+    // Log the billboardId inside the function
+    console.log(`billboardId: ${billboardId}`);
+
+    axios
+      .put(`${BASE_URL}/api/billboard/updatebillboards/${billboardId}`, {
+        billboard_id: billboardId,
+        status: newStatus,
+      })
+      .then((response) => {
+        console.log(`Billboard ${billboardId} status updated to ${newStatus}`,response);
+      })
+      .catch((error) => {
+        console.error("Error updating status:", error);
+      });
+  };
+
   const getStatus = (leaseEnd: string) => {
     const leaseEndDate = new Date(leaseEnd);
     const currentDate = new Date();
@@ -98,24 +117,24 @@ const CampaignsBillboards: React.FC = () => {
         billboards.some((billboard) => billboard._id === campaignBillboard._id)
       )
       .map((matchedBillboard) => {
-      
         const companyName = campaign.client_id
-        
           ? campaign.client_id.company_name
           : "Unknown Company";
         const status = getStatus(matchedBillboard.leaseEnd);
 
+        // Log the billboardId and update the status of each matched billboard on the backend
+        updateBillboardStatus(matchedBillboard._id, status);
+
         return {
-        
           campaign_name: campaign.campaign_name,
           campaign_id: campaign._id,
           company_name: companyName,
-          client:campaign.client_id?._id,
+          client: campaign.client_id ? campaign.client_id._id : null,
           billboard_id: matchedBillboard._id,
           billboard_series: matchedBillboard.billboard_series,
           billboard_LeaseEnd: matchedBillboard.leaseEnd,
           billboard_Location: matchedBillboard.location.name.split(',')[0],
-          billboard_images:matchedBillboard.billboard_images,
+          billboard_images: matchedBillboard.billboard_images,
           status,
           campaign,
         };
@@ -153,10 +172,10 @@ const CampaignsBillboards: React.FC = () => {
   }
 
   return (
-    <Box sx={{  }}>
+    <Box sx={{}}>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h6" fontWeight="bold">
-        Matched Billboards and Campaigns | Total {matchedBillboards.length}
+          Matched Billboards and Campaigns | Total {matchedBillboards.length}
         </Typography>
         <Box
           display="flex"
@@ -167,7 +186,7 @@ const CampaignsBillboards: React.FC = () => {
           <Box display="flex" gap={2}>
             <Select
               value={filter}
-              style={{width:"97",height:"23"}}
+              style={{ width: "97", height: "23" }}
               onChange={(e) => setFilter(e.target.value)}
               size="small"
             >
@@ -194,7 +213,12 @@ const CampaignsBillboards: React.FC = () => {
                 />
               }
               onClick={() => navigate("/billboards")}
-              sx={{ backgroundColor: "#C5FF6D", color: "#000",width:"160px",height:"50px" }}
+              sx={{
+                backgroundColor: "#C5FF6D",
+                color: "#000",
+                width: "160px",
+                height: "50px",
+              }}
             />
           </Box>
         </Box>
