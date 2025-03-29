@@ -60,19 +60,6 @@ const Home = () => {
               height: "162px",
             }}
           />
-          {/* Watermark Image */}
-          <Box
-            component="img"
-            src={Vector}
-            alt="Watermark"
-            sx={{
-              width: "125.17px",
-              height: "201.94px",
-              position: "absolute",
-              top: -30,
-              right: 300
-            }}
-          />
         </Box>
       </Paper>
       <LineGraph />

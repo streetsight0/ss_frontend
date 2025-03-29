@@ -2,6 +2,8 @@ import React from "react";
 import { Card, CardContent, Typography,Box, Avatar } from "@mui/material";
 import RenewButton from "../../components/Button/RenewButton";
 import ViewButton from "../../components/Button/ViewButton";
+import EmailIcon from '../../assets/Icons/EmailBlack.png';
+import Calender from '../../assets/Icons/CalenderBlack.png';
 
 interface CardProps {
   company: string;
@@ -28,10 +30,13 @@ const InfoCard: React.FC<CardProps> = ({ daysLeft, company, email, expiryDate,lo
             </Typography>
           </Box>
           <Typography  color="textSecondary" mt={1} sx={{marginTop:"16px"}}>
+            <img src={EmailIcon} alt="Email Icon" width={18} height={12} style={{marginRight: "10px"}} />
             {email}
           </Typography>
-          <Box display="flex" justifyContent="space-between" mt={1} mb={2} sx={{borderBottom: "2px solid #C1B7FF66", marginTop:"12px", paddingBottom:"6px"}}>
+          <Box display="flex" mt={1} mb={2} sx={{borderBottom: "2px solid #C1B7FF66", marginTop:"12px", paddingBottom:"6px"}}>
+            <img src={Calender} alt="Email Icon" width={18} height={16} style={{marginRight: "10px"}}/>
             <Typography variant="body2">{expiryDate}</Typography>
+            <img src={Calender} alt="Email Icon" width={18} height={16} style={{marginRight: "10px", marginLeft:"90px"}}/>
             <Typography variant="body2">{daysLeft} Days Left</Typography>
           </Box>
         <Box display="flex" justifyContent="space-between">
