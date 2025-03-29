@@ -174,7 +174,7 @@ const CampaignsBillboards: React.FC = () => {
 
   return (
     <Box sx={{}}>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between"}}>
         <Typography variant="h5">
          Active Billboards
         </Typography>
@@ -239,11 +239,6 @@ const CampaignsBillboards: React.FC = () => {
             <div
               key={index}
               className={`card ${item.status.toLowerCase()}`}
-              style={
-                item.status === "Active"
-                  ? { backgroundColor: "#F4FFBD" }
-                  : { backgroundColor: "#CCB8FF" }
-              }
               onClick={() => setSelectedCampaign(item.campaign)}
             >
               <BillboardCard

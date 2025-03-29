@@ -1,17 +1,17 @@
-import { SxProps, TextField } from "@mui/material";
-import React, { useState,useEffect,useRef } from "react";
+import { TextField, InputAdornment } from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 interface Location {
   place_id: number;
   name: string;
-  display_name:string;
-  lat:string;
-  lon:string;
-  sx?:SxProps
+  display_name: string;
+  lat: string;
+  lon: string;
 }
 
 interface LocationInputProps {
-  onSelectLocation?: (location: string,lat:string,lon:string ,name:string) => void;
+  onSelectLocation?: (location: string, lat: string, lon: string, name: string) => void;
 }
 
 const LocationInput: React.FC<LocationInputProps> = ({ onSelectLocation }) => {
@@ -27,28 +27,16 @@ const LocationInput: React.FC<LocationInputProps> = ({ onSelectLocation }) => {
   },[query]);
 
   const fetchLocations = async (value: string) => {
-    // if (!value) {
-    //   setSuggestions([]);
-    //   return;
-    // }
-    
     try {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(value)}`
       );
       const data: Location[] = await response.json();
-      console.log(data)
       setSuggestions(data);
     } catch (error) {
       console.error("Error fetching location suggestions:", error);
     }
   };
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = e.target.value;
-  //   setQuery(value);
-  //   fetchLocations(value);
-  // };
 
   const handleSelect = (location: Location) => {
     setQuery(location.display_name);
@@ -57,23 +45,56 @@ const LocationInput: React.FC<LocationInputProps> = ({ onSelectLocation }) => {
   };
 
   return (
-    <div ref={dropdownRef} style={{ position: "relative", width: "100%" }}>
+    <div ref={dropdownRef} >
+   
+
       <TextField
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Enter location..."
-        sx={{
-            width: "38vw",
+        fullWidth
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <ArrowDropDownIcon sx={{ color: "rgba(168, 85, 247, 1)" }} />
+            </InputAdornment>
+          ),
+          sx: {
+            bgcolor: "white",
             borderRadius: "8px",
-            fontWeight: "500",
-          }}
+            "& fieldset": { border: "none" },
+            borderBottom: "3px solid rgba(168, 85, 247, 1)",
+            height: 45,
+            width:"38vw",
+            marginTop:"10px"
+          },
+        }}
+        InputLabelProps={{
+          shrink: true,
+          sx: {
+            fontSize: "16px",
+            color: "black",
+            fontFamily: "Poppins, sans-serif !important",
+          },
+        }}
+        sx={{
+          width: "500px", // Increased width
+          fontFamily: "Poppins, sans-serif",
+          "& .MuiInputBase-input": {
+            padding: "16px",
+            color: "black",
+            fontFamily: "Poppins, sans-serif !important",
+          },
+        }}
       />
+      
+      {/* Location Suggestions Dropdown */}
       {suggestions.length > 0 && (
         <ul
           style={{
             position: "absolute",
-            width: "37vw",
+            width: "100%",
             background: "#fff",
             border: "1px solid #ccc",
             borderRadius: "5px",
