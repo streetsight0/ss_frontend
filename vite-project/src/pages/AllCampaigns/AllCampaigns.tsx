@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Grid, Typography, Select, MenuItem, Box, CircularProgress, Pagination } from "@mui/material";
+import { Grid, Typography, Select, MenuItem, Box, Pagination } from "@mui/material";
 import CampaignCard from "../../components/CampaignCard/CampaignCard";
 import Button from "../../components/Button/Button";
 import AddCampaignIcon from "../../assets/Icons/BillboardBlack.png";
 import CampaignPopup from "../../components/CampaignPopup/CampaignPopup";
 import defaultLogo from "../../assets/Icons/ProfileBlack.png";
 import AddCampaignIconBlack from "../../assets/Icons/BillboardYellow.png";
-
+import Loader from "../../components/Loader/Loader";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ITEMS_PER_PAGE = 9;
@@ -22,28 +22,28 @@ const CampaignList: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCampaigns = async () => {
-      try {
-        const response = await fetch(`${BASE_URL}/api/campaign/getcampaigns`);
-        const data = await response.json();
-        if (Array.isArray(data.data)) {
-          console.log("API Response:", JSON.stringify(data.data, null, 2));
-          setCampaigns(data.data);
-        } else {
-          console.error("Invalid API response", data);
-          setCampaigns([]);
+    setTimeout(() => {
+      const fetchCampaigns = async () => {
+        try {
+          const response = await fetch(`${BASE_URL}/api/campaign/getcampaigns`);
+          const data = await response.json();
+          if (Array.isArray(data.data)) {
+            setCampaigns(data.data);
+          } else {
+            setCampaigns([]);
+          }
+        } catch (error) {
+          console.error("Error fetching campaigns:", error);
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        console.error("Error fetching campaigns:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCampaigns();
+      };
+      fetchCampaigns();
+    }, 3000);
   }, []);
 
   if (loading) {
-    return <CircularProgress sx={{ display: "block", margin: "auto", mt: 4 }} />;
+    return <Loader />;
   }
 
   const filteredCampaigns = campaigns.filter((campaign) => {
@@ -112,7 +112,6 @@ const CampaignList: React.FC = () => {
                 endDate={new Date(campaign.campaign_end_date).toLocaleDateString()}
                 billboards={campaign.billboards?.length || 0}
                 logo={campaign.client_id?.client_logo || defaultLogo}
-                
                 onClick={() => setSelectedCampaign(campaign)}
               />
             </Grid>
@@ -131,16 +130,11 @@ const CampaignList: React.FC = () => {
           color="primary"
         />
       </Box>
-        {/* Render the popup */}
-        {selectedCampaign && (
-        <CampaignPopup campaign={selectedCampaign} onClose={() => setSelectedCampaign(null)}
-         />
+      {selectedCampaign && (
+        <CampaignPopup campaign={selectedCampaign} onClose={() => setSelectedCampaign(null)} />
       )}
     </Box>
-    
   );
 };
 
 export default CampaignList;
-
-

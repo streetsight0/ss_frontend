@@ -31,13 +31,14 @@ const BillboardCard: React.FC<BillboardCardProps> = ({
   return (
     <Card
       sx={{
-        backgroundColor: status === "Active" ? "#F4FFBD" : status === "Inactive" ? "#CCB8FF" : "", 
-        width: "420px",
-        height: "185px",
+       
+        width: "368px",
+        height: "197px",
         marginTop: "16px",
         borderRadius:"12px",
         marginBottom: "16px",
         padding: "12px",
+      
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
