@@ -80,12 +80,12 @@ const Clients = () => {
 
         <form onSubmit={handleClient} style={{ gap: "1rem", display:"flex", flexDirection:"column", padding: "20px"}}>
           <Box display="grid" gridTemplateColumns="1fr 1fr" gap="15px">
-            <CustomTextField label="Client Name" value={client_name} onChange={(e) => setClientName(e.target.value)} required sx={{ width: "22vw" }} />
-            <CustomTextField label="Company Name" value={company_name} onChange={(e) => setCompanyName(e.target.value)} required sx={{ width: "22vw" }} />
-            <CustomTextField label="Client Email" type="email" value={client_email} onChange={(e) => setClientEmail(e.target.value)} required sx={{ width: "22vw" }} />
-            <CustomTextField label="Address" value={address} onChange={(e) => setAddress(e.target.value)} required sx={{ width: "22vw" }} />
-            <CustomTextField label="Contact" type="number" value={contact} onChange={(e) => setContact(e.target.value)} required sx={{ width: "22vw" }}  />
-            <CustomTextField label="Add more" value={additional_companies} onChange={(e) => setAdditionalCompanies(e.target.value)} required sx={{ width: "22vw" }} />
+            <CustomTextField label="Client Name" value={client_name} onChange={(e) => setClientName(e.target.value)} required sx={{ width: "25vw" }} />
+            <CustomTextField label="Company Name" value={company_name} onChange={(e) => setCompanyName(e.target.value)} required sx={{ width: "25vw" }} />
+            <CustomTextField label="Client Email" type="email" value={client_email} onChange={(e) => setClientEmail(e.target.value)} required sx={{ width: "25vw" }} />
+            <CustomTextField label="Address" value={address} onChange={(e) => setAddress(e.target.value)} required sx={{ width: "25vw" }} />
+            <CustomTextField label="Contact" type="number" value={contact} onChange={(e) => setContact(e.target.value)} required sx={{ width: "25vw" }}  />
+            <CustomTextField label="Add more" value={additional_companies} onChange={(e) => setAdditionalCompanies(e.target.value)} required sx={{ width: "25vw" }} />
           </Box>
 
           <Box>

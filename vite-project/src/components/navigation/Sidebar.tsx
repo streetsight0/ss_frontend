@@ -39,8 +39,10 @@ const SidebarDrawer = styled(Drawer)<{ open: boolean }>(({ open, theme }) => ({
 	  overflowX: "hidden",
     overflowY: "auto",
 	  backgroundColor: "#212429",
-    borderRadius: "0px 16px 16px 0px",
+    // borderRadius: "0px 16px 16px 0px",
+    borderRadius:"16px",
 	  color: "#FFFFFF",
+    margin:"10px 15px 20px 15px",
 	  transition: theme.transitions.create("width", {
 		easing: theme.transitions.easing.sharp,
 		duration: theme.transitions.duration.enteringScreen,
@@ -104,7 +106,7 @@ const Sidebar: React.FC = () => {
 				<img
 				src={logo}
 				alt="Logo"
-				style={{ width: "120px", flexShrink: 0 }}
+				style={{ width: "120px", flexShrink: 0, margin:"10px 10px 0 10px" }}
 				/>
 			)}
 
