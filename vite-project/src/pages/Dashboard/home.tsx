@@ -1,7 +1,6 @@
 import { Paper, Box } from "@mui/material";
 import BillboardWhite from "../../assets/Icons/BillboardWhite.png";
 import Group  from "../../assets/Group.png";
-import Vector from "../../assets/Vector.png";
 import LineGraph from "../../components/Line Graph/LineGraph";
 import PieChartBillBoardStatus from "../../components/Pie Chart/PieChartBillBoardStatus";
 import CustomButton from "../../components/Button/Button"; 
