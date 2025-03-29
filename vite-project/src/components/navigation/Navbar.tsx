@@ -30,7 +30,6 @@ const Navbar: React.FC = () => {
           left: 0,
           width: "100%",
           zIndex: 1100,
-          borderBottom: "1px solid #E0E0E0",
         }}
       >
         <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>

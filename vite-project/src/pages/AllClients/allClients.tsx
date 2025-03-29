@@ -4,6 +4,10 @@ import ClientCard from "../../components/Card/ClientCard";
 import "./allClients.css";
 import { useNavigate } from "react-router-dom";
 import BillboardConfirmationCard from "../../components/confirmationcard/billboardconfirmationcard";
+import AddClientButton from "../../components/Button/Button";
+import ProfileYellow from "../../assets/Icons/ProfileYellow.png";
+import ProfileBlack from "../../assets/Icons/ProfileBlack.png";
+
 
 interface BillboardData {
   _id: string;
@@ -135,7 +139,28 @@ const AllClients = () => {
 
   return (
     <div className="all-clients-container">
+      <div className="Header">
       <h2 className="clients-title">All Clients | {enhancedBillboards.length}</h2>
+       <AddClientButton
+                  label="Add Client"
+                  icon={<img src={ProfileBlack} alt="Add Campaign" width={20} height={20} />}
+                  onClick={() => navigate("/client")}
+                  sx={{ backgroundColor: "#C5FF6D",
+                                  color: "#000",
+                                  width: "190px",
+                                  height: "50px",
+                                  "&:hover": {
+                                    backgroundColor: "black",
+                                    color:"white",
+                                  },
+                                  "& img": {
+                                    transition: "all 0.3s ease",
+                                  },
+                                  "&:hover img": {
+                                    content: `url(${ProfileYellow})`, 
+                                  }, }}
+                />
+                </div>
       <div className="billboard-container">
         {enhancedBillboards.map((billboard) => (
           <ClientCard
