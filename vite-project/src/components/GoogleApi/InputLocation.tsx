@@ -79,7 +79,7 @@ const LocationInput: React.FC<LocationInputProps> = ({ onSelectLocation }) => {
           },
         }}
         sx={{
-          width: "500px", // Increased width
+          width: "500px", 
           fontFamily: "Poppins, sans-serif",
           "& .MuiInputBase-input": {
             padding: "16px",
@@ -94,7 +94,7 @@ const LocationInput: React.FC<LocationInputProps> = ({ onSelectLocation }) => {
         <ul
           style={{
             position: "absolute",
-            width: "100%",
+            width: "38vw",
             background: "#fff",
             border: "1px solid #ccc",
             borderRadius: "5px",
