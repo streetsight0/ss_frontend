@@ -122,10 +122,10 @@ const handleBillboardChange = (selectedBillboard: string) => {
   let billBoardInfo = billboardData.find((billboard) => billboard.billboard_series === selectedBillboard);
   if (billBoardInfo) {
     console.log(`Selected Client ID: ${billBoardInfo._id}`);
-    setBillboardLocation(billBoardInfo.location)
+    setBillboardLocation(billBoardInfo.location.name)
     setFormData((prevState) => ({
       ...prevState,
-      billboardLocation: billBoardInfo.location,
+      billboardLocation: billBoardInfo.location.name,
     }));
     }
   };
