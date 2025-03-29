@@ -21,7 +21,7 @@ body {
 .available_card-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 65px;
+  gap: 24px;
   
 }
 

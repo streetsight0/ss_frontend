@@ -25,29 +25,21 @@ const BillboardCampaignPopup: React.FC<CampaignPopupProps> = ({
   const [, setLeaseAgreements] = useState<any[]>([]);
   const [matchedLeaseId, setMatchedLeaseId] = useState<string | null>(null);
   const navigate = useNavigate();
+
   useEffect(() => {
-    // Fetch lease agreements
     axios
       .get(`${BASE_URL}/api/leaseagreement/getLeaseAgreements`)
       .then((response) => {
-        console.log("Lease Agreements:", response.data);
         setLeaseAgreements(response.data);
-
-        // Extract the client_id from the current campaign
         const clientIdFromCampaign = campaign?.client_id?._id;
 
         if (clientIdFromCampaign) {
-          // Check for matching client_id in lease agreements
           const matchedLease = response.data.find(
             (lease: any) => lease.client?._id === clientIdFromCampaign
           );
 
           if (matchedLease) {
             setMatchedLeaseId(matchedLease);
-            console.log("Matching Client ID:", clientIdFromCampaign);
-            console.log("Matched Lease Data:", matchedLease._id);
-          } else {
-            console.log("No matching client_id found.");
           }
         }
       })
@@ -58,13 +50,9 @@ const BillboardCampaignPopup: React.FC<CampaignPopupProps> = ({
 
   if (!campaign) return null;
 
-  // Get the first matched billboard from the campaign
   const matchedBillboard = campaign.billboards?.[0];
-  const companyName = campaign;
-  console.log(companyName.client_id?._id);
   const client = campaign.client_id;
 
-  // Extract the necessary details from the matched billboard and campaign
   const billboardSeries =
     matchedBillboard?.billboard_series || "Unknown Series";
   const clientName = client?.company_name || "Unknown Client";
@@ -92,6 +80,10 @@ const BillboardCampaignPopup: React.FC<CampaignPopupProps> = ({
     }
   };
 
+  const handleAIPriceEstimation = () => {
+    navigate("/aipricing");
+  };
+
   return (
     <Dialog
       open={!!campaign}
@@ -116,7 +108,6 @@ const BillboardCampaignPopup: React.FC<CampaignPopupProps> = ({
           position: "relative",
         }}
       >
-        {/* Close Icon */}
         <IconButton
           onClick={onClose}
           sx={{
@@ -135,7 +126,6 @@ const BillboardCampaignPopup: React.FC<CampaignPopupProps> = ({
           />
         </IconButton>
 
-        {/* Top Title */}
         <Typography
           variant="body1"
           sx={{ mb: 1 }}
@@ -145,7 +135,6 @@ const BillboardCampaignPopup: React.FC<CampaignPopupProps> = ({
         </Typography>
 
         <Box display="flex" gap={3}>
-          {/* Left Section - Campaign and Billboard Details */}
           <Box flex={1}>
             <Typography variant="h5" fontWeight="bold" sx={{ mb: 1 }}>
               {currentCampaign}
@@ -183,7 +172,6 @@ const BillboardCampaignPopup: React.FC<CampaignPopupProps> = ({
           />
         </Box>
 
-        {/* Bottom Buttons - Using Your Custom Button Component */}
         <Box display="flex" justifyContent="space-between" gap={2} mt={3}>
           <div>
             <Button
@@ -204,8 +192,8 @@ const BillboardCampaignPopup: React.FC<CampaignPopupProps> = ({
           </div>
           <div>
             <Button
-              label="Generare Report"
-              onClick={() => console.log(matchedBillboard._id)}
+              label="AI Price Estimation"
+              onClick={handleAIPriceEstimation}
               sx={{
                 backgroundColor: "#DAF067",
                 margin: "20px",
