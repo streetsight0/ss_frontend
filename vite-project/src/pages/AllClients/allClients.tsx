@@ -7,6 +7,7 @@ import BillboardConfirmationCard from "../../components/confirmationcard/billboa
 import AddClientButton from "../../components/Button/Button";
 import ProfileYellow from "../../assets/Icons/ProfileYellow.png";
 import ProfileBlack from "../../assets/Icons/ProfileBlack.png";
+import Loader from "../../components/Loader/Loader";
 
 
 interface BillboardData {
@@ -133,7 +134,7 @@ const AllClients = () => {
     return { ...client, billboardCount };
   });
 
-  if (loading) return <p>Loading...</p>;
+  if (loading){ return <Loader />;}
   if (error) return <p className="error-message">{error}</p>;
   if (!enhancedBillboards.length) return <p>No clients found.</p>;
 

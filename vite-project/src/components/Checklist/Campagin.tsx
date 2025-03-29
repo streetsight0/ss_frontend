@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Checklist from './Checkbox';
 import axios from 'axios';
-
+import Loader from "../../components/Loader/Loader";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const App: React.FC = () => {
@@ -34,7 +34,7 @@ const App: React.FC = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {

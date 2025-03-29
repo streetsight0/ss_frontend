@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./clientStatus.css";
+import Loader from "../../components/Loader/Loader";
 
 interface Client {
   _id: string;
@@ -67,7 +68,7 @@ const ClientTable: React.FC = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {

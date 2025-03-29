@@ -5,11 +5,11 @@ import CustomTextField from "../../components/Input field/InputField";
 import CustomDropdown from "../../components/DropDown/DropDown";
 import ConfirmationCard from "../../components/confirmationcard/confirmationcard";
 import UploadImages from "../../components/UploadImage/UploadImage";
-import BillboardConfirmationCard from "../../components/confirmationcard/billboardconfirmationcard"
+// import BillboardConfirmationCard from "../../components/confirmationcard/billboardconfirmationcard"
 import "./billboard.css";
 import LocationInput from "../../components/GoogleApi/InputLocation"
 import BackIcon from "../../assets/Icons/BackBlack.png";
-
+import SuccessPopup from "../../components/SuccessPopup/SuccessCampaignPopup";
 import { useNavigate } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -77,26 +77,26 @@ const BillBoard = () => {
     }
   };
 
-  const resetForm = () => {
-    setBillboardName("");
-    setBillboardType("");
-    setLocation("");
-    setLatitude("");
-    setLongitude("");
-    setSize("");
-    setCampaignDuration("");
-    setCampaignCapacity("");
-    setLeaseStart("");
-    setLeaseEnd("");
-    setPricePerMonth("");
-    setBillboardImages([]);
-  };
+  // const resetForm = () => {
+  //   setBillboardName("");
+  //   setBillboardType("");
+  //   setLocation("");
+  //   setLatitude("");
+  //   setLongitude("");
+  //   setSize("");
+  //   setCampaignDuration("");
+  //   setCampaignCapacity("");
+  //   setLeaseStart("");
+  //   setLeaseEnd("");
+  //   setPricePerMonth("");
+  //   setBillboardImages([]);
+  // };
 
-  const handleConfirmSubmit = () => {
-    setShowSubmitConfirmation(false);
-    resetForm();
-    navigate("/getBillBoards");
-  };
+  // const handleConfirmSubmit = () => {
+  //   setShowSubmitConfirmation(false);
+  //   resetForm();
+  //   navigate("/getBillBoards");
+  // };
 
   const handleDiscard = () => {
     setShowConfirmation(true);
@@ -105,13 +105,15 @@ const BillBoard = () => {
   return (
     <div className="billboard-container">
       {showSubmitConfirmation ? (
-        <BillboardConfirmationCard
-          onCancel={() => setShowSubmitConfirmation(false)}
-          onConfirm={handleConfirmSubmit}
-          alertIcon="✅"
-          confirmationText={confirmationText}
-          button2="View Billboards"
-        />
+        // <BillboardConfirmationCard
+        //   onCancel={() => setShowSubmitConfirmation(false)}
+        //   onConfirm={handleConfirmSubmit}
+        //   alertIcon="✅"
+        //   confirmationText={confirmationText}
+        //   button2="View Billboards"
+        // />
+        <SuccessPopup message="Billboard Created Successfully!" onClose={() => console.log('close')}/>
+
       ) : showConfirmation ? (
         <ConfirmationCard
           onCancel={() => setShowConfirmation(false)}

@@ -3,6 +3,7 @@ import axios from "axios";
 import BillboardCard from "../../components/billboardscards/billboardscards";
 import { Box, Pagination, Typography } from "@mui/material";
 import "./AvaillableBillboards.css";
+import Loader from "../../components/Loader/Loader";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ITEMS_PER_PAGE = 3; 
@@ -71,7 +72,7 @@ const AvailableBillboards: React.FC = () => {
   const startIndex = (validPage - 1) * ITEMS_PER_PAGE;
   const paginatedBillboards = unassignedBillboards.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />
   }
 
   if (error) {

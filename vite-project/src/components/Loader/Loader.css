@@ -7,8 +7,8 @@
   }
   
   .loader-gif {
-    width: 500px;  
-    height: 500px;
+    width: 200px;  
+    height: 200px;
     object-fit: contain;
     animation: fade-in 0.5s ease-in-out;
   }
