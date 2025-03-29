@@ -23,6 +23,7 @@ import CampaignIcon from "../../assets/Icons/CalenderYellow.png";
 import ClientIcon from "../../assets/Icons/ProfileYellow.png";
 import ExpandIcon from "../../assets/Icons/ExpandYellow.png";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "../../App.css";
 
 const drawerWidth = 260;
@@ -56,20 +57,40 @@ const SidebarDrawer = styled(Drawer)<{ open: boolean }>(({ open, theme }) => ({
     msOverflowStyle: "none",
 	},
   }));
-const StyledListItemButton = styled(ListItemButton)<{ subMenu?: boolean }>(
-  ({ subMenu }) => ({
-    color: "#FFFFFF",
+// const StyledListItemButton = styled(ListItemButton)<{ subMenu?: boolean }>(
+//   ({ subMenu }) => ({
+//     color: "#FFFFFF",
+//     borderRadius: "7px",
+//     paddingLeft: subMenu ? "40px" : "24px", 
+//     fontSize: subMenu ? "12px" : "14px", 
+//     "&:hover": {
+//       backgroundColor: "#DAF067",
+//       color: "#000000",
+//     },
+//     "&.active": {
+//       backgroundColor: "#DAF067",
+//       color: "#000000",
+//       fontWeight: "bold",
+//     },
+//     ".MuiListItemIcon-root": {
+//       minWidth: "40px", 
+//     },
+    
+//   })
+// );
+
+const StyledListItemButton = styled(ListItemButton)<{ subMenu?: boolean; active?: boolean }>(
+  ({ subMenu, active }) => ({
+    
     borderRadius: "7px",
     paddingLeft: subMenu ? "40px" : "24px", 
     fontSize: subMenu ? "12px" : "14px", 
+    backgroundColor: active ? "#DAF067" : "transparent", 
+    color: active ? "#000000" : "#FFFFFF",
+    fontWeight: active ? "bold" : "normal",
     "&:hover": {
       backgroundColor: "#DAF067",
       color: "#000000",
-    },
-    "&.active": {
-      backgroundColor: "#DAF067",
-      color: "#000000",
-      fontWeight: "bold",
     },
     ".MuiListItemIcon-root": {
       minWidth: "40px", 
@@ -77,12 +98,15 @@ const StyledListItemButton = styled(ListItemButton)<{ subMenu?: boolean }>(
   })
 );
 
+
+
 const Sidebar: React.FC = () => {
   const navigate = useNavigate(); 
   const [open, setOpen] = useState(true);
   const [billboardOpen, setBillboardOpen] = useState(false);
   const [campaignOpen, setCampaignOpen] = useState(false);
   const [clientsOpen, setClientsOpen] = useState(false);
+  const location = useLocation();
 
   const handleToggle = () => {
     setOpen(!open);
@@ -131,7 +155,11 @@ const Sidebar: React.FC = () => {
         <List>
           {/* Dashboard */}
           <ListItem disablePadding>
-		  <StyledListItemButton onClick={() => navigate("/home")}>
+          <StyledListItemButton 
+            className={location.pathname === "/home" ? "active" : ""} 
+            onClick={() => navigate("/home")}
+          >
+
               <ListItemIcon>
                 <img src={DashboardIcon} alt="Dashboard" style={{ width: "16px", height:"16px" }} />
               </ListItemIcon>
@@ -151,7 +179,12 @@ const Sidebar: React.FC = () => {
           </ListItem>
           <Collapse in={billboardOpen && open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding sx={{ pl: 2 }}>
-			  <StyledListItemButton onClick={() => navigate("/getBillBoards")}>
+			  {/* <StyledListItemButton onClick={() => navigate("/getBillBoards")}> */}
+        <StyledListItemButton 
+  className={location.pathname === "/getBillBoards" ? "active" : ""} 
+  onClick={() => navigate("/getBillBoards")}
+>
+
                 <ListItemText primary="All Billboards" />
               </StyledListItemButton>
 			  <StyledListItemButton onClick={() => navigate("/billboards")}>

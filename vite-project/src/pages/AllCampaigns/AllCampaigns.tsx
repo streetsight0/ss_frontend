@@ -29,6 +29,7 @@ const CampaignList: React.FC = () => {
           const data = await response.json();
           if (Array.isArray(data.data)) {
             setCampaigns(data.data);
+            console.log(data.data);
           } else {
             setCampaigns([]);
           }
@@ -86,7 +87,7 @@ const CampaignList: React.FC = () => {
             onClick={() => navigate("/addcampaign")}
             sx={{ backgroundColor: "#C5FF6D",
                             color: "#000",
-                            width: "190px",
+                            width: "230px",
                             height: "50px",
                             "&:hover": {
                               backgroundColor: "black",
@@ -108,7 +109,11 @@ const CampaignList: React.FC = () => {
               <CampaignCard
                 title={campaign.campaign_name}
                 company={campaign.client_id?.company_name || "Unknown Company"}
-                location={campaign.campaign_location || "Unknown Location"}
+                location={
+                  campaign.billboards?.[0]?.location?.name
+                    ? campaign.billboards[0].location.name.split(" ").slice(0, 4).join(" ")
+                    : "Unknown Location"
+                }
                 endDate={new Date(campaign.campaign_end_date).toLocaleDateString()}
                 billboards={campaign.billboards?.length || 0}
                 logo={campaign.client_id?.client_logo || defaultLogo}
