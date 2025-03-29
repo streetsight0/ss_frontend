@@ -21,7 +21,6 @@ body {
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
-  padding: 20px;
 }
 
 .billboard-card {
@@ -43,10 +42,10 @@ body {
 .Header{
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
   margin-right: 10px;
   margin-left: 10px;
   margin-bottom: 0;
+  height: 10vh;
 }
 
 @media (max-width: 1200px) {

@@ -14,7 +14,7 @@ const ViewLeaseAgreement: React.FC = () => {
     console.log(leaseData);
     const navigate = useNavigate();
   const handleBack = () => {
-    navigate("/lease");
+    navigate(-1);
   }
   const downloadPDF = () => {
     const input = document.getElementById("lease-agreement");
@@ -211,7 +211,7 @@ const ViewLeaseAgreement: React.FC = () => {
             "&:hover": { backgroundColor: "#f0f0f0" },
           }}
           onClick={handleBack}
-          label="Back to All Lease Agreement"
+          label="Back"
         />
       </Paper>
     </>
