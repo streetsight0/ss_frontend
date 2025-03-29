@@ -70,7 +70,9 @@ const BillBoard = () => {
       });
 
       setConfirmationText(`Billboard added successfully with series name: ${billboard_series}`);
+      console.log(confirmationText);
       setShowSubmitConfirmation(true);
+      setCampaignDuration("");
     } catch (error: any) {
       console.error("Error details:", error);
       setError(error.response?.data?.error || "Submission failed");
