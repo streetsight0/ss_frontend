@@ -16,6 +16,7 @@ interface CampaignPopupProps {
 
 const CampaignPopup: React.FC<CampaignPopupProps> = ({ campaign, onClose }) => {
   if (!campaign) return null;
+  console.log(campaign)
 
   return (
     <Dialog

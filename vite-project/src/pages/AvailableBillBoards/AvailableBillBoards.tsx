@@ -90,7 +90,7 @@ const AvailableBillboards: React.FC = () => {
                 series={billboard.billboard_series}
                 companyName="Unassigned"
                 campaignName="No Campaign"
-                location={billboard.location.name}
+                location={billboard.location.name.split(',')[0]}
                 leaseExpiry={billboard.leaseEnd}
                 status="Available"
               />

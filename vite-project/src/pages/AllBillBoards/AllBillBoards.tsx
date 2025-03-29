@@ -89,27 +89,42 @@ const CampaignsBillboards: React.FC = () => {
       });
   }, []);
 
-  const updateBillboardStatus = (billboardId: string, newStatus: string) => {
-    // Log the billboardId inside the function
-    console.log(`billboardId: ${billboardId}`);
-
-    axios
-      .put(`${BASE_URL}/api/billboard/updatebillboards/${billboardId}`, {
-        billboard_id: billboardId,
-        status: newStatus,
-      })
-      .then((response) => {
-        console.log(`Billboard ${billboardId} status updated to ${newStatus}`,response);
-      })
-      .catch((error) => {
-        console.error("Error updating status:", error);
-      });
-  };
-
   const getStatus = (leaseEnd: string) => {
     const leaseEndDate = new Date(leaseEnd);
     const currentDate = new Date();
     return currentDate > leaseEndDate ? "Inactive" : "Active";
+  };
+
+  const updateBillboardStatus = (billboardId: string, leaseEnd: string) => {
+    const newStatus = getStatus(leaseEnd);
+    axios
+      .get(`${BASE_URL}/api/billboard/getbillboards/${billboardId}`)
+      .then((response) => {
+        const currentStatus = response.data.status;
+        if (currentStatus !== newStatus) {
+          axios
+            .put(`${BASE_URL}/api/billboard/updatebillboards/${billboardId}`, {
+              billboard_id: billboardId,
+              status: newStatus,
+            })
+            .then((response) => {
+              console.log(
+                `Billboard ${billboardId} status updated to ${newStatus}`,
+                response
+              );
+            })
+            .catch((error) => {
+              console.error("Error updating status:", error);
+            });
+        } else {
+          console.log(
+            `Billboard ${billboardId} already has the correct status: ${currentStatus}`
+          );
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching billboard status:", error);
+      });
   };
 
   const matchedBillboards = campaigns.flatMap((campaign) =>
@@ -123,8 +138,7 @@ const CampaignsBillboards: React.FC = () => {
           : "Unknown Company";
         const status = getStatus(matchedBillboard.leaseEnd);
 
-        // Log the billboardId and update the status of each matched billboard on the backend
-        updateBillboardStatus(matchedBillboard._id, status);
+        updateBillboardStatus(matchedBillboard._id, matchedBillboard.leaseEnd);
 
         return {
           campaign_name: campaign.campaign_name,
@@ -214,20 +228,22 @@ const CampaignsBillboards: React.FC = () => {
                 />
               }
               onClick={() => navigate("/billboards")}
-              sx={{ backgroundColor: "#C5FF6D",
+              sx={{
+                backgroundColor: "#C5FF6D",
                 color: "#000",
                 width: "190px",
                 height: "50px",
                 "&:hover": {
                   backgroundColor: "black",
-                  color:"white",
+                  color: "white",
                 },
                 "& img": {
                   transition: "all 0.3s ease",
                 },
                 "&:hover img": {
-                  content: `url(${AddCampaignIconBlack})`, 
-                }, }}
+                  content: `url(${AddCampaignIconBlack})`,
+                },
+              }}
             />
           </Box>
         </Box>
@@ -235,7 +251,7 @@ const CampaignsBillboards: React.FC = () => {
 
       <div className="card-container">
         {paginatedBillboards.length > 0 ? (
-          paginatedBillboards.map((item,index) => (
+          paginatedBillboards.map((item, index) => (
             <div
               key={index}
               className={`card ${item.status.toLowerCase()}`}
@@ -250,7 +266,7 @@ const CampaignsBillboards: React.FC = () => {
                 leaseExpiry={item.billboard_LeaseEnd}
                 status={item.status}
               />
-              </div>
+            </div>
           ))
         ) : (
           <Typography variant="body1" textAlign="center" mt={2}>
@@ -259,7 +275,6 @@ const CampaignsBillboards: React.FC = () => {
         )}
       </div>
 
-      {/* Pagination */}
       <Box display="flex" justifyContent="center" mt={4}>
         <Pagination
           count={Math.ceil(sortedBillboards.length / ITEMS_PER_PAGE)}
@@ -269,7 +284,6 @@ const CampaignsBillboards: React.FC = () => {
         />
       </Box>
 
-      {/* Popup for selected campaign */}
       {selectedCampaign && (
         <BillboardCampaignPopup
           campaign={selectedCampaign}

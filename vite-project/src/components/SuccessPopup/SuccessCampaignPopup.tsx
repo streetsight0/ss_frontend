@@ -14,7 +14,7 @@ const CampaignPopup: React.FC<CampaignPopupProps> = ({ campaign, message }) => {
       <div className="popup-container">
         <img src={SuccessIcon} alt="Success" className="success-icon" />
         
-        <h2>{message || "Campaign Preview"}</h2>
+        <h2>{message || "Campaign Created Successfully!"}</h2>
         
         {campaign?.campaignName && (
           <p className="campaign-name">{campaign.campaignName}</p>

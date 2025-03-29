@@ -1,16 +1,14 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; 
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import InputField from "../../components/Input field/InputField";
 import CustomDropdown from "../../components/DropDown/DropDown";
-import Checklist from "../../components/Checklist/checkList";
-import BackButton from "../../assets/Icons/BackBlack.png";
+import Checklist from "../../components/Checklist/Checkbox"; // Import Checklist component
 import axios from "axios";
 import "./AddCampaign.css";
 import ImageUpload from "../../components/ImageUpload/ImageUpload";
-import CampaignPopup from "../../components/CampaignPopup/CampaignPopup";
-// import SuccessPopup from "../../components/SuccessPopup/SuccessCampaignPopup";
-
+import CampaignPopup from "../../components/CampaignPopup/CampaignPopup"; // Import the Success Popup component
+import Suceespopup from "../../components/SuccessPopup/SuccessCampaignPopup"
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 interface CampaignFormData {
@@ -19,12 +17,12 @@ interface CampaignFormData {
   endDate: string;
   rentMonthly: number;
   client: { _id: string } | null;
-  billboards: string[];
+  billboards: string[]; // Array of selected billboard IDs
   campaignImages: string[];
 }
 
 const AddCampaign: React.FC = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState<CampaignFormData>({
     campaignName: "",
@@ -37,9 +35,9 @@ const AddCampaign: React.FC = () => {
   });
 
   const [clients, setClients] = useState<{ _id: string; client_name: string }[]>([]);
-  const [billboards, setBillboards] = useState<{ _id: string; billboard_series: string; location: string }[]>([]);
+  const [billboards, setBillboards] = useState<{ _id: string; billboard_series: string; location: { name: string } }[]>([]);
   const [previewOpen, setPreviewOpen] = useState(false);
-  // const [successPopup, setSuccessPopup] = useState(false);
+  const [successPopup, setSuccessPopup] = useState(false);
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -58,7 +56,6 @@ const AddCampaign: React.FC = () => {
       try {
         const response = await axios.get(`${BASE_URL}/api/billboard/getbillboards`);
         const billboardArray = Array.isArray(response.data) ? response.data : response.data.billboards || [];
-
         setBillboards(
           billboardArray.map((b: any) => ({
             _id: String(b._id),
@@ -73,31 +70,17 @@ const AddCampaign: React.FC = () => {
     fetchBillboards();
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: name === "rentMonthly" ? Number(value) : value,
+  const handleBillboardSelect = (selectedLabels: string[]) => {
+    const selectedIds = billboards
+      .filter((billboard) => selectedLabels.includes(`${billboard.billboard_series}, ${billboard.location.name}`))
+      .map((billboard) => billboard._id);
+
+    setFormData((prev) => ({
+      ...prev,
+      billboards: selectedIds,
     }));
   };
 
-  const handleClientChange = (selectedClientName: string) => {
-    const clientInfo = clients.find((client) => client.client_name === selectedClientName);
-    if (clientInfo) {
-      setFormData((prevState) => ({
-        ...prevState,
-        client: { _id: clientInfo._id },
-      }));
-    }
-  };
-
-  const handleImagesChange = (files: File[]) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      campaignImages: files.map((file) => file.name),
-    }));
-  };
-  
   const handleSubmit = async () => {
     const formattedData = {
       campaign_name: formData.campaignName,
@@ -108,26 +91,25 @@ const AddCampaign: React.FC = () => {
       billboards: formData.billboards,
       campaign_images: formData.campaignImages,
     };
-  
+
     try {
       const response = await axios.post(`${BASE_URL}/api/campaign/createcampaigns`, formattedData);
-  
       if (response.status === 201) {
-        console.log("Campaign saved successfully!");
-  
-        
         setFormData({
           campaignName: "",
           startDate: "",
           endDate: "",
           rentMonthly: 0,
-          client: null, 
+          client: null,
           billboards: [],
           campaignImages: [],
         });
-  
         setPreviewOpen(false);
-        // setSuccessPopup(true);
+        setSuccessPopup(true);
+        setTimeout(() => {
+          setSuccessPopup(false); // Close the popup after 3 seconds
+          navigate("/allcampaigns"); // Navigate to /allcampaigns
+        }, 3000);
       } else {
         console.log("Something went wrong.");
       }
@@ -136,42 +118,53 @@ const AddCampaign: React.FC = () => {
       alert("Failed to save campaign.");
     }
   };
-  
-  // const handlePopupClose = () => {
-  //   setSuccessPopup(false);
-  //   setTimeout(() => setFormData({ ...formData }), 0); 
-  // }; 
 
   const billboardOptions = billboards.map((b) => ({
     id: b._id,
-    label: `${b.billboard_series}, ${b.location}`,
+    label: `${b.billboard_series}, ${b.location.name}`,
   }));
-
-  const handleBillboardSelect = (selectedIds: string[]) => {
-    setFormData((prev) => ({
-      ...prev,
-      billboards: selectedIds, 
-    }));
-  };
 
   return (
     <div className="campaign-form">
       <div className="campaign-header">
-        <img src={BackButton} alt="Back" className="back-icon" onClick={() => navigate(-1)} />
         <h2>Add New Campaign</h2>
       </div>
 
       <section>
         <h3>Campaign details *</h3>
         <div className="campaign-details">
-          <InputField name="campaignName" placeholder="Enter campaign name" onChange={handleChange} label="Campaign Name"  value={formData.campaignName}/>
-          <InputField name="startDate" type="date" onChange={handleChange} className="date" label="Start Date" value={formData.startDate}/>
-          <InputField name="endDate" type="date" onChange={handleChange} className="date" label="End Date " value={formData.endDate}  />
-          
+          <InputField
+            name="campaignName"
+            placeholder="Enter campaign name"
+            onChange={(e) => setFormData({ ...formData, campaignName: e.target.value })}
+            label="Campaign Name"
+            value={formData.campaignName}
+          />
+          <InputField
+            name="startDate"
+            type="date"
+            onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+            className="date"
+            label="Start Date"
+            value={formData.startDate}
+          />
+          <InputField
+            name="endDate"
+            type="date"
+            onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+            className="date"
+            label="End Date"
+            value={formData.endDate}
+          />
         </div>
 
         <div className="image-upload-box">
-          <ImageUpload maxImages={3} onImagesChange={handleImagesChange}   resetTrigger={formData.campaignImages.length} />
+          <ImageUpload
+            maxImages={3}
+            onImagesChange={(files) =>
+              setFormData({ ...formData, campaignImages: files.map((file) => file.name) })
+            }
+          />
         </div>
       </section>
 
@@ -181,57 +174,63 @@ const AddCampaign: React.FC = () => {
           <CustomDropdown
             label="Select Client"
             options={clients.map((client) => client.client_name)}
-            onChange={handleClientChange}
-            value={formData.client?._id ? clients.find(c => c._id === formData.client?._id)?.client_name : ""}
-            sx={{ width: "32vw" }} 
+            onChange={(selectedClientName) => {
+              const clientInfo = clients.find((client) => client.client_name === selectedClientName);
+              setFormData({ ...formData, client: clientInfo ? { _id: clientInfo._id } : null });
+            }}
+            value={formData.client?._id ? clients.find((c) => c._id === formData.client?._id)?.client_name : ""}
           />
-
-          <InputField name="rentMonthly" type="number" placeholder="Enter monthly rent" onChange={handleChange} label="Monthly Rent" value={formData.rentMonthly || ""} sx={{ width: "38vw" }} />
+          <InputField
+            name="rentMonthly"
+            type="number"
+            placeholder="Enter monthly rent"
+            onChange={(e) => setFormData({ ...formData, rentMonthly: Number(e.target.value) })}
+            label="Monthly Rent"
+            value={formData.rentMonthly || ""}
+          />
         </div>
       </section>
 
       <section>
         <h3>Allot Billboard</h3>
-        <Checklist 
-            options={billboardOptions} 
-            onSelect={handleBillboardSelect} 
-            label="Select Billboard" 
-            resetTrigger={formData.billboards.length} 
+        <Checklist
+          items={billboardOptions.map((b) => b.label)}
+          onSelectionChange={handleBillboardSelect}
         />
-
       </section>
 
       <footer className="form-actions">
-        <Button 
-          label="Preview" 
-          onClick={() => setPreviewOpen(true)} 
-          sx={{ backgroundColor: "#E2FF70", color: "black",  width: "120px", "&:hover": { backgroundColor: "#E2FF70" } }} 
+        <Button
+          label="Preview"
+          onClick={() => setPreviewOpen(true)} // This triggers the preview modal with the form data
+          sx={{
+            backgroundColor: "#E2FF70",
+            color: "black",
+            width: "120px",
+            "&:hover": { backgroundColor: "#E2FF70" },
+          }}
         />
-        <Button 
-          label="Save" 
+        <Button
+          label="Save"
           onClick={handleSubmit}
-          sx={{ 
-            width: "120px", 
-            height: "44px", 
-            maxWidth: "120px", 
-            borderRadius: "8px", 
-            padding: "10px 16px", 
-            backgroundColor: "#212429", 
-            color: "white !important",  
+          sx={{
+            width: "120px",
+            height: "44px",
+            maxWidth: "120px",
+            borderRadius: "8px",
+            padding: "10px 16px",
+            backgroundColor: "#212429",
+            color: "white !important",
             fontFamily: "Poppins, sans-serif !important",
             "&:hover": { backgroundColor: "#333" },
-            margin: "0 12px" 
-          }} 
+            margin: "0 12px",
+          }}
         />
         {previewOpen && <CampaignPopup campaign={formData} onClose={() => setPreviewOpen(false)} />}
-        {/* {successPopup && <SuccessPopup campaign={formData} onClose={handlePopupClose} message="Campaign added successfully!" />} */}
-
-          
+        {successPopup && <Suceespopup message="Campaign Created Successfully!" onClose={() => setSuccessPopup(false)} />}
       </footer>
     </div>
   );
 };
 
 export default AddCampaign;
-
-
