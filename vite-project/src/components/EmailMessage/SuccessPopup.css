@@ -1,0 +1,104 @@
+.confirmation-card {
+	position: fixed;
+	top: 90px; /* Adjust top as needed */
+	right: 0; /* Align the card to the right edge of the screen */
+	background: #ddf580;
+	padding: 1px;
+	width: 250px; /* Adjust the width to show part of the card */
+	border-radius: 10px;
+	text-align: center;
+	box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+	animation: slideInRight 0.5s ease-in-out forwards;
+	z-index: 9999; /* Ensure it is above other content */
+}
+
+/* Slide in from the right */
+@keyframes slideInRight {
+	from {
+		right: -100%; /* Start completely off-screen from the right */
+		opacity: 0;
+	}
+	to {
+		right: 0; /* End with the right edge of the card at the right edge of the screen */
+		opacity: 1;
+	}
+}
+
+/* Slide out to the right */
+@keyframes slideOutRight {
+	from {
+		right: 0; /* Start from the right edge */
+		opacity: 1;
+	}
+	to {
+		right: -100%; /* Slide out completely off the screen */
+		opacity: 0;
+	}
+}
+
+/* Hide the confirmation card when closing */
+.hidden {
+	animation: slideOutRight 0.5s ease-in-out forwards;
+}
+
+/* Icon styling */
+.icon-wrapper {
+	background-color: #f0f0f0;
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 auto 10px;
+}
+
+.alert-icon {
+	font-size: 24px;
+	font-weight: bold;
+	color: #333;
+}
+
+/* Text styling */
+.confirmation-text {
+	font-family: "Outfit", sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: #0a304c;
+	margin-bottom: 20px;
+}
+
+/* Buttons */
+.button-group {
+	display: flex;
+	justify-content: space-between;
+}
+
+.cancel-button {
+	background: #fff;
+	border: 2px solid #333;
+	color: #333;
+	padding: 8px 16px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+}
+
+.cancel-button:hover {
+	background: #333;
+	color: #fff;
+}
+
+.confirm-button {
+	background: #000;
+	color: #fff;
+	padding: 8px 16px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+}
+
+.confirm-button:hover {
+	background: #444;
+}

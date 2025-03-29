@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from "react";
-import "./InvoiceForm.css"
+import "./InvoiceForm.css";
 import { jsPDF } from "jspdf";
 import axios from "axios";
 import CustomDropdown from "../../components/DropDown/DropDown";
 import CustomTextField from "../../components/Input field/InputField";
 import CustomButton from "../../components/Button/Button";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import logo from "../../assets/logo1.png";
-import "./InvoiceForm.css";
+import noti from "../../assets/notif.mp3";
 import BackButton from "../../assets/Icons/BackBlack.png";
-import  SuccessPopup from "../../components/Message/SuccessPopup";
+import SuccessPopup from "../../components/EmailMessage/SuccessPopup";
 
 import { useNavigate } from "react-router-dom";
-import "./InvoiceForm.css";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 interface InvoiceDetails {
 	client: string;
-	clientName:string;
+	clientName: string;
 	companyName: string;
 	invoiceNumber: string;
 	month: string;
@@ -57,10 +56,10 @@ const InvoiceForm: React.FC = () => {
 	// 		amount: "",
 	// 		totalAmount: "",
 	// 	});
-	  // Reset form values when the component is mounted (useEffect)
-  useEffect(() => {
-    // Reset form values on component mount
-    setInvoiceDetails({
+	// Reset form values when the component is mounted (useEffect)
+	useEffect(() => {
+		// Reset form values on component mount
+		setInvoiceDetails({
 			client: "",
 			clientName: "",
 			companyName: "",
@@ -71,9 +70,7 @@ const InvoiceForm: React.FC = () => {
 			totalAmount: "",
 			email: "",
 		});
-  
-	
-	
+
 		// Fetching clients data from the API
 		axios
 			.get(`${BASE_URL}/api/client/getclients`)
@@ -97,63 +94,6 @@ const InvoiceForm: React.FC = () => {
 		}));
 	}, []);
 
-	// Handle client change
-	// const handleClientChange = async (value: string) => {
-	// 	// Find selected client by name
-	// 	const selectedClient = clients.find(
-	// 		(client) => client.client_name === value
-	// 	);
-
-	// 	if (selectedClient) {
-	// 		// Set the client ID instead of name for backend
-	// 		setInvoiceDetails((prevState) => ({
-	// 			...prevState,
-	// 			client: selectedClient._id, // Use client ID, not name
-	// 		}));
-
-	// 		// Set company names related to the client
-	// 		const allCompanies = [
-	// 			selectedClient.company_name,
-	// 			...selectedClient.additional_companies,
-	// 		];
-	// 		setCompanyNames(allCompanies);
-
-	// 		// Automatically set the first company name
-	// 		setInvoiceDetails((prevState) => ({
-	// 			...prevState,
-	// 			companyName: allCompanies.length > 0 ? allCompanies[0] : "",
-	// 		}));
-
-	// 		try {
-	// 			// Fetch campaigns assigned to this client
-	// 			const response = await axios.get(
-	// 				`${BASE_URL}/api/campaign/getcampaigns/${selectedClient._id}`
-	// 			);
-	// 			const campaigns = response.data.campaigns;
-
-	// 			if (campaigns.length > 0) {
-	// 				setInvoiceDetails((prevState) => ({
-	// 					...prevState,
-	// 					amount: campaigns[0].campaign_rent_monthly.toString(),
-	// 				}));
-	// 			} else {
-	// 				setInvoiceDetails((prevState) => ({ ...prevState, amount: "" }));
-	// 			}
-	// 		} catch (error) {
-	// 			console.error("Error fetching campaigns", error);
-	// 			setInvoiceDetails((prevState) => ({ ...prevState, amount: "" }));
-	// 		}
-	// 	} else {
-	// 		// Reset state if no client is found
-	// 		setCompanyNames([]);
-	// 		setInvoiceDetails((prevState) => ({
-	// 			...prevState,
-	// 			client: "",
-	// 			companyName: "",
-	// 			amount: "",
-	// 		}));
-	// 	}
-	// };
 	const handleClientChange = async (value: string) => {
 		// Find selected client by name
 		const selectedClient = clients.find(
@@ -225,7 +165,6 @@ const InvoiceForm: React.FC = () => {
 		}
 	};
 
-
 	// Handle company name change
 	const handleCompanyChange = (value: string) => {
 		setInvoiceDetails((prevState) => ({ ...prevState, companyName: value }));
@@ -236,8 +175,6 @@ const InvoiceForm: React.FC = () => {
 		const { name, value } = event.target;
 		setInvoiceDetails((prevState) => ({ ...prevState, [name]: value }));
 	};
-
-	
 
 	useEffect(() => {
 		const amount = parseFloat(invoiceDetails.amount || "0"); // Convert amount to a number
@@ -371,9 +308,6 @@ const InvoiceForm: React.FC = () => {
 			// Page width for centering
 			const pageWidth = doc.internal.pageSize.width;
 
-			// Add logo (uncomment and replace `logo` with your actual image)
-			// doc.addImage(logo, "PNG", 10, 10, 40, 40); // x, y, width, height
-
 			// Header Section
 			doc.setFontSize(22);
 			doc.setFont("helvetica", "bold");
@@ -449,10 +383,18 @@ const InvoiceForm: React.FC = () => {
 			console.error("Error saving invoice to DB or generating PDF:", error);
 		}
 	};
+	const playNotificationSound = () => {
+		const audio = new Audio(noti); // path to your audio file
+		audio.play();
+	};
 
+	useEffect(() => {
+		if (showConfirmation) {
+			playNotificationSound(); // Play sound when the confirmation is shown
+		}
+	}, [showConfirmation]);
 
 	const handleSendEmail = async () => {
-		
 		const doc = new jsPDF();
 
 		doc.addImage(logo, "PNG", 10, 10, 40, 40); // x, y, width, height
@@ -553,24 +495,13 @@ const InvoiceForm: React.FC = () => {
 			await axios.post(`${BASE_URL}/api/invoice/sendInvoiceEmail`, formData, {
 				headers: { "Content-Type": "multipart/form-data" }, // Ensure it's sent as FormData
 			});
-			
+
 			setShowConfirmation(true);
-			 setTimeout(() => {
-					setShowConfirmation(false);
-					 setInvoiceDetails({
-							client: "",
-							clientName: "",
-							companyName: "",
-							invoiceNumber: "",
-							month: "",
-							location: "",
-							amount: "",
-							totalAmount: "",
-							email: "",
-						});
-						
-					navigate("/invoice");
-				}, 3000);
+			setTimeout(() => {
+				setShowConfirmation(false);
+
+				navigate("/invoice");
+			}, 3000);
 		} catch (error) {
 			setMessage("Failed to send invoice email. Please try again."); // Set error message
 		}
@@ -587,13 +518,13 @@ const InvoiceForm: React.FC = () => {
 							className="back-icon"
 							onClick={() => navigate(-1)}
 						/>
-						<h2>Create Invoice</h2>
+						<h2>Generate Invoice</h2>
 					</div>
 
 					<Box sx={{ mb: 2, mt: 4 }}>
 						{/* Dropdown for clients */}
 						<CustomDropdown
-							className="custom-input-field"
+							className="custom-input-field dropdown-width"
 							options={clients.map((client) => client.client_name)}
 							label="Select Client"
 							onChange={handleClientChange}
@@ -705,37 +636,85 @@ const InvoiceForm: React.FC = () => {
 							label="Download PDF"
 							icon={<span></span>}
 							onClick={generatePDF}
+							sx={{ height: "51px", width: "48%" }}
 						/>
-						<CustomButton
-							className="preview-button"
-							label="Preview PDF"
-							icon={<span></span>}
-							onClick={previewPDF}
-						/>
+
 						<CustomButton
 							className="sendemial"
 							label="Send Email"
 							icon={<span></span>}
 							onClick={handleSendEmail}
+							sx={{ height: "51px", width: "48%" }}
 						/>
 						{message && <div className="notification">{message}</div>}
 						{/* Add more buttons as needed */}
 					</Stack>
 				</div>
-
-				<div className="previewpdf">
-					<h3>Invoice Preview</h3>
-					{pdfPreview ? (
-						<iframe
-							src={pdfPreview}
-							width="100%"
-							height="80%"
-							title="Invoice Preview"
+				<Box
+					sx={{
+						width: "488px",
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+					}}
+				>
+					{/* PDF Preview Box */}
+					<Box
+						className="pdf-preview"
+						sx={{
+							mt: 5,
+							width: "400px",
+							height: "670px", // Increased height for better fit
+							border: "1px solid #ccc",
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+							backgroundColor: "#f9f9f9",
+							padding: 2,
+							borderRadius: "10px",
+							boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+							overflow: "hidden", // Prevent extra space
+						}}
+					>
+						{pdfPreview ? (
+							<iframe
+								src={pdfPreview}
+								width="100%"
+								height="100%" // Ensures full height usage
+								style={{
+									border: "none",
+									transform: "scale(1)", // Prevent scaling issues
+								}}
+								title="Invoice Preview"
+							/>
+						) : (
+							<Typography variant="body1" color="textSecondary">
+								Select to generate preview
+							</Typography>
+						)}
+					</Box>
+					<Box
+						className="preview-container"
+						sx={{
+							width: "400px",
+							display: "flex",
+							flexDirection: "column",
+							justifyContent: "center",
+							gap: 2,
+							marginTop: 3.5, // Space between preview and buttons
+						}}
+					>
+						<CustomButton
+							className="preview-button"
+							label="Preview PDF"
+							icon={<span></span>}
+							onClick={previewPDF}
+							sx={{
+								height: "51px",
+							}}
 						/>
-					) : (
-						<p>No preview available. Please generate a preview first.</p>
-					)}
-				</div>
+					</Box>
+				</Box>
 				{showConfirmation && <SuccessPopup message="Email Sent!" />}
 			</div>
 		</div>
