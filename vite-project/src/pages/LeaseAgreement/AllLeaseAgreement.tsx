@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, Pagination } from "@mui/material";
 import InfoCard from "../../components/Card/Card";
 import CustomButton from "../../components/Button/Button";
-import "./AllLeaseAgreement.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AddIcon from "../../assets/Icons/add.png";
-
+import "./AllLeaseAgreement.css";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ITEMS_PER_PAGE = 9;
 const AllLeaseAgreements: React.FC = () => {
-const [leaseAgreement, setLeaseAgreement] = useState<any[]>([]);
-const [currentPage, setCurrentPage] = useState(1);
+  const [leaseAgreement, setLeaseAgreement] = useState<any[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const navigate = useNavigate();
 
@@ -21,30 +20,30 @@ const [currentPage, setCurrentPage] = useState(1);
   }
 
   useEffect(() => {
-    let isMounted = true; // Prevent updates if component unmounts
-    
+    let isMounted = true;
+
     const getAllLeaseAgreements = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/api/leaseagreement/getLeaseAgreements`);
         
-        if (isMounted) { 
-          setLeaseAgreement(response.data); // Only update state if still mounted
+        if (isMounted) {
+          setLeaseAgreement(response.data);
         }
       } catch (error) {
         console.error("Error fetching lease agreements:", error);
       }
     };
-  
+
     getAllLeaseAgreements();
   
     return () => {
-      isMounted = false; // Cleanup function to avoid unnecessary state updates
+      isMounted = false; 
     };
-  }, []); // ✅ Empty dependency array means it runs **only once**
+  }, []); 
   
   useEffect(() => {
     console.log("Updated Lease Agreements:", leaseAgreement);
-  }, [leaseAgreement]); // ✅ Runs only when state updates
+  }, [leaseAgreement]); 
   
 
   const handleRenew = () => {
@@ -83,31 +82,36 @@ const [currentPage, setCurrentPage] = useState(1);
       <Typography sx={{fontSize: "32px", fontWeight: "500"}}>All Lease | Total {leaseAgreement.length} </Typography>
       <CustomButton label="New Agreement"
          icon={<img src={AddIcon} alt="Add Icon" style={{ width: 20, height: 20 }} />}   sx={{ mt: 2 }} onClick={handleNewAgreement} />
-    </Stack>
-    <Box
-      display="grid"
-      gridTemplateColumns={{ xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" }}
+      </Stack>
+
+      <Box
+        display="grid"
+        gridTemplateColumns={{ xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" }}
       sx={{gap: "12px", marginLeft:"12px",marginRight:"12px"}}
-    > 
+      >
       {leaseAgreement.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE).map((lease) => (
-        <InfoCard
-          key={lease?._id}
-          company={lease?.client?.company_name}
-          email={lease?.client?.client_email}
-          expiryDate={formatDate(lease?.campaignEndDate)}
-          daysLeft={calculateDaysLeft(lease?.campaignEndDate)}
+            <InfoCard
+              key={lease?._id}
+              company={lease?.client?.company_name}
+              email={lease?.client?.client_email}
+              expiryDate={formatDate(lease?.campaignEndDate)}
+              daysLeft={calculateDaysLeft(lease?.campaignEndDate)}
           logo = {lease?.client?.client_logo}
           onRenew={() => handleRenew()}
-          onView={() => handleView(lease?._id)}
+              onView={() => handleView(lease?._id)}
+            />
+          ))}
+      </Box>
+
+      {/* Pagination */}
+      <Box display="flex" justifyContent="center" mt={4}>
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={(_event, value) => setCurrentPage(value)}
+          color="primary"
         />
-      ))}
-    </Box>
-      {/* Pagination Buttons */}
-      <Stack direction="row" justifyContent="center" spacing={2} mt={2}>
-        <Button disabled={currentPage === 1} onClick={() => setCurrentPage((prev) => prev - 1)}>Previous</Button>
-        <Typography>Page {currentPage} of {totalPages}</Typography>
-        <Button disabled={currentPage === totalPages} onClick={() => setCurrentPage((prev) => prev + 1)}>Next</Button>
-      </Stack>
+      </Box>
     </>
   );
 };

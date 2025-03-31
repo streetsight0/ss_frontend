@@ -21,7 +21,7 @@ const ClientCard: React.FC<ClientCardProps> = ({
   onViewClient
 }) => {
   return (
-    <Card sx={{ backgroundColor: "#FFF", width: "420px", height: "190px", borderRadius: "16px", marginTop:"16px",marginBottom:"16px",gap:"15px"  }}>
+    <Card sx={{ backgroundColor: "#FFF", width: "400px", height: "190px", borderRadius: "16px", marginTop:"16px",marginBottom:"16px",gap:"15px"  }}>
       <CardContent>
         <Box display="flex" alignItems="center" gap={1} sx={{width:"291px", height:"21px"}}>
             <Avatar

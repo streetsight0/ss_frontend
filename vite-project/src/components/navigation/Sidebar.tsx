@@ -22,9 +22,12 @@ import BillboardIcon from "../../assets/Icons/BillboardYellow.png";
 import CampaignIcon from "../../assets/Icons/CalenderYellow.png";
 import ClientIcon from "../../assets/Icons/ProfileYellow.png";
 import ExpandIcon from "../../assets/Icons/ExpandYellow.png";
+import TabletLogo from "../../assets/logoTablet.png";
+import LogoutYellow from "../../assets/Icons/LogoutYellow.png";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import "../../App.css";
+import { minHeight } from "@mui/system";
 
 const drawerWidth = 260;
 const collapsedWidth = 65;
@@ -57,47 +60,31 @@ const SidebarDrawer = styled(Drawer)<{ open: boolean }>(({ open, theme }) => ({
     msOverflowStyle: "none",
 	},
   }));
-// const StyledListItemButton = styled(ListItemButton)<{ subMenu?: boolean }>(
-//   ({ subMenu }) => ({
-//     color: "#FFFFFF",
-//     borderRadius: "7px",
-//     paddingLeft: subMenu ? "40px" : "24px", 
-//     fontSize: subMenu ? "12px" : "14px", 
-//     "&:hover": {
-//       backgroundColor: "#DAF067",
-//       color: "#000000",
-//     },
-//     "&.active": {
-//       backgroundColor: "#DAF067",
-//       color: "#000000",
-//       fontWeight: "bold",
-//     },
-//     ".MuiListItemIcon-root": {
-//       minWidth: "40px", 
-//     },
-    
-//   })
-// );
+
 
 const StyledListItemButton = styled(ListItemButton)<{ subMenu?: boolean; active?: boolean }>(
   ({ subMenu, active }) => ({
-    
     borderRadius: "7px",
-    paddingLeft: subMenu ? "40px" : "24px", 
-    fontSize: subMenu ? "12px" : "14px", 
-    backgroundColor: active ? "#DAF067" : "transparent", 
+    paddingLeft: subMenu ? "40px" : "24px",
+    fontSize: subMenu ? "12px" : "14px",
+    backgroundColor: active ? "#DAF067" : "transparent",
     color: active ? "#000000" : "#FFFFFF",
     fontWeight: active ? "bold" : "normal",
+
     "&:hover": {
-      backgroundColor: "#DAF067",
-      color: "#000000",
+      backgroundColor: "#DAF067",  
+      color: "#000000",  
     },
+
+    "&:hover .list-item-icon img": {  
+      filter: "brightness(0) saturate(100%) contrast(100%)",
+    },
+
     ".MuiListItemIcon-root": {
-      minWidth: "40px", 
+      minWidth: "40px",
     },
   })
 );
-
 
 
 const Sidebar: React.FC = () => {
@@ -123,14 +110,22 @@ const Sidebar: React.FC = () => {
 				p: 2,
 			}}
 			>
-			{/* Logo */}
-			{open && (
-				<img
-				src={logo}
-				alt="Logo"
-				style={{ width: "120px", flexShrink: 0, margin:"10px 10px 0 10px" }}
-				/>
-			)}
+		
+      {/* Logo */}
+      {open ? (
+        <img
+          src={logo}
+          alt="Logo"
+          style={{ width: "120px", flexShrink: 0, margin: "10px 10px 0 10px", cursor: "pointer" }}
+        />
+      ) : (
+        <img
+          src={TabletLogo}
+          alt="Tablet Logo"
+          style={{ width: "40px", height: "40px", margin: "10px 10px 0 0", cursor: "pointer" }}
+          onClick={handleToggle} 
+        />
+      )}
 
 			<IconButton
 				onClick={handleToggle}
@@ -152,15 +147,15 @@ const Sidebar: React.FC = () => {
 			</IconButton>
 			</Box>
 
-        <List>
+        <List sx={{ flexGrow: 1 }}>
           {/* Dashboard */}
           <ListItem disablePadding>
           <StyledListItemButton 
-            className={location.pathname === "/home" ? "active" : ""} 
-            onClick={() => navigate("/home")}
-          >
+            className={location.pathname === "/home" ? "active" : ""}
+            active={location.pathname === "/home"}
+            onClick={() => navigate("/home")}>
 
-              <ListItemIcon>
+              <ListItemIcon  className="list-item-icon">
                 <img src={DashboardIcon} alt="Dashboard" style={{ width: "16px", height:"16px" }} />
               </ListItemIcon>
               {open && <ListItemText primary="Dashboard" />}
@@ -169,28 +164,33 @@ const Sidebar: React.FC = () => {
 
           {/* Billboards */}
           <ListItem disablePadding>
-            <StyledListItemButton onClick={() => setBillboardOpen(!billboardOpen)}>
-              <ListItemIcon>
+            <StyledListItemButton 
+            onClick={() => setBillboardOpen(!billboardOpen)}>
+              <ListItemIcon className="list-item-icon">
                 <img src={BillboardIcon} alt="Billboards" style={{width: "16px", height:"16px"}} />
-              </ListItemIcon>
+              </ListItemIcon >
               {open && <ListItemText primary="Billboards" />}
               {open && (billboardOpen ? <ExpandLess /> : <ExpandMore />)}
             </StyledListItemButton>
           </ListItem>
           <Collapse in={billboardOpen && open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding sx={{ pl: 2 }}>
-			  {/* <StyledListItemButton onClick={() => navigate("/getBillBoards")}> */}
-        <StyledListItemButton 
-  className={location.pathname === "/getBillBoards" ? "active" : ""} 
-  onClick={() => navigate("/getBillBoards")}
->
-
+            <StyledListItemButton 
+             className={location.pathname === "/getBillBoards" ? "active" : ""}
+             active={location.pathname === "/getBillBoards"}
+            onClick={() => navigate("/getBillBoards")}>
                 <ListItemText primary="All Billboards" />
               </StyledListItemButton>
-			  <StyledListItemButton onClick={() => navigate("/billboards")}>
+			  <StyledListItemButton 
+          className={location.pathname === "/billboards" ? "active" : ""}
+          active={location.pathname === "/billboards"}
+        onClick={() => navigate("/billboards")}>
                 <ListItemText primary="Add Billboard" />
               </StyledListItemButton>
-              <StyledListItemButton onClick={() => navigate("/aipricing")}> 
+              <StyledListItemButton 
+               className={location.pathname === "/aipricing" ? "active" : ""}
+               active={location.pathname === "/aipricing"}
+              onClick={() => navigate("/aipricing")}> 
                 <ListItemText primary="AI Price Quotation" />
               </StyledListItemButton>
             </List>
@@ -199,7 +199,7 @@ const Sidebar: React.FC = () => {
           {/* Campaigns */}
           <ListItem disablePadding>
             <StyledListItemButton onClick={() => setCampaignOpen(!campaignOpen)}>
-              <ListItemIcon>
+              <ListItemIcon className="list-item-icon">
                 <img src={CampaignIcon} alt="Campaigns" style={{ width: "16px", height:"16px" }} />
               </ListItemIcon>
               {open && <ListItemText primary="Campaigns" />}
@@ -208,10 +208,16 @@ const Sidebar: React.FC = () => {
           </ListItem>
           <Collapse in={campaignOpen && open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding sx={{ pl: 2 }}>
-			  <StyledListItemButton onClick={() => navigate("/allcampaigns")}>
+			  <StyledListItemButton 
+         className={location.pathname === "/allcampaigns" ? "active" : ""}
+         active={location.pathname === "/allcampaigns"}
+        onClick={() => navigate("/allcampaigns")}>
                 <ListItemText primary="All Campaigns" />
               </StyledListItemButton>
-			  <StyledListItemButton onClick={() => navigate("/addcampaign")}>
+			  <StyledListItemButton
+          className={location.pathname === "/addcampaign" ? "active" : ""}
+          active={location.pathname === "/addcampaign"}
+         onClick={() => navigate("/addcampaign")}>
                 <ListItemText primary="Add Campaign" />
               </StyledListItemButton>
             </List>
@@ -220,7 +226,7 @@ const Sidebar: React.FC = () => {
           {/* Clients */}
           <ListItem disablePadding>
             <StyledListItemButton onClick={() => setClientsOpen(!clientsOpen)}>
-              <ListItemIcon>
+              <ListItemIcon className="list-item-icon">
                 <img src={ClientIcon} alt="Clients" style={{ width: "16px", height:"16px" }} />
               </ListItemIcon>
               {open && <ListItemText primary="Clients" />}
@@ -229,24 +235,51 @@ const Sidebar: React.FC = () => {
           </ListItem>
           <Collapse in={clientsOpen && open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding sx={{ pl: 2 }}>
-			  <StyledListItemButton onClick={() => navigate("/getClient")}>
+			        <StyledListItemButton 
+              className={location.pathname === "/getClient" ? "active" : ""}
+              active={location.pathname === "/getClient"}
+              onClick={() => navigate("/getClient")}>
                 <ListItemText primary="All Clients" />
               </StyledListItemButton>
-			  <StyledListItemButton onClick={() => navigate("/client")}>
+			        <StyledListItemButton 
+                className={location.pathname === "/client" ? "active" : ""}
+                active={location.pathname === "/client"}
+              onClick={() => navigate("/client")}>
                 <ListItemText primary="Add New Clients" />
               </StyledListItemButton>
-              <StyledListItemButton onClick={() => navigate("/clientStatus")}>
+              <StyledListItemButton 
+                 className={location.pathname === "/clientStatus" ? "active" : ""}
+                 active={location.pathname === "/clientStatus"}
+              onClick={() => navigate("/clientStatus")}>
                 <ListItemText primary="Client Status Table" />
               </StyledListItemButton>
-			  <StyledListItemButton onClick={() => navigate("/lease")}>
+			        <StyledListItemButton 
+               className={location.pathname === "/lease" ? "active" : ""}
+               active={location.pathname === "/lease"}
+              onClick={() => navigate("/lease")}>
                 <ListItemText primary="Lease Agreement" />
               </StyledListItemButton>
-			  <StyledListItemButton onClick={() => navigate("/invoice")}>
+			        <StyledListItemButton 
+                className={location.pathname === "/invoice" ? "active" : ""}
+                active={location.pathname === "/invoice"}
+              onClick={() => navigate("/invoice")}>
                 <ListItemText primary="Generate Invoice" />
               </StyledListItemButton>
             </List>
+
+         
           </Collapse>
         </List>
+        <Box sx={{ mt: "auto", mb: 2 }}>
+        <ListItem disablePadding>
+          <StyledListItemButton onClick={() => console.log("Logging out...")}>
+            <ListItemIcon className="list-item-icon">
+              <img src={LogoutYellow} alt="Logout" style={{ width: "16px", height: "16px" }} />
+            </ListItemIcon>
+            {open && <ListItemText primary="Logout" />}
+          </StyledListItemButton>
+        </ListItem>
+      </Box>
       </SidebarDrawer>
 
       {/* Main Content */}
