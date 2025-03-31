@@ -27,7 +27,6 @@ import LogoutYellow from "../../assets/Icons/LogoutYellow.png";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import "../../App.css";
-import { minHeight } from "@mui/system";
 
 const drawerWidth = 260;
 const collapsedWidth = 65;
