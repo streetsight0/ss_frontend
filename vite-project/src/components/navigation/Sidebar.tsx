@@ -64,7 +64,7 @@ const SidebarDrawer = styled(Drawer)<{ open: boolean }>(({ open, theme }) => ({
 const StyledListItemButton = styled(ListItemButton)<{ subMenu?: boolean; active?: boolean }>(
   ({ subMenu, active }) => ({
     borderRadius: "7px",
-    paddingLeft: subMenu ? "40px" : "24px",
+    paddingLeft: subMenu ? "45px" : "24px",
     fontSize: subMenu ? "12px" : "14px",
     backgroundColor: active ? "#DAF067" : "transparent",
     color: active ? "#000000" : "#FFFFFF",
@@ -75,7 +75,7 @@ const StyledListItemButton = styled(ListItemButton)<{ subMenu?: boolean; active?
       color: "#000000",  
     },
 
-    "&:hover .list-item-icon img": {  
+    "&:hover .list-item-icon img, &.active .list-item-icon img":{  
       filter: "brightness(0) saturate(100%) contrast(100%)",
     },
 
@@ -175,21 +175,24 @@ const Sidebar: React.FC = () => {
           <Collapse in={billboardOpen && open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding sx={{ pl: 2 }}>
             <StyledListItemButton 
-             className={location.pathname === "/getBillBoards" ? "active" : ""}
-             active={location.pathname === "/getBillBoards"}
+            subMenu
+            className={location.pathname === "/getBillBoards" ? "active" : ""}
+            active={location.pathname === "/getBillBoards"}
             onClick={() => navigate("/getBillBoards")}>
                 <ListItemText primary="All Billboards" />
               </StyledListItemButton>
 			  <StyledListItemButton 
+          subMenu
           className={location.pathname === "/billboards" ? "active" : ""}
           active={location.pathname === "/billboards"}
-        onClick={() => navigate("/billboards")}>
+          onClick={() => navigate("/billboards")}>
                 <ListItemText primary="Add Billboard" />
               </StyledListItemButton>
               <StyledListItemButton 
+               subMenu
                className={location.pathname === "/aipricing" ? "active" : ""}
                active={location.pathname === "/aipricing"}
-              onClick={() => navigate("/aipricing")}> 
+               onClick={() => navigate("/aipricing")}> 
                 <ListItemText primary="AI Price Quotation" />
               </StyledListItemButton>
             </List>
@@ -208,15 +211,17 @@ const Sidebar: React.FC = () => {
           <Collapse in={campaignOpen && open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding sx={{ pl: 2 }}>
 			  <StyledListItemButton 
+         subMenu
          className={location.pathname === "/allcampaigns" ? "active" : ""}
          active={location.pathname === "/allcampaigns"}
-        onClick={() => navigate("/allcampaigns")}>
+         onClick={() => navigate("/allcampaigns")}>
                 <ListItemText primary="All Campaigns" />
               </StyledListItemButton>
 			  <StyledListItemButton
+          subMenu
           className={location.pathname === "/addcampaign" ? "active" : ""}
           active={location.pathname === "/addcampaign"}
-         onClick={() => navigate("/addcampaign")}>
+          onClick={() => navigate("/addcampaign")}>
                 <ListItemText primary="Add Campaign" />
               </StyledListItemButton>
             </List>
@@ -235,30 +240,35 @@ const Sidebar: React.FC = () => {
           <Collapse in={clientsOpen && open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding sx={{ pl: 2 }}>
 			        <StyledListItemButton 
+              subMenu
               className={location.pathname === "/getClient" ? "active" : ""}
               active={location.pathname === "/getClient"}
               onClick={() => navigate("/getClient")}>
                 <ListItemText primary="All Clients" />
               </StyledListItemButton>
 			        <StyledListItemButton 
+              subMenu
                 className={location.pathname === "/client" ? "active" : ""}
                 active={location.pathname === "/client"}
               onClick={() => navigate("/client")}>
                 <ListItemText primary="Add New Clients" />
               </StyledListItemButton>
               <StyledListItemButton 
+              subMenu
                  className={location.pathname === "/clientStatus" ? "active" : ""}
                  active={location.pathname === "/clientStatus"}
               onClick={() => navigate("/clientStatus")}>
                 <ListItemText primary="Client Status Table" />
               </StyledListItemButton>
 			        <StyledListItemButton 
+              subMenu
                className={location.pathname === "/lease" ? "active" : ""}
                active={location.pathname === "/lease"}
               onClick={() => navigate("/lease")}>
                 <ListItemText primary="Lease Agreement" />
               </StyledListItemButton>
 			        <StyledListItemButton 
+              subMenu
                 className={location.pathname === "/invoice" ? "active" : ""}
                 active={location.pathname === "/invoice"}
               onClick={() => navigate("/invoice")}>
@@ -271,7 +281,7 @@ const Sidebar: React.FC = () => {
         </List>
         <Box sx={{ mt: "auto", mb: 2 }}>
         <ListItem disablePadding>
-          <StyledListItemButton onClick={() => console.log("Logging out...")}>
+          <StyledListItemButton onClick={() => navigate("/login")}>
             <ListItemIcon className="list-item-icon">
               <img src={LogoutYellow} alt="Logout" style={{ width: "16px", height: "16px" }} />
             </ListItemIcon>
