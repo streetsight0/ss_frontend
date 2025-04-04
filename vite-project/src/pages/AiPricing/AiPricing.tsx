@@ -234,7 +234,7 @@ const AiPricingPage: React.FC = () => {
 				<CustomDropdown
 					label="Billboard Location"
 					placeholder="Select billboard location"
-					options={["Downtown", "Uptown", "Suburbs"]}
+					options={["Langara", "Langley", "Surrey","Downtown"]}
 					onChange={(value) => handleInputChange("location", value)}
 					className="ai-dropdown"
 				/>
