@@ -9,7 +9,7 @@
 
 .welcome-section {
 	display: flex;
-	padding: 10px;
+	padding: 10px 30px;
 	background-color: #a16ae2;
 }
 .password-container {
@@ -27,30 +27,26 @@
 	animation: bounceIn 0.8s ease-out 0.5s 2;
 	animation-fill-mode: forwards;
 }
-.password-container input {
+ .password-container input {
 	width: 100%;
 	padding: 12px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	font-size: 16px;
-	padding-right: 40px; /* Space for the eye icon */
+	
+    border: 2px dotted red;
 }
 
 .password-container .eye-icon {
 	position: absolute;
-	right: 10px;
+	right: 20px;
 	top: 50%;
 	transform: translateY(-50%);
 	cursor: pointer;
 	font-size: 18px;
 	color: #666;
 }
-/* html,
-body {
-	height: 100%;
-	margin: 0;
-	padding: 0;
-}
+
 
 body {
 	background-color: #f5f6f8;
@@ -62,21 +58,21 @@ body {
 	padding: 0;
 	width: 100%;
 	
-} */
+}
 
 
 .login-container {
 	width: 100%;
-	max-width: 400px;
+	max-width: 430px;
 	height: 100vh;
-
+ 
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	
 }
 .form-section-l {
-	width: 90%;
+	width: 100%;
 	max-width: 100%;
 	padding: 20px;
 	padding-top: 50px;
@@ -85,6 +81,7 @@ body {
 	height: 100vh;
 	flex-direction: column;
 	justify-content: center;
+    box-sizing: border-box;
 	
 }
 .login-card {
@@ -96,6 +93,7 @@ body {
 	overflow: hidden; 
 	box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
 	background: #fff;
+   
 }
 
 .title {
@@ -115,25 +113,29 @@ body {
 	display: flex;
 	flex-direction: column;
 	gap: 15px;
-	width: 100%; 
+	/* width: 100%;  */
 	max-width: 400px; 
 
 	padding: 20px;
+      box-sizing: border-box;
 }
 .welcome-text {
+    padding-left: 10px;
 	font-size: 28px;
 	font-weight: bold;
 	opacity: 0; /* Start hidden */
 	animation: fadeSlideIn 1s ease-in-out forwards;
 }
 
-.login-form input {
+.form-section-l .login-form input {
 	width: 100%;
-	padding: 12px;
+	/* padding: 12px; */
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	font-size: 16px;
+    box-sizing: border-box;
 }
+
 .login-form button {
 	width: 100%;
 	background: #daf067;
@@ -144,6 +146,7 @@ body {
 	cursor: pointer;
 	font-size: 18px;
 	transition: all 0.3s ease-in-out;
+    align-items: center;
 }
 .login-form button:hover {
 	background: #d0ff00;
@@ -163,6 +166,7 @@ button:hover {
 	margin-top: 10px;
 	font-size: 14px;
 	color: #ffffff;
+    text-align: center;
 }
 
 .signup-text a {
@@ -197,8 +201,9 @@ button:hover {
 @media screen and (min-width: 700px) {
 	.login-container {
 		width: 100%;
-		padding: 30px;
+		margin: 30px;
 		max-width: 900px;
+     
 	}
 
 	.login-card {
@@ -211,7 +216,7 @@ button:hover {
 	}
 
 	.welcome-section {
-		width: 100%;
+		/* width: 100%; */
 		background: #a16ae2;
 		display: flex;
 		flex-direction: column;
@@ -241,7 +246,7 @@ button:hover {
 
 	.form-section-l {
 		width: 900px;
-		width: 50%;
+		width: 60%;
 		padding: 30px;
 		background: #020000;
 	}
