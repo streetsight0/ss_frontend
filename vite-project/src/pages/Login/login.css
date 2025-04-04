@@ -1,11 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 
-* {
+/* * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 	font-family: "Outfit", sans-serif;
-}
+} */
 
 .welcome-section {
 	display: flex;
@@ -45,7 +45,7 @@
 	font-size: 18px;
 	color: #666;
 }
-html,
+/* html,
 body {
 	height: 100%;
 	margin: 0;
@@ -62,7 +62,7 @@ body {
 	padding: 0;
 	width: 100%;
 	
-}
+} */
 
 
 .login-container {
@@ -75,7 +75,7 @@ body {
 	justify-content: center;
 	
 }
-.form-section {
+.form-section-l {
 	width: 90%;
 	max-width: 100%;
 	padding: 20px;
@@ -148,7 +148,7 @@ body {
 .login-form button:hover {
 	background: #d0ff00;
 }
-.form-section label {
+.form-section-l label {
 	font-size: 16px;
 	font-weight: 500;
 	color: #f9f5ea;
@@ -239,7 +239,7 @@ button:hover {
 		background-position: bottom center; /* Positions image at the bottom */
 	}
 
-	.form-section {
+	.form-section-l {
 		width: 900px;
 		width: 50%;
 		padding: 30px;

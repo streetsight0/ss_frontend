@@ -45,7 +45,7 @@ const Login = () => {
 					<div className="welcome-image"></div>
 				</div>
 
-				<div className="form-section">
+				<div className="form-section-l">
 					<h1 className="title">Login</h1>
 					<p className="subtitle">
 						Effortless Billboard Management Starts Here
