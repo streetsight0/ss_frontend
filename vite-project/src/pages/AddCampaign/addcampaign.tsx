@@ -139,6 +139,7 @@ const AddCampaign: React.FC = () => {
             onChange={(e) => setFormData({ ...formData, campaignName: e.target.value })}
             label="Campaign Name"
             value={formData.campaignName}
+            sx={{ width: "30vw" }}
           />
           <InputField
             name="startDate"
@@ -147,6 +148,7 @@ const AddCampaign: React.FC = () => {
             className="date"
             label="Start Date"
             value={formData.startDate}
+            sx={{ width: "20vw" }}
           />
           <InputField
             name="endDate"
@@ -155,6 +157,7 @@ const AddCampaign: React.FC = () => {
             className="date"
             label="End Date"
             value={formData.endDate}
+            sx={{ width: "20vw" }}
           />
         </div>
 
@@ -179,6 +182,7 @@ const AddCampaign: React.FC = () => {
               setFormData({ ...formData, client: clientInfo ? { _id: clientInfo._id } : null });
             }}
             value={formData.client?._id ? clients.find((c) => c._id === formData.client?._id)?.client_name : ""}
+            sx={{ width: "34vw" }}
           />
           <InputField
             name="rentMonthly"
@@ -187,6 +191,7 @@ const AddCampaign: React.FC = () => {
             onChange={(e) => setFormData({ ...formData, rentMonthly: Number(e.target.value) })}
             label="Monthly Rent"
             value={formData.rentMonthly || ""}
+            sx={{ width: "34vw" }}
           />
         </div>
       </section>
