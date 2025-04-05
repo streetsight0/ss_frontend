@@ -52,13 +52,6 @@ export default function LineGraph() {
             area: true },
         ]}
         xAxis={[{ scaleType: "point", data: allMonths }]} 
-        tooltip={{
-          trigger: "item",
-          sx: {
-            backgroundColor: "#4A90E2", // dark bluish background
-            color: "#ffffff", // white text
-          },
-        }}
       />
     </>
   );
