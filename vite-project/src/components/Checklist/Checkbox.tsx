@@ -33,6 +33,7 @@ const Checklist: React.FC<ChecklistProps> = ({ items, label = "Select Billboard"
           borderBottom: "3px solid rgba(168, 85, 247, 1)",
           marginBottom: "16px",
           height: "45",
+          width:"70vw",
           paddingLeft: "16px",
           "& .MuiSelect-select": {
             padding: "12px 16px",
