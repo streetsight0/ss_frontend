@@ -11,13 +11,9 @@
     align-items: center;
     z-index: 1000;
   }
-  .success-icon {
-    width: 90px;
-    height: 83px;
-    margin-bottom: 10px;
-  }
   
-  .confirmation-card {
+  
+  .confirmation-card1 {
     background: #fff;
     padding: 20px;
     width: 350px;
@@ -25,6 +21,7 @@
     text-align: center;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.3s ease-in-out;
+    
   }
   
   /* Icon styling */

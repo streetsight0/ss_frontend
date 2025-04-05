@@ -180,6 +180,7 @@ const BillboardCampaignPopup: React.FC<CampaignPopupProps> = ({
               sx={{
                 backgroundColor: "#DAF067",
                 margin: "20px",
+                color:"black"
               }}
             />
             <Button
@@ -187,6 +188,7 @@ const BillboardCampaignPopup: React.FC<CampaignPopupProps> = ({
               onClick={() => console.log("Delete Campaign Clicked")}
               sx={{
                 backgroundColor: "#DAF067",
+                color:"black"
               }}
             />
           </div>
@@ -197,6 +199,7 @@ const BillboardCampaignPopup: React.FC<CampaignPopupProps> = ({
               sx={{
                 backgroundColor: "#DAF067",
                 margin: "20px",
+                color:"black"
               }}
             />
           </div>

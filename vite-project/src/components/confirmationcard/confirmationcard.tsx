@@ -1,5 +1,6 @@
 import React from "react";
 import "./confirmationcard.css";
+import SuccessIcon from "../../assets/Icons/campaignPopup.png"; 
 
 interface ConfirmationCardProps {
   onCancel: () => void;
@@ -10,13 +11,13 @@ interface ConfirmationCardProps {
   button2:string;
 }
 
-const ConfirmationCard: React.FC<ConfirmationCardProps> = ({ onCancel, onConfirm, alertIcon, confirmationText, button1,button2}) => {
+const ConfirmationCard: React.FC<ConfirmationCardProps> = ({ onCancel, onConfirm, confirmationText, button1,button2}) => {
   return (
     <div className="overlay">
-      <div className="confirmation-card">
-        <div className="confirmation-content">
+      <div className="confirmation-card1" style={{width:"480px",padding:"30px"}}>
+        <div className="confirmation-content1">
           <div className="icon-wrapper">
-            <span className="alert-icon">{alertIcon}</span> 
+          <img src={SuccessIcon} alt="Success" className="success-icon" /> 
           </div>
           <p className="confirmation-text1">{confirmationText}</p> 
           <div className="button-group">

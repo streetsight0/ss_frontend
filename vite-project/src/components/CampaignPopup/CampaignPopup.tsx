@@ -72,7 +72,7 @@ const CampaignPopup: React.FC<CampaignPopupProps> = ({ campaign, onClose }) => {
               {campaign.campaign_name}
             </Typography>
             <Typography variant="body1" sx={{ mb: 1 }}>
-              <strong>Client Name:</strong> {campaign.client_id?.company_name || "Unknown"}
+              <strong>Client Name:</strong> {campaign.company_name || "Unknown"}
             </Typography>
             <Typography variant="body1" sx={{ mb: 1 }}>
               <strong>Allotted Billboards:</strong> {campaign.billboards?.join(" | ") || "N/A"}
