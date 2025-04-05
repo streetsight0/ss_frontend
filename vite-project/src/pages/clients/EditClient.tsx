@@ -3,9 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import CustomTextField from "../../components/Input field/InputField";
 import CustomButton from "../../components/Button/Button";
-import { Typography } from "@mui/material";
+import { Typography,Box } from "@mui/material";
 import UploadImages from "../../components/UploadImage/UploadImage";
 import ConfirmationCard from "../../components/confirmationcard/confirmationcard";
+import BackButton from "../../assets/Icons/BackBlack.png";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -93,67 +94,68 @@ const EditClient = () => {
   };
 
   return (
-    <div>
-      {error && <Typography color="error">{error}</Typography>}
+    <Box sx={{ padding: "30px", maxWidth: "1000px", margin: "auto",  backgroundColor:"#F4F2FF" ,borderRadius: "46px", marginTop:"10px", }}>
+    <Box 
+     onClick={() => navigate(-1)} 
+     sx={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "10px" }}
+   >
+     <img src={BackButton} alt="Back" width="12px" height="16px" />
+     <h2>
+     Add New Clients
+   </h2>
+   </Box>
+   {error && <Typography color="error">{error}</Typography>}
+   <Box
+     sx={{
+       padding: "10px",
+     }}
+   >
+     <h3>
+       Client Details
+     </h3>
 
-      <form onSubmit={handleEditClient} className="client-form">
-        <Typography variant="h4" gutterBottom>
-          Edit Client
-        </Typography>
-        <UploadImages onImagesSelected={setClientLogo} />
-        <CustomTextField
-          label="Client Name"
-          value={client_name}
-          onChange={(e) => setClientName(e.target.value)}
-          required
-        />
-        <CustomTextField
-          label="Client Email"
-          type="email"
-          value={client_email}
-          onChange={(e) => setClientEmail(e.target.value)}
-          required
-        />
-        <CustomTextField
-          label="Company Name"
-          value={company_name}
-          onChange={(e) => setCompanyName(e.target.value)}
-          required
-        />
-        <CustomTextField
-          label="Additional Companies"
-          value={additional_companies}
-          onChange={(e) => setAdditionalCompanies(e.target.value)}
-          required
-        />
-        <CustomTextField
-          label="Address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          required
-        />
-        <CustomTextField
-          label="Contact"
-          type="number"
-          value={contact}
-          onChange={(e) => setContact(e.target.value)}
-          required
-        />
+     <form onSubmit={handleEditClient} style={{ gap: "1rem", display:"flex", flexDirection:"column", padding: "20px"}}>
+       <Box display="grid" gridTemplateColumns="1fr 1fr" gap="15px">
+         <CustomTextField label="Client Name" value={client_name} onChange={(e) => setClientName(e.target.value)} required sx={{ width: "25vw" }} />
+         <CustomTextField label="Company Name" value={company_name} onChange={(e) => setCompanyName(e.target.value)} required sx={{ width: "25vw" }} />
+         <CustomTextField label="Client Email" type="email" value={client_email} onChange={(e) => setClientEmail(e.target.value)} required sx={{ width: "25vw" }} />
+         <CustomTextField label="Address" value={address} onChange={(e) => setAddress(e.target.value)} required sx={{ width: "25vw" }} />
+         <CustomTextField label="Contact" type="number" value={contact} onChange={(e) => setContact(e.target.value)} required sx={{ width: "25vw" }}  />
+         <CustomTextField label="Add more" value={additional_companies} onChange={(e) => setAdditionalCompanies(e.target.value)} required sx={{ width: "25vw" }} />
+       </Box>
 
-        <CustomButton label="Update Client" onClick={handleEditClient} />
-      </form>
+       <Box>
+         <Typography variant="body1" fontWeight="bold" gutterBottom>
+           Upload company logo:
+         </Typography>
+         <UploadImages onImagesSelected={setClientLogo} />
+       </Box> 
 
-      {showConfirmation && (
-        <ConfirmationCard
-          onCancel={() => setShowConfirmation(false)}
-          onConfirm={() => navigate("/getClient")}
-          alertIcon="✔️"
-          confirmationText="Client updated successfully!"
-          button1="Close"
-          button2="Go to All Clients"
-        />
-      )}
-    </div>
+       <Box display="flex" justifyContent="space-between" marginTop="20px">
+         <CustomButton label="Cancel" sx={{ border: "1px solid black", background: "white", color: "black" }} onClick={() => navigate("/getClient")} />
+         <CustomButton label="Save" sx={{ background: "#D9EA58", color: "black" }} onClick={() => setShowConfirmation(true)} />
+       </Box>
+     </form>
+   </Box>
+
+   {showConfirmation && (
+     <ConfirmationCard
+       onCancel={() => setShowConfirmation(false)}
+       onConfirm={async () => {
+         try {
+           await updateClientInBackend();
+           navigate("/getClient");
+         } catch (error) {
+           console.error("Error saving client before navigating:", error);
+         }
+       }}
+       alertIcon="✔️"
+       confirmationText="Client updated successfully"
+       button1="Close"
+       button2="Go to All clients"
+     />
+   )}
+ </Box>
   );
 };
 

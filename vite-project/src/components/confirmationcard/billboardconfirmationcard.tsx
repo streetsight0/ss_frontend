@@ -1,5 +1,5 @@
 import React from "react";
-import "./confirmationcard.css";
+import "./billboardconfirmation.css";
 
 
 interface billboardConfirmationCardProps {
@@ -13,8 +13,8 @@ interface billboardConfirmationCardProps {
 const BillboardConfirmationCard: React.FC<billboardConfirmationCardProps> = ({ onConfirm, alertIcon, confirmationText,button2}) => {
   return (
     <div className="overlay">
-      <div className="confirmation-card">
-        <div className="confirmation-content">
+      <div className="confirmation-card1" style={{display:"flex",justifyContent:"center",backgroundColor:"white",padding:"20px",borderRadius:"10px"}}>
+        <div className="confirmation-content1">
           <div className="icon-wrapper">
             <span className="alert-icon">{alertIcon}</span> 
           </div>
