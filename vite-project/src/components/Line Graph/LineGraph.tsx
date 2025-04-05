@@ -48,9 +48,17 @@ export default function LineGraph() {
         width={1300}
         height={389}
         series={[
-          { data: chartData.map((item) => item.amount), label: "Invoice Amount", color: "#E4DAFF" },
+          { data: chartData.map((item) => item.amount), color: "#C7B0F6",
+            area: true },
         ]}
-        xAxis={[{ scaleType: "point", data: allMonths }]} // Use fixed months
+        xAxis={[{ scaleType: "point", data: allMonths }]} 
+        tooltip={{
+          trigger: "item",
+          sx: {
+            backgroundColor: "#4A90E2", // dark bluish background
+            color: "#ffffff", // white text
+          },
+        }}
       />
     </>
   );

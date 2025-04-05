@@ -137,3 +137,6 @@
   }
 }
 
+.MuiChartsTooltip-root {
+  color: white !important;
+}
