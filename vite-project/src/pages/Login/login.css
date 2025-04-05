@@ -45,12 +45,16 @@
 .login-container {
 	width: 100%;
 	max-width: 430px;
-	height: 100vh;
- 
+	height: 600px;
+	
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 .form-section-l {
 	width: 100%;
@@ -182,7 +186,7 @@ button:hover {
 @media screen and (min-width: 700px) {
 	.login-container {
 		width: 100%;
-		margin: 30px;
+		/* margin: 30px; */
 		max-width: 900px;
      
 	}

@@ -35,7 +35,10 @@ const Navbar: React.FC = () => {
         <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
           <Box display="flex" alignItems="center" gap={2} sx={{ marginLeft: "260px" }}>
             <Typography variant="h6" sx={{ color: "#1A1A1A", fontWeight: "500" }}>
-              Welcome 👋
+              Welcome
+            </Typography>
+            <Typography variant="h6" component="span" sx={{ color: "#a16ae2"}}>
+            Mark Advertising 👋
             </Typography>
           </Box>
 
