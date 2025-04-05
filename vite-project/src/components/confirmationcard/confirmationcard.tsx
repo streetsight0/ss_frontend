@@ -11,7 +11,7 @@ interface ConfirmationCardProps {
   button2:string;
 }
 
-const ConfirmationCard: React.FC<ConfirmationCardProps> = ({ onCancel, onConfirm, alertIcon, confirmationText, button1,button2}) => {
+const ConfirmationCard: React.FC<ConfirmationCardProps> = ({ onCancel, onConfirm, confirmationText, button1,button2}) => {
   return (
     <div className="overlay">
       <div className="confirmation-card1" style={{width:"480px",padding:"30px"}}>
