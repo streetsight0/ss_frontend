@@ -3,7 +3,7 @@ import axios from "axios";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons
+import { FaEye, FaEyeSlash } from "react-icons/fa"; 
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -36,6 +36,24 @@ const Login = () => {
 			setError(error.response?.data?.error || "Login failed");
 		}
 	};
+
+
+const g_client_id = '831529127608-rrn1i7avpla8h7riaduq13nk1vi99u6f.apps.googleusercontent.com';
+
+const handleGoogleLogin = () => {
+  const redirect_uri = `${window.location.origin}/home`;
+  const auth_uri = "https://accounts.google.com/o/oauth2/v2/auth";
+  const scope = ["email", "profile", "openid"];
+
+  const params = [
+    `client_id=${g_client_id}`,
+    `redirect_uri=${encodeURIComponent(redirect_uri)}`,
+    `response_type=token`,
+    `scope=${encodeURIComponent(scope.join(" "))}`
+  ].join("&");
+
+  window.location.href = `${auth_uri}?${params}`;
+};
 
 	return (
 		<div className="login-container">
@@ -75,6 +93,8 @@ const Login = () => {
 								{showPassword ? <FaEyeSlash /> : <FaEye />}
 							</span>
 						</div>
+
+                        <button onClick={handleGoogleLogin}>Login with Google</button>
 
 						<button type="submit">Login</button>
 						{error && <p className="error">{error}</p>}

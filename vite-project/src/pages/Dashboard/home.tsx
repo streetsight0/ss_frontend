@@ -11,9 +11,41 @@ import ClientDashboard from "../../components/Client/ClientDashboard";
 import GoogleMapComponent from "../../components/GoogleApi/GoogleMapDashboard";
 import { Stack } from "@mui/system";
 import '../../components/CampaignCard/CampaignDashboard.css'
+import { useEffect } from "react";
 
 const Home = () => {
     const navigate = useNavigate();
+    let googleResourceUrl = `https://openidconnect.googleapis.com/v1/userinfo`;
+    
+
+useEffect(() => {
+  async function getGoogleData() {
+    if (document.location.href.includes('access_token')) {
+      let token: any = read_token();
+      let json = await api_call(token);
+      console.log(json);
+      // You can store this in context or localStorage
+    }
+  }
+
+  function read_token() {
+    return new URLSearchParams(
+      document.location.href.substr(document.location.href.indexOf('#') + 1)
+    ).get('access_token');
+  }
+
+  async function api_call(token: string) {
+    let api_result = await fetch(googleResourceUrl, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
+    return await api_result.json();
+  }
+
+  getGoogleData();
+}, []);
+
   return (
     <div className="mainDiv">
       <Paper
@@ -21,7 +53,7 @@ const Home = () => {
         sx={{
           p: 3,
           display: "flex",
-          flexDirection: "row", // Align text and images side by side
+          flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
           width:"1300x",

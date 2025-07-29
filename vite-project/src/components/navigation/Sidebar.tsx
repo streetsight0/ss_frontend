@@ -98,6 +98,15 @@ const Sidebar: React.FC = () => {
     setOpen(!open);
   };
 
+   const handleLogout = () => {
+    localStorage.clear(); 
+    sessionStorage.clear(); 
+
+    window.history.replaceState({}, document.title, "/");
+
+    navigate("/login");
+  };
+
   return (
     <>
       <SidebarDrawer variant="permanent" anchor="left" open={open}>
@@ -281,7 +290,7 @@ const Sidebar: React.FC = () => {
         </List>
         <Box sx={{ mt: "auto", mb: 2 }}>
         <ListItem disablePadding>
-          <StyledListItemButton onClick={() => navigate("/login")}>
+           <StyledListItemButton onClick={handleLogout}>
             <ListItemIcon className="list-item-icon">
               <img src={LogoutYellow} alt="Logout" style={{ width: "16px", height: "16px" }} />
             </ListItemIcon>

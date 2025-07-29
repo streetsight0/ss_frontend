@@ -21,12 +21,11 @@ import EditClient from "../pages/clients/EditClient";
 const router = createBrowserRouter([
 	{
 		element: (
-			<ProtectedRoute>
+
 				<>
 					<Navbar />
 					<Sidebar />
 				</>
-			</ProtectedRoute>
 		),
 
 		errorElement: <ErrorPage />, // Display error page if an error occurs
@@ -34,63 +33,59 @@ const router = createBrowserRouter([
 			{
 				path: "/home",
 				element: (
-					<ProtectedRoute>
-						<Home />
-					</ProtectedRoute>
+						<Home />	
 				),
 				errorElement: <ErrorPage />,
 			},
 			{
 				path: "/invoice", // New route for InvoiceForm
 				element: (
-					<ProtectedRoute>
 						<InvoiceForm />
-					</ProtectedRoute>
 				),
 				errorElement: <ErrorPage />,
 			},
 			{
 				path: "/aipricing", // New route for InvoiceForm
 				element: (
-					<ProtectedRoute>
+					
 						<AiPricingPage />
-					</ProtectedRoute>
+					
 				),
 				errorElement: <ErrorPage />,
 			},
 			{
 				path: "/addcampaign",
 				element: (
-					<ProtectedRoute>
+					
 						<AddCampaign />
-					</ProtectedRoute>
+					
 				),
 				errorElement: <ErrorPage />,
 			},
 			{
 				path: "/allcampaigns",
 				element: (
-					<ProtectedRoute>
+					
 						<AllCampaigns />
-					</ProtectedRoute>
+					
 				),
 				errorElement: <ErrorPage />,
 			},
 			{
 				path: "/getBillBoards",
 				element: (
-					<ProtectedRoute>
+					
 						<GetBillBoards />
-					</ProtectedRoute>
+					
 				),
 				errorElement: <ErrorPage />,
 			},
 			{
 				path: "/billBoards",
 				element: (
-					<ProtectedRoute>
+					
 						<Billboards />
-					</ProtectedRoute>
+					
 				),
 				errorElement: <ErrorPage />,
 			},
@@ -98,63 +93,63 @@ const router = createBrowserRouter([
 			{
 				path: "/lease",
 				element: (
-					<ProtectedRoute>
+				
 						<AllLeaseAgreements />
-					</ProtectedRoute>
+					
 				),
 				errorElement: <ErrorPage />,
 			},
 			{
 				path: "/newLease",
 				element: (
-					<ProtectedRoute>
+				
 						<NewLeaseAgreement />
-					</ProtectedRoute>
+					
 				),
 				errorElement: <ErrorPage />,
 			},
 			{
 				path: "/viewLease",
 				element: (
-					<ProtectedRoute>
+					
 						<ViewLeaseAgreement />
-					</ProtectedRoute>
+					
 				),
 				errorElement: <ErrorPage />,
 			},
 			{
 				path: "/client",
 				element: (
-					<ProtectedRoute>
+					
 						<Client />
-					</ProtectedRoute>
+					
 				),
 				errorElement: <ErrorPage />,
 			},
       {
         path: "/editclient",
         element: (
-          <ProtectedRoute>
+        
             <EditClient />
-          </ProtectedRoute>
+         
         ),
         errorElement: <ErrorPage />,
       },
 			{
 				path: "/getClient",
 				element: (
-					<ProtectedRoute>
+					
 						<AllClients />
-					</ProtectedRoute>
+					
 				),
 				errorElement: <ErrorPage />,
 			},
 			{
 				path: "/clientStatus",
 				element: (
-					<ProtectedRoute>
+					
 						<ClientStatus />
-					</ProtectedRoute>
+					
 				),
 				errorElement: <ErrorPage />,
 			},
