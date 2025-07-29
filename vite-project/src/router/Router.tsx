@@ -4,7 +4,6 @@ import Login from "../pages/Login/login";
 import Register from "../pages/Register/register";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Sidebar from "../components/navigation/Sidebar";
-import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import AllClients from '../pages/AllClients/allClients'
 import Navbar from "../components/navigation/Navbar";
 import AllLeaseAgreements from "../pages/LeaseAgreement/AllLeaseAgreement";
