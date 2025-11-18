@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import CustomTextField from "../../components/Input field/InputField";
 import CustomButton from "../../components/Button/Button";
 import { Typography,Box } from "@mui/material";
 import UploadImages from "../../components/UploadImage/UploadImage";
 import ConfirmationCard from "../../components/confirmationcard/confirmationcard";
 import BackButton from "../../assets/Icons/BackBlack.png";
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const EditClient = () => {
   const location = useLocation();
@@ -67,8 +65,8 @@ const EditClient = () => {
         headers = { "Content-Type": "application/json" };
       }
 
-      const response = await axios.put(
-        `${BASE_URL}/api/client/updateclients/${existingClient._id}`,
+      const response = await apiClient.put(
+        `/api/client/updateclients/${existingClient._id}`,
         data,
         { headers }
       );

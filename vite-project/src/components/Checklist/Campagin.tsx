@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Checklist from './Checkbox';
-import axios from 'axios';
+import apiClient from '../../utils/axiosConfig';
 import Loader from "../../components/Loader/Loader";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const App: React.FC = () => {
   const [, setSelectedItems] = useState<string[]>([]);
@@ -12,8 +11,8 @@ const App: React.FC = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    axios
-      .get(`${BASE_URL}/api/billboard/getbillboards`)
+    apiClient
+      .get("/api/billboard/getbillboards")
       .then((response) => {
         const fetchedItems = response.data.map(
           (billboard: { billboard_series: string; location: { name: string } }) =>

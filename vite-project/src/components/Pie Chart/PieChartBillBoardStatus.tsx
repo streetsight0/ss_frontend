@@ -1,10 +1,8 @@
 import { Box } from '@mui/material';
 import { PieChart } from '@mui/x-charts/PieChart';
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import { useEffect, useState } from 'react';
 import '../CampaignCard/CampaignDashboard.css';
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 interface Billboard {
   _id: string;
@@ -21,7 +19,7 @@ export default function PieChartBillBoardStatus() {
   useEffect(() => {
     const getBillBoards = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/billboard/getbillboards`);
+        const response = await apiClient.get("/api/billboard/getbillboards");
         console.log(response.data);
         setBillboardData(response.data); 
       }

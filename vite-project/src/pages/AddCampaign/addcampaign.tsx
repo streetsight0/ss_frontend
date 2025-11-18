@@ -240,12 +240,11 @@ import Button from "../../components/Button/Button";
 import InputField from "../../components/Input field/InputField";
 import CustomDropdown from "../../components/DropDown/DropDown";
 import Checklist from "../../components/Checklist/Checkbox";
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import "./AddCampaign.css";
 import ImageUpload from "../../components/ImageUpload/ImageUpload";
 import CampaignDetails from "../../components/CampaignPopup/CampaignPopup"; // Import the CampaignDetails component
 import Suceespopup from "../../components/SuccessPopup/SuccessCampaignPopup";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 interface CampaignFormData {
   campaignName: string;
@@ -276,7 +275,7 @@ const AddCampaign: React.FC = () => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/client/getclients`);
+        const response = await apiClient.get("/api/client/getclients");
         setClients(response.data.data);
       } catch (error) {
         console.error("Error fetching clients", error);
@@ -288,7 +287,7 @@ const AddCampaign: React.FC = () => {
   useEffect(() => {
     const fetchBillboards = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/billboard/getbillboards`);
+        const response = await apiClient.get("/api/billboard/getbillboards");
         const billboardArray = Array.isArray(response.data) ? response.data : response.data.billboards || [];
         setBillboards(
           billboardArray.map((b: any) => ({
@@ -327,7 +326,7 @@ const AddCampaign: React.FC = () => {
     };
 
     try {
-      const response = await axios.post(`${BASE_URL}/api/campaign/createcampaigns`, formattedData);
+      const response = await apiClient.post("/api/campaign/createcampaigns", formattedData);
       if (response.status === 201) {
         setFormData({
           campaignName: "",
