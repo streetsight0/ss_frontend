@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import BillboardCard from "../../components/billboardscards/billboardscards";
 import { Box, Pagination, Typography } from "@mui/material";
 import "./AvaillableBillboards.css";
 import Loader from "../../components/Loader/Loader";
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ITEMS_PER_PAGE = 3; 
 interface Billboard {
   _id: string;
@@ -26,8 +24,8 @@ const AvailableBillboards: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   useEffect(() => {
     Promise.all([
-      axios.get(`${BASE_URL}/api/billboard/getbillboards`),
-      axios.get(`${BASE_URL}/api/campaign/getcampaigns`),
+      apiClient.get("/api/billboard/getbillboards"),
+      apiClient.get("/api/campaign/getcampaigns"),
     ])
       .then(([billboardRes, campaignRes]) => {
         setBillboards(billboardRes.data);
@@ -54,7 +52,7 @@ const AvailableBillboards: React.FC = () => {
     if (unassignedBillboards.length > 0) {
       unassignedBillboards.forEach(async (billboard) => {
         try {
-          await axios.put(`${BASE_URL}/api/billboard/updatebillboards/${billboard._id}`, {
+          await apiClient.put(`/api/billboard/updatebillboards/${billboard._id}`, {
             status: "available", // Update status to "available"
           });
         } catch (error) {

@@ -8,7 +8,7 @@ import InactiveMapPin from "../../assets/Icons/InactivMapPin.png"
 import AvailableMapPin from "../../assets/Icons/AvailableMapPin.png";
 import markerShadowPng from "leaflet/dist/images/marker-shadow.png";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 
 // Function to return the appropriate custom icon based on the billboard status
 const getCustomIcon = (status: string): L.Icon => {
@@ -36,8 +36,6 @@ const getCustomIcon = (status: string): L.Icon => {
   });
 };
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
 interface Billboard {
   _id: string;
   billboard_series: string;
@@ -57,7 +55,7 @@ const MyMap: React.FC = () => {
   useEffect(() => {
     const getBillBoards = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/billboard/getbillboards`);
+        const response = await apiClient.get("/api/billboard/getbillboards");
         setBillboardData(response.data);
       } catch (error) {
         console.log(error);

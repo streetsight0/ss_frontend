@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import CustomButton from "../../components/Button/Button";
 import CustomTextField from "../../components/Input field/InputField";
 import CustomDropdown from "../../components/DropDown/DropDown";
@@ -10,8 +10,6 @@ import LocationInput from "../../components/GoogleApi/InputLocation"
 import BackIcon from "../../assets/Icons/BackBlack.png";
 // import  from "../../components/SuccessPopup/SuccessCampaignPopup";
 import { useNavigate } from "react-router-dom";
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const BillBoard = () => {
   const [billboard_name, setBillboardName] = useState("");
@@ -37,7 +35,7 @@ const BillBoard = () => {
   useEffect(() => {
     const fetchBillboardCount = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/billboard/getbillboards`);
+        const response = await apiClient.get("/api/billboard/getbillboards");
         const totalBillboards = response.data.length;
         setBillboardSeries(`B30${totalBillboards + 1}`);
       } catch (error) {
@@ -64,7 +62,7 @@ const BillBoard = () => {
       formData.append("pricePerMonth", pricePerMonth);
       billboardImages.forEach((image) => formData.append("billboard_images", image));
 
-      await axios.post(`${BASE_URL}/api/billboard/createbillboards`, formData, {
+      await apiClient.post("/api/billboard/createbillboards", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

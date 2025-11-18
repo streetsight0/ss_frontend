@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import BillboardCard from "../../components/billboardscards/billboardscards";
 import BillboardCampaignPopup from "../../components/CampaignPopup/BillboardCampaingPopup";
 import {
@@ -15,8 +15,6 @@ import AddCampaignIcon from "../../assets/Icons/BillboardBlack.png";
 import AddCampaignIconBlack from "../../assets/Icons/BillboardYellow.png";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ITEMS_PER_PAGE = 9;
 
 interface Billboard {
@@ -66,8 +64,8 @@ const CampaignsBillboards: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/api/campaign/getcampaigns`)
+    apiClient
+      .get("/api/campaign/getcampaigns")
       .then((response) => {
         setCampaigns(response.data.data);
         setLoadingCampaigns(false);
@@ -77,8 +75,8 @@ const CampaignsBillboards: React.FC = () => {
         console.error("Error fetching campaigns:", error);
       });
 
-    axios
-      .get(`${BASE_URL}/api/billboard/getbillboards`)
+    apiClient
+      .get("/api/billboard/getbillboards")
       .then((response) => {
         setBillboards(response.data);
         setLoadingBillboards(false);
@@ -97,13 +95,13 @@ const CampaignsBillboards: React.FC = () => {
 
   const updateBillboardStatus = (billboardId: string, leaseEnd: string) => {
     const newStatus = getStatus(leaseEnd);
-    axios
-      .get(`${BASE_URL}/api/billboard/getbillboards/${billboardId}`)
+    apiClient
+      .get(`/api/billboard/getbillboards/${billboardId}`)
       .then((response) => {
         const currentStatus = response.data.status;
         if (currentStatus !== newStatus) {
-          axios
-            .put(`${BASE_URL}/api/billboard/updatebillboards/${billboardId}`, {
+          apiClient
+            .put(`/api/billboard/updatebillboards/${billboardId}`, {
               billboard_id: billboardId,
               status: newStatus,
             })
