@@ -9,12 +9,11 @@ import Typography from "@mui/material/Typography";
 import CustomDropdown from "../../components/DropDown/DropDown";
 import CustomTextField from "../../components/Input field/InputField";
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack } from "@mui/material";
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../assets/Icons/BackBlack.png";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 const steps = ["General Lease Information", "Lease Terms & Payments", "Additional Terms & Actions"];
 interface Billboard {
   _id: string;
@@ -36,7 +35,7 @@ export default function NewLeaseAgreement() {
   useEffect(() => {
     const getAllClients = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/client/getclients`);
+        const response = await apiClient.get("/api/client/getclients");
         setClientDetails(response.data.data); // Update state with client details
         console.log(response.data.data)
       } catch (error) {
@@ -45,7 +44,7 @@ export default function NewLeaseAgreement() {
     };
     const getBillBoards = async () =>{
       try {
-        const response = await axios.get(`${BASE_URL}/api/billboard/getbillboards`);
+        const response = await apiClient.get("/api/billboard/getbillboards");
         console.log(response.data)
         setBillboardData(response.data); 
       }
@@ -94,7 +93,7 @@ export default function NewLeaseAgreement() {
   const handleSubmit = async () => {
     console.log("Final Form Data Before Submission:", formData);
     try {
-      const response = await axios.post(`${BASE_URL}/api/leaseagreement/createLeaseAgreements`, formData);
+      const response = await apiClient.post("/api/leaseagreement/createLeaseAgreements", formData);
       navigate("/viewLease", { state: { leaseData: formData } });
       console.log("Response from API:", response.data);
     } catch (error: any) {

@@ -8,8 +8,8 @@ import CampaignPopup from "../../components/CampaignPopup/CampaignPopup";
 import defaultLogo from "../../assets/Icons/ProfileBlack.png";
 import AddCampaignIconBlack from "../../assets/Icons/BillboardYellow.png";
 import Loader from "../../components/Loader/Loader";
+import apiClient from "../../utils/axiosConfig";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ITEMS_PER_PAGE = 9;
 
 const CampaignList: React.FC = () => {
@@ -25,11 +25,10 @@ const CampaignList: React.FC = () => {
     setTimeout(() => {
       const fetchCampaigns = async () => {
         try {
-          const response = await fetch(`${BASE_URL}/api/campaign/getcampaigns`);
-          const data = await response.json();
-          if (Array.isArray(data.data)) {
-            setCampaigns(data.data);
-            console.log(data.data);
+          const response = await apiClient.get(`/api/campaign/getcampaigns`);
+          if (Array.isArray(response.data.data)) {
+            setCampaigns(response.data.data);
+            console.log(response.data.data);
           } else {
             setCampaigns([]);
           }

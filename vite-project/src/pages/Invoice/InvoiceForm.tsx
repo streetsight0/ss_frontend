@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./InvoiceForm.css";
 import { jsPDF } from "jspdf";
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import CustomDropdown from "../../components/DropDown/DropDown";
 import CustomTextField from "../../components/Input field/InputField";
 import CustomButton from "../../components/Button/Button";
@@ -12,8 +12,6 @@ import BackButton from "../../assets/Icons/BackBlack.png";
 import SuccessPopup from "../../components/EmailMessage/SuccessPopup";
 
 import { useNavigate } from "react-router-dom";
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 interface InvoiceDetails {
 	client: string;
@@ -71,21 +69,21 @@ const InvoiceForm: React.FC = () => {
 			email: "",
 		});
 
-		// Fetching clients data from the API
-		axios
-			.get(`${BASE_URL}/api/client/getclients`)
-			.then((response) => {
-				// Assuming response.data.data contains the client details
-				if (Array.isArray(response.data.data)) {
-					setClients(response.data.data); // Store full client data
-				} else {
-					console.error(
-						"Expected an array inside 'data' but got",
-						response.data
-					);
-				}
-			})
-			.catch((error) => console.error("Error fetching clients", error));
+	// Fetching clients data from the API
+	apiClient
+		.get("/api/client/getclients")
+		.then((response) => {
+			// Assuming response.data.data contains the client details
+			if (Array.isArray(response.data.data)) {
+				setClients(response.data.data); // Store full client data
+			} else {
+				console.error(
+					"Expected an array inside 'data' but got",
+					response.data
+				);
+			}
+		})
+		.catch((error) => console.error("Error fetching clients", error));
 
 		// Generate random invoice number on mount
 		setInvoiceDetails((prevState) => ({
@@ -121,12 +119,12 @@ const InvoiceForm: React.FC = () => {
 				companyName: allCompanies.length > 0 ? allCompanies[0] : "",
 			}));
 
-			try {
-				// Fetch campaigns assigned to this client, including billboards with locations
-				const response = await axios.get(
-					`${BASE_URL}/api/campaign/getcampaigns/${selectedClient._id}`
-				);
-				const campaigns = response.data.campaigns;
+		try {
+			// Fetch campaigns assigned to this client, including billboards with locations
+			const response = await apiClient.get(
+				`/api/campaign/getcampaigns/${selectedClient._id}`
+			);
+			const campaigns = response.data.campaigns;
 
 				if (campaigns.length > 0) {
 					setInvoiceDetails((prevState) => ({
@@ -288,8 +286,8 @@ const InvoiceForm: React.FC = () => {
 
 		try {
 			// Send POST request to backend to create the invoice
-			const response = await axios.post(
-				`${BASE_URL}/api/invoice/createinvoices`,
+			const response = await apiClient.post(
+				"/api/invoice/createinvoices",
 				invoiceData,
 				{
 					headers: {
@@ -491,20 +489,20 @@ const InvoiceForm: React.FC = () => {
 			`Hi ${invoiceDetails.clientName},\nYour invoice for the campaign advertisement for this month is ready.Please take a moment to review the details.\n Your total payable amount, including all taxes, is ${invoiceDetails.totalAmount}.Please make the payment by the 21st of this month to avoid any late fees.Amount\nBest regards,\nTeam Steet Sight`
 		);
 
-		try {
-			await axios.post(`${BASE_URL}/api/invoice/sendInvoiceEmail`, formData, {
-				headers: { "Content-Type": "multipart/form-data" }, // Ensure it's sent as FormData
-			});
+	try {
+		await apiClient.post("/api/invoice/sendInvoiceEmail", formData, {
+			headers: { "Content-Type": "multipart/form-data" }, // Ensure it's sent as FormData
+		});
 
-			setShowConfirmation(true);
-			setTimeout(() => {
-				setShowConfirmation(false);
+		setShowConfirmation(true);
+		setTimeout(() => {
+			setShowConfirmation(false);
 
-				navigate("/invoice");
-			}, 3000);
-		} catch (error) {
-			setMessage("Failed to send invoice email. Please try again."); // Set error message
-		}
+			navigate("/invoice");
+		}, 3000);
+	} catch (error) {
+		setMessage("Failed to send invoice email. Please try again."); // Set error message
+	}
 	};
 
 	return (

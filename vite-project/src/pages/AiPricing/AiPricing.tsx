@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { jsPDF } from "jspdf";
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import CustomButton from "../../components/Button/Button";
 import CustomDropdown from "../../components/DropDown/DropDown";
 import logo from "../../assets/logo1.png";
@@ -11,8 +11,6 @@ import { useNavigate } from "react-router-dom";
 import SuccessPopup from "../../components/EmailMessage/SuccessPopup";
 import { CircularProgress, Typography, Box, Alert } from "@mui/material";
 import "./AiPricing.css"; // Import CSS
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const AiPricingPage: React.FC = () => {
 	const [formData, setFormData] = useState({
@@ -35,7 +33,7 @@ const AiPricingPage: React.FC = () => {
 	// Fetch client emails from backend
 	const fetchClientEmails = async () => {
 		try {
-			const response = await axios.get(`${BASE_URL}/api/client/getclients`);
+			const response = await apiClient.get(`/api/client/getclients`);
 			console.log("Response data:", response.data); // Debugging
 
 			// Ensure response.data.data exists and is an array
@@ -69,8 +67,8 @@ const AiPricingPage: React.FC = () => {
 		setError(null);
 
 		try {
-			const response = await axios.post(
-				`${BASE_URL}/api/aipricing/billboardprice`,
+			const response = await apiClient.post(
+				`/api/aipricing/billboardprice`,
 				formData
 			);
 
@@ -199,8 +197,8 @@ const AiPricingPage: React.FC = () => {
 		);
 
 		try {
-			await axios.post(
-				`${BASE_URL}/api/invoice/sendInvoiceEmail`,
+			await apiClient.post(
+				`/api/invoice/sendInvoiceEmail`,
 				emailFormData,
 				{
 					headers: { "Content-Type": "multipart/form-data" },
