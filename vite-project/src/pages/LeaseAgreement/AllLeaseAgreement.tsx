@@ -3,7 +3,7 @@ import { Box, Stack, Typography, Pagination } from "@mui/material";
 import InfoCard from "../../components/Card/Card";
 import CustomButton from "../../components/Button/Button";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import AddIcon from "../../assets/Icons/add.png";
 import "./AllLeaseAgreement.css";
 

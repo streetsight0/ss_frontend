@@ -3,7 +3,7 @@ import AvailableBillBoards from "../AvailableBillBoards/AvailableBillBoards";
 import AllBillBoards from "../AllBillBoards/AllBillBoards";
 import Loader from "../../components/Loader/Loader"; 
 import "./getbillboard.css";  
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 

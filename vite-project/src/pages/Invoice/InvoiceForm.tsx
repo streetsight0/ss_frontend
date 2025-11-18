@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./InvoiceForm.css";
 import { jsPDF } from "jspdf";
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import CustomDropdown from "../../components/DropDown/DropDown";
 import CustomTextField from "../../components/Input field/InputField";
 import CustomButton from "../../components/Button/Button";

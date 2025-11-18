@@ -4,6 +4,7 @@ import './CampaignDashboard.css';
 import hike from '../../assets/Icons/hike.png';
 import Graph from '../../assets/Graph.png';
 import {Stack } from "@mui/system";
+import apiClient from "../../utils/axiosConfig";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 export default function CampaignDashboard(){
@@ -11,10 +12,9 @@ export default function CampaignDashboard(){
     useEffect(() => {
       const fetchCampaigns = async () => {
         try {
-          const response = await fetch(`${BASE_URL}/api/campaign/getcampaigns`);
-          const data = await response.json();
-          console.log(data.data);
-          setCampaigns(data.data);
+          const response = await apiClient.get(`/api/campaign/getcampaigns`);
+          console.log(response.data.data);
+          setCampaigns(response.data.data);
         } catch (error) {
           console.error("Error fetching campaigns:", error);
         } 

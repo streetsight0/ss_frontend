@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import CustomDropdown from "../../components/DropDown/DropDown";
 import CustomTextField from "../../components/Input field/InputField";
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack } from "@mui/material";
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../assets/Icons/BackBlack.png";
