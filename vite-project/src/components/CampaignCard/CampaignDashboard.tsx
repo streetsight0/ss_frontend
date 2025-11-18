@@ -6,7 +6,6 @@ import Graph from '../../assets/Graph.png';
 import {Stack } from "@mui/system";
 import apiClient from "../../utils/axiosConfig";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 export default function CampaignDashboard(){
     const [campaigns, setCampaigns] = useState<any[]>([]);
     useEffect(() => {

@@ -5,8 +5,6 @@ import Loader from "../../components/Loader/Loader";
 import "./getbillboard.css";  
 import apiClient from "../../utils/axiosConfig";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
 const GetBillBoards = () => {
   const [billboardCount, setBillboardCount] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -14,7 +12,7 @@ const GetBillBoards = () => {
   useEffect(() => {
     const fetchBillboardCount = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/billboard/getbillboards`);
+        const response = await apiClient.get("/api/billboard/getbillboards");
         setBillboardCount(response.data.length);
 
         setTimeout(() => {

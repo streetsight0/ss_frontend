@@ -10,7 +10,6 @@ import AddCampaignIconBlack from "../../assets/Icons/BillboardYellow.png";
 import Loader from "../../components/Loader/Loader";
 import apiClient from "../../utils/axiosConfig";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ITEMS_PER_PAGE = 9;
 
 const CampaignList: React.FC = () => {

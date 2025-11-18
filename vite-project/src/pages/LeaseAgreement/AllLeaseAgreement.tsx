@@ -7,7 +7,6 @@ import apiClient from "../../utils/axiosConfig";
 import AddIcon from "../../assets/Icons/add.png";
 import "./AllLeaseAgreement.css";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ITEMS_PER_PAGE = 9;
 const AllLeaseAgreements: React.FC = () => {
   const [leaseAgreement, setLeaseAgreement] = useState<any[]>([]);
@@ -22,9 +21,9 @@ const AllLeaseAgreements: React.FC = () => {
   useEffect(() => {
     let isMounted = true;
 
-    const getAllLeaseAgreements = async () => {
-      try {
-        const response = await axios.get(`${BASE_URL}/api/leaseagreement/getLeaseAgreements`);
+  const getAllLeaseAgreements = async () => {
+    try {
+      const response = await apiClient.get("/api/leaseagreement/getLeaseAgreements");
         
         if (isMounted) {
           setLeaseAgreement(response.data);

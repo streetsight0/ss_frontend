@@ -12,8 +12,6 @@ import SuccessPopup from "../../components/EmailMessage/SuccessPopup";
 import { CircularProgress, Typography, Box, Alert } from "@mui/material";
 import "./AiPricing.css"; // Import CSS
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
 const AiPricingPage: React.FC = () => {
 	const [formData, setFormData] = useState({
 		location: "",

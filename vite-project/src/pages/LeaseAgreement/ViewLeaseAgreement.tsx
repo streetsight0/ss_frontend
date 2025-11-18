@@ -6,8 +6,6 @@ import CustomButton from "../../components/Button/Button";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../utils/axiosConfig";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
 const ViewLeaseAgreement: React.FC = () => {
     const location = useLocation();
     const leaseData = location.state?.leaseData; 
@@ -67,7 +65,7 @@ const ViewLeaseAgreement: React.FC = () => {
         );
 
         // Send email
-        await axios.post(`${BASE_URL}/api/invoice/sendInvoiceEmail`, formData, {
+        await apiClient.post("/api/invoice/sendInvoiceEmail", formData, {
             headers: { "Content-Type": "multipart/form-data" },
         });
 
