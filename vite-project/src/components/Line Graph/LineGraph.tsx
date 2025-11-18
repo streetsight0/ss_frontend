@@ -1,9 +1,7 @@
 import { LineChart } from '@mui/x-charts/LineChart';
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import { useEffect, useState } from 'react';
 import '../CampaignCard/CampaignDashboard.css';
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 // Define all months in order
 const allMonths = [
@@ -18,7 +16,7 @@ export default function LineGraph() {
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/invoice/getinvoices`);
+        const response = await apiClient.get("/api/invoice/getinvoices");
         console.log(response.data);
 
         // Convert response data into a map for easy lookup

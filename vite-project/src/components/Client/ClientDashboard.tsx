@@ -1,6 +1,6 @@
 import {  Card,  Stack } from '@mui/material';
 import { PieChart } from '@mui/x-charts/PieChart';
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import { useEffect, useState } from 'react';
 import './ClientDashboard.css';
 
@@ -13,14 +13,13 @@ interface Client {
     address: string;
     contact: string;
 }
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export default function ClientDashboard() {
   const [clients, setClients] = useState<Client[]>([]);
    useEffect(() => {
     const getClients = async () =>{
       try {
-        const response = await axios.get(`${BASE_URL}/api/client/getclients`);
+        const response = await apiClient.get("/api/client/getclients");
         console.log(response.data.data)
         setClients(response.data.data); 
       }
