@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import "./clientStatus.css";
 import Loader from "../../components/Loader/Loader";
 
@@ -21,8 +21,6 @@ interface Campaign {
   campaign_name: string;
 }
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
 const ClientTable: React.FC = () => {
   const [clients, setClients] = useState<Client[]>([]);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
@@ -33,13 +31,9 @@ const ClientTable: React.FC = () => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        if (!BASE_URL) {
-          throw new Error("BASE_URL is not defined. Check your .env file.");
-        }
-
         const [clientsResponse, campaignsResponse] = await Promise.all([
-          axios.get(`${BASE_URL}/api/client/getclients`),
-          axios.get(`${BASE_URL}/api/campaign/getcampaigns`),
+          apiClient.get("/api/client/getclients"),
+          apiClient.get("/api/campaign/getcampaigns"),
         ]);
 
         if (Array.isArray(clientsResponse.data.data)) {

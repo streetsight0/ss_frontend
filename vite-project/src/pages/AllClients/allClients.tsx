@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import ClientCard from "../../components/Card/ClientCard";
 import "./allClients.css";
 import { useNavigate } from "react-router-dom";
@@ -45,8 +45,6 @@ interface Campaign {
   campaign_name: string;
 }
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
 const AllClients = () => {
   const [billboards, setBillboards] = useState<BillboardData[]>([]);
   const [leaseAgreements, setLeaseAgreements] = useState<LeaseAgreement[]>([]);
@@ -61,14 +59,10 @@ const AllClients = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!BASE_URL) {
-          throw new Error("BASE_URL is not defined. Check your .env file.");
-        }
-
         const [clientsResponse, leaseResponse, campaignRes] = await Promise.all([
-          axios.get(`${BASE_URL}/api/client/getclients`),
-          axios.get(`${BASE_URL}/api/leaseagreement/getLeaseAgreements`),
-          axios.get(`${BASE_URL}/api/campaign/getcampaigns`),
+          apiClient.get("/api/client/getclients"),
+          apiClient.get("/api/leaseagreement/getLeaseAgreements"),
+          apiClient.get("/api/campaign/getcampaigns"),
         ]);
 
         console.log("Campaigns:", campaignRes.data.data);

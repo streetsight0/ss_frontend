@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import apiClient from "../../utils/axiosConfig";
 import CustomTextField from "../../components/Input field/InputField";
 import CustomButton from "../../components/Button/Button";
 import { Typography, Box } from "@mui/material";
 import UploadImages from "../../components/UploadImage/UploadImage";
 import ConfirmationCard from "../../components/confirmationcard/confirmationcard";
 import BackButton from "../../assets/Icons/BackBlack.png";
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const Clients = () => {
   const [client_name, setClientName] = useState("");
@@ -34,7 +32,7 @@ const Clients = () => {
     client_logo.forEach((image) => formData.append("client_logo", image));
 
     try {
-      const response = await axios.post(`${BASE_URL}/api/client/createclients`, formData, {
+      const response = await apiClient.post("/api/client/createclients", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       console.log("Client saved:", response.data);
