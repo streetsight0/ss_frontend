@@ -51,7 +51,7 @@ const AiPricingPage: React.FC = () => {
 			console.error("Error fetching client emails:", error);
 		}
 	};
-
+//test
 	// Call the function on component mount
 	useEffect(() => {
 		fetchClientEmails();
