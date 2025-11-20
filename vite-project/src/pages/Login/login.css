@@ -1,0 +1,262 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
+
+.welcome-section {
+	display: flex;
+	padding: 10px 30px;
+	background-color: #a16ae2;
+}
+.password-container {
+	position: relative;
+	width: 100%;
+}
+.welcome-image {
+	width: 500px;
+	height: 100px;
+	background-image: url("../../assets/Group.png");
+	background-size: contain; /* Ensures the full image fits */
+	background-repeat: no-repeat; /* Prevents repetition */
+	background-position: bottom center; /* Positions image at the bottom */
+	opacity: 0; /* Start hidden */
+	animation: bounceIn 0.8s ease-out 0.5s 2;
+	animation-fill-mode: forwards;
+}
+ .password-container input {
+	width: 100%;
+	padding: 12px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 16px;
+	
+    border: 2px dotted red;
+}
+
+.password-container .eye-icon {
+	position: absolute;
+	right: 20px;
+	top: 50%;
+	transform: translateY(-50%);
+	cursor: pointer;
+	font-size: 18px;
+	color: #666;
+}
+
+
+.login-container {
+	width: 100%;
+	max-width: 430px;
+	height: 600px;
+	
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+.form-section-l {
+	width: 100%;
+	max-width: 100%;
+	padding: 20px;
+	padding-top: 50px;
+	padding-bottom: 50px;
+	background: #000000;
+	height: 100vh;
+	flex-direction: column;
+	justify-content: center;
+    box-sizing: border-box;
+	
+}
+.login-card {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 100%; 
+	border-radius: 10px;
+	overflow: hidden; 
+	box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+	background: #fff;
+   
+}
+
+.title {
+	font-size: 24px;
+	font-weight: bold;
+	color: #ffffff;
+	text-align: center;
+}
+
+.subtitle {
+	font-size: 14px;
+	color: #daf067;
+	text-align: center;
+}
+
+.login-form {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	/* width: 100%;  */
+	max-width: 400px; 
+
+	padding: 20px;
+      box-sizing: border-box;
+}
+.welcome-text {
+    padding-left: 10px;
+	font-size: 28px;
+	font-weight: bold;
+	opacity: 0; /* Start hidden */
+	animation: fadeSlideIn 1s ease-in-out forwards;
+}
+
+.form-section-l .login-form input {
+	width: 100%;
+	/* padding: 12px; */
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 16px;
+    box-sizing: border-box;
+}
+
+.login-form button {
+	width: 100%;
+	background: #daf067;
+	color: #000000;
+	padding: 14px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 18px;
+	transition: all 0.3s ease-in-out;
+    align-items: center;
+}
+.login-form button:hover {
+	background: #d0ff00;
+}
+.form-section-l label {
+	font-size: 16px;
+	font-weight: 500;
+	color: #f9f5ea;
+	text-align: left;
+}
+
+button:hover {
+	background: #444;
+}
+
+.signup-text {
+	margin-top: 10px;
+	font-size: 14px;
+	color: #ffffff;
+    text-align: center;
+}
+
+.signup-text a {
+	color: #007bff;
+	font-weight: bold;
+	text-align: center;
+}
+@keyframes fadeSlideIn {
+	0% {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes bounceIn {
+	0% {
+		transform: scale(0.8);
+		opacity: 0;
+	}
+
+	100% {
+		transform: scale(1.2);
+		opacity: 1;
+	}
+}
+
+/* 🔹 Desktop View */
+@media screen and (min-width: 700px) {
+	.login-container {
+		width: 100%;
+		/* margin: 30px; */
+		max-width: 900px;
+     
+	}
+
+	.login-card {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+		border-radius: 40px;
+		overflow: hidden;
+		max-width: 900px;
+	}
+
+	.welcome-section {
+		/* width: 100%; */
+		background: #a16ae2;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		color: white;
+		padding: 40px;
+		border-radius: 30px;
+		box-shadow: 0 0 0 30px black;
+	}
+
+	.welcome-text {
+		font-weight: bold;
+		font-family: Poppins;
+		font-weight: 600;
+		font-size: 55px;
+	}
+
+	.welcome-image {
+		width: 300px;
+		height: 300px;
+		background-image: url("../../assets/Group.png");
+		background-size: contain; /* Ensures the full image fits */
+		background-repeat: no-repeat; /* Prevents repetition */
+		background-position: bottom center; /* Positions image at the bottom */
+	}
+
+	.form-section-l {
+		width: 900px;
+		width: 60%;
+		padding: 30px;
+		background: #020000;
+	}
+
+	.title {
+		font-size: 36px;
+	}
+
+	.subtitle {
+		font-size: 16px;
+		color: #daf067;
+		font-weight: 400;
+		line-height: 68px;
+	}
+
+	input {
+		padding: 14px; /* Increased padding for desktop */
+		font-size: 18px;
+	}
+
+	button {
+		font-size: 18px;
+		padding: 16px;
+	}
+	.signup-text {
+		text-align: center;
+	}
+}

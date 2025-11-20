@@ -1,0 +1,100 @@
+
+
+
+.status {
+  font-size: 14px;
+  font-weight: bold;
+}
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+}
+
+.status-circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.status.active {
+  color: #0f0;
+  background-color: rgba(0, 255, 0, 0.229);
+}
+.status-badge.active .status-circle {
+  background-color: green;
+}
+.status-badge.inactive .status-circle {
+  background-color: rgba(255, 0, 0, 0.59);
+}
+.status.inactive {
+  color: rgba(255, 0, 0, 0.299);
+  background-color: rgba(255, 0, 0, 0.422);
+}
+
+
+.available-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #e6ffe6; 
+  padding: 5px 10px;
+  border-radius: 12px;
+}
+.available-circle {
+  width: 10px;
+  height: 10px;
+  background-color: #28a745; 
+  border-radius: 50%;
+}
+
+.available-text {
+  color: #28a745;
+  font-size: 12px;
+  font-weight: bold;
+  
+}
+
+.campaign-lease-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.campaign-section h3{
+  color:black;
+}
+p {
+  font-size: 10px;
+  color: #000;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+
+
+.available {
+  background-color: rgba(0, 128, 0, 0.549);
+  color: white;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+.active {
+  background-color: rgba(0, 128, 0, 0.549);
+  color: white;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+.inactive {
+  background-color: rgba(255, 0, 0, 0.597);
+  color: white;
+  padding: 3px;
+  border-radius: 5px;
+}

@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+/* General Styles */
+.campaign-form {
+	max-width: 70vw;
+	margin: auto;
+	padding: 20px;
+	background: #f4f2ff;
+	border-radius: 12px;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+	font-family: "Poppins", sans-serif;
+}
+
+.conatiner {
+	display: flex;
+	gap: 10rem;
+	/* max-width: 1000px; */
+	/* margin:auto; */
+}
+.conatiner .custom-input-field .dropdown-width {
+	width: 488px;
+}
+.previewpdf {
+	width: 400px;
+	border-radius: 12px;
+	border: solid 1px rgb(1, 1, 1);
+	height: 720px;
+}
+.previewpdf p {
+	font-size: 12px;
+	padding-left: 10px;
+}
+* {
+	font-family: "Poppins", sans-serif !important;
+}
+
+/* Custom Text Field Styles */
+.custom-input-field.MuiTextField-root {
+	width: 100%;
+	height: 60px; /* Consistent height for all input fields */
+}
+.campaign-header {
+	padding-bottom: 15px;
+}
+
+/* Label Styling (Ensures No Size Change on Selection) */
+/* Ensure dropdown labels align with text fields */
+.invoice-form .MuiInputLabel-root {
+	font-size: 16px !important;
+	font-weight: 500 !important;
+	color: #212429 !important;
+	text-align: left !important;
+	padding-left: 0 !important;
+	margin-left: 0 !important;
+}
+
+/* Prevent label movement on selection */
+.invoice-form .MuiInputLabel-root.Mui-focused,
+.invoice-form .MuiInputLabel-shrink {
+	transform: none !important;
+}
+
+/* Ensure consistent dropdown styles */
+.invoice-form .MuiSelect-root {
+	font-size: 16px !important;
+	color: #212429 !important;
+	font-weight: 500;
+}
+.invoice-form .MuiInputLabel-formControl {
+	margin-left: 0 !important;
+	padding-left: 0 !important;
+}
+
+/* Fix for Select component's label positioning */
+.invoice-form .MuiFormControl-root {
+	align-items: flex-start !important; /* Align label and input to the left */
+}
+
+/* Fix for dropdown text alignment */
+.invoice-form .MuiSelect-root {
+	text-align: left !important;
+	padding-left: 0 !important;
+}
+
+/* Buttons Styling */
+.MuiButtonBase-root.preview-button {
+	background-color: #daf067;
+	color: #212429;
+	transition: none;
+}
+
+.MuiButtonBase-root.preview-button:hover {
+	background-color: #daf067;
+	color: #212429;
+}
+
+.MuiButtonBase-root.sendemial {
+	background-color: #212429;
+	color: #edff90;
+	transition: none;
+}
+
+.MuiButtonBase-root.sendemial:hover {
+	background-color: #212429;
+	color: #edff90;
+}
+
+/* Button Text Styling */
+.MuiButtonBase-root.sendemial p,
+.MuiButtonBase-root.preview-button p {
+	font-weight: 500;
+}
+
+.MuiButtonBase-root.sendemial p {
+	color: #edff90;
+	font-size: 17px;
+}
+
+.MuiButtonBase-root.preview-button p {
+	color: #212429;
+	font-size: 17px;
+}
+.previewpdf {
+	width: 400px;
+	height: 690px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 2px dashed #ccc;
+	/* background: white; */
+	background: #f9f9f9;
+	margin-top: 1.5rem;
+	border-radius: 8px;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+/* Responsive Adjustments */
+@media screen and (min-width: 700px) {
+	.custom-input-field .MuiSelect-root,
+	.custom-input-field.MuiTextField-root {
+		width: 488px !important;
+	}
+
+	.custom-input-field.MuiTextField-root {
+		height: 69px;
+	}
+}

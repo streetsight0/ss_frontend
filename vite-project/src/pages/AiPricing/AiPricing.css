@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+
+/* AI Pricing Container */
+.pricing-container {
+    max-width: 70vw;
+    margin:auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+   background: #F4F2FF;
+    border-radius: 10px;
+}
+.pricing-container .form-section .ai-dropdown{
+  width:488px ;
+}
+.ai-header {
+  display: flex;
+  align-items: center;
+  /* font-size: 36px; */
+  gap: 1rem; 
+  padding-bottom: 20px;
+}
+.back-icon {
+  height: 24px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+/* Left Section: Form (Stacked Fields) */
+.form-section {
+    width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Adds space between fields */
+}
+
+/* Right Section: PDF Preview */
+.pdf-preview {
+    width: 488px;
+    /* height: 500px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #ccc;
+    /* background: white; */
+   background: #DDCDEF;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Default text when no preview */
+.pdf-preview p {
+    font-size: 16px;
+    color: #888;
+}
+.preview-container .aipreview{
+  background-color:#DDF580 ;
+  color: #212429;
+  font-weight: 500;
+  font-family: "Poppins",sans-serif;
+  font-size: 18px !important;
+}
+.preview-container .aipreview:hover {
+  background-color: #DDF580 !important;
+  color: #212429 !important;
+}
+.css-58aut9-MuiTypography-root {
+  font-family: "Poppins", sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+ 
+ 
+}
+/* Button Container (Stacked Buttons) */
+.button-container .aibutton{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 13px;
+    color:#DDF580 ;
+    background-color: #2C2C2C;
+    font-family: "Poppins",sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+}
+

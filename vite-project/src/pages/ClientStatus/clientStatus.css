@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.table-container {
+  max-width: 90vw;
+  background-color: #F3EBFF;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #F3EBFF;
+}
+
+thead {
+  color: black;
+  font-weight: bold;
+  border-bottom: 1px black solid;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 16px;
+}
+
+td {
+  font-size: 14px;
+
+}
+
+tbody tr:hover {
+  background-color: #e9dbfec3;
+}
+
+td:last-child {
+  text-align: center;
+}
+
+.edit-icon {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
