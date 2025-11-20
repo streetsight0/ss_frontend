@@ -1,0 +1,91 @@
+body {
+  font-family: "Satoshi", sans-serif !important;
+  margin: 0;
+  padding: 0;
+}
+.available_card {
+  width: 400px; 
+  height: 250px; 
+  max-width: 600px;
+  overflow: visible;
+  word-wrap: break-word; 
+  white-space: normal; 
+}
+
+.billboard-details {
+  max-width: 100%;
+  overflow-wrap: break-word; 
+  word-break: break-word; 
+}
+
+.available_card-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  
+}
+
+.available_card-header h3 {
+  font-size: 1rem;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+
+.pagination-btn {
+  border: none;
+  background: none;
+  font-size: 24px;
+  color: gray;
+  cursor: pointer;
+  outline: none;
+}
+
+
+.pagination-btn:disabled {
+  color: lightgray;
+  cursor: not-allowed;
+}
+
+
+.pagination-number {
+  width: 40px;
+  height: 40px;
+  background-color: #007bff;
+  color: white;
+  font-size: 14px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+@media (max-width: 1200px) {
+  .available_card-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .available_card-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .available_card-container {
+    grid-template-columns: 1fr;
+  }
+}

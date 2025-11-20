@@ -1,0 +1,68 @@
+body {
+  overflow-x: hidden;
+}
+
+.clients-title {
+  color: #333;
+  margin-bottom: 40px;
+  /* width: 1189px; */
+  height: 36px;
+  font-family: "poppins";
+  font-weight: 500px;
+  font-size: 24px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+}
+
+.billboard-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  justify-content: center;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.billboard-card {
+  border: 2px solid black;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  padding: 20px;
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.billboard-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.Header{
+  display: flex;
+  justify-content: space-between;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 0;
+  height: 10vh;
+}
+
+@media (max-width: 1200px) {
+  .billboard-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .billboard-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .billboard-container {
+    grid-template-columns: 1fr;
+  }
+}

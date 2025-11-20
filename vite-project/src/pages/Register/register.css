@@ -1,0 +1,124 @@
+body {
+    margin:0;
+    padding:0;
+}
+.register-container {
+    display: flex;
+    /* height: 100vh; */
+    align-items: center;
+    justify-content: center;
+    background-color: #A16AE2;
+    border-radius: 20px;
+    /* padding-bottom: 20px; */
+    /* margin:0 10px; */
+  
+}
+
+.register-image {
+   width: 200px;
+    height: 200px;
+    background-image: url('../../assets/Group.png');
+    background-size: contain; /* Ensures the full image fits */
+    background-repeat: no-repeat; /* Prevents repetition */
+    
+    display:inline-block;
+   
+    
+}
+.register-image img {
+    width: 900px; /* Adjust size */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.register-form-container {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgb(0, 0, 0);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: #DAF067;
+    margin-bottom: 1rem;
+}
+
+.register-form {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.register-form label {
+    font-weight: bold;
+    margin-top: 10px;
+    color: #F5F6F8;
+}
+
+.register-form input {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.register-form button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #DAF067;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.register-form button:hover {
+    background-color: #6eb300;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+}
+
+.login-text {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #F5F6F8;
+}
+
+.login-text a {
+    color: #007bff;
+    
+}
+
+.login-text a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .register-container {
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .register-image {
+        height: 250px;
+        width: 100%;
+    }
+
+    .register-form-container {
+        flex: none;
+        width: 90%;
+    }
+}
