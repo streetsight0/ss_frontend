@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "../Card", "src/api/proxy/[...path].js"]
+  "include": ["src", "../Card", "api/proxy/[...path].js"]
 }
