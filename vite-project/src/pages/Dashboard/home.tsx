@@ -42,45 +42,25 @@ useEffect(() => {
         try {
           const BASE_URL = import.meta.env.VITE_BASE_URL;
           
-          const endpoints = [
-            '/api/auth/google',
-            '/api/google-login',
-            '/google-login',
-            '/auth/google',
-            '/oauth/google',
-            '/login/google'
-          ];
+          const response = await fetch(`${BASE_URL}/api/auth/google`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: json.email
+            })
+          });
           
-          let jwtToken = null;
-          
-          for (const endpoint of endpoints) {
-            try {
-              const response = await fetch(`${BASE_URL}${endpoint}`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  email: json.email
-                })
-              });
-              
-              if (response.ok) {
-                const data = await response.json();
-                if (data.token) {
-                  jwtToken = data.token;
-                  break;
-                }
-              }
-            } catch (error: any) {
-              continue;
+          if (response.ok) {
+            const data = await response.json();
+            if (data.token) {
+              setToken(data.token);
+              localStorage.setItem("token", data.token);
+              window.history.replaceState(null, '', window.location.pathname);
+            } else {
+              localStorage.removeItem("token");
             }
-          }
-          
-          if (jwtToken) {
-            setToken(jwtToken);
-            localStorage.setItem("token", jwtToken);
-            window.history.replaceState(null, '', window.location.pathname);
           } else {
             localStorage.removeItem("token");
           }

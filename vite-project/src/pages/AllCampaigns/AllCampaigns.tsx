@@ -9,6 +9,7 @@ import defaultLogo from "../../assets/Icons/ProfileBlack.png";
 import AddCampaignIconBlack from "../../assets/Icons/BillboardYellow.png";
 import Loader from "../../components/Loader/Loader";
 import apiClient from "../../utils/axiosConfig";
+import { useValidToken } from "../../hooks/useValidToken";
 
 const ITEMS_PER_PAGE = 9;
 
@@ -20,8 +21,11 @@ const CampaignList: React.FC = () => {
   const [page, setPage] = useState(1);
   const [selectedCampaign, setSelectedCampaign] = useState<any | null>(null);
   const navigate = useNavigate();
+  const isTokenValid = useValidToken();
 
   useEffect(() => {
+    if (!isTokenValid) return;
+    
     setTimeout(() => {
       const fetchCampaigns = async () => {
         try {
@@ -40,7 +44,7 @@ const CampaignList: React.FC = () => {
       };
       fetchCampaigns();
     }, 3000);
-  }, []);
+  }, [isTokenValid]);
 
   if (loading) {
     return <Loader />;

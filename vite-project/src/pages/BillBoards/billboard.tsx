@@ -8,8 +8,8 @@ import UploadImages from "../../components/UploadImage/UploadImage";
 import "./billboard.css";
 import LocationInput from "../../components/GoogleApi/InputLocation"
 import BackIcon from "../../assets/Icons/BackBlack.png";
-// import  from "../../components/SuccessPopup/SuccessCampaignPopup";
 import { useNavigate } from "react-router-dom";
+import { useValidToken } from "../../hooks/useValidToken";
 
 const BillBoard = () => {
   const [billboard_name, setBillboardName] = useState("");
@@ -32,7 +32,11 @@ const BillBoard = () => {
   const [confirmationText, setConfirmationText] = useState("");
   const navigate = useNavigate();
 
+  const isTokenValid = useValidToken();
+
   useEffect(() => {
+    if (!isTokenValid) return;
+    
     const fetchBillboardCount = async () => {
       try {
         const response = await apiClient.get("/api/billboard/getbillboards");
@@ -43,7 +47,7 @@ const BillBoard = () => {
       }
     };
     fetchBillboardCount();
-  }, []);
+  }, [isTokenValid]);
 
   const saveBillboardToBackend = async () => {
     try {
@@ -120,14 +124,6 @@ const BillBoard = () => {
          button1="Discard"
          button2="View Billboards"
        />
-        // <BillboardConfirmationCard
-        //   onCancel={() => setShowSubmitConfirmation(false)}
-        //   onConfirm={handleConfirmSubmit}
-        //   alertIcon="✅"
-        //   confirmationText={confirmationText}
-        //   button2="View Billboards"
-        // />
-        // <SuccessPopup message="Billboard Created Successfully!" onClose={() => console.log('close')}/>
 
       ) : showConfirmation ? (
         

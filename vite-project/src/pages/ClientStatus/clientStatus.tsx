@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import apiClient from "../../utils/axiosConfig";
 import "./clientStatus.css";
 import Loader from "../../components/Loader/Loader";
+import { useValidToken } from "../../hooks/useValidToken";
 
 interface Client {
   _id: string;
@@ -27,8 +28,11 @@ const ClientTable: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const isTokenValid = useValidToken();
 
   useEffect(() => {
+    if (!isTokenValid) return;
+    
     const fetchClients = async () => {
       try {
         const [clientsResponse, campaignsResponse] = await Promise.all([
@@ -55,7 +59,7 @@ const ClientTable: React.FC = () => {
     };
 
     fetchClients();
-  }, []);
+  }, [isTokenValid]);
 
   const handleEdit = (client: Client) => {
     navigate("/editClient", { state: { client } });

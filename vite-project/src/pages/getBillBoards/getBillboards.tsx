@@ -4,12 +4,16 @@ import AllBillBoards from "../AllBillBoards/AllBillBoards";
 import Loader from "../../components/Loader/Loader"; 
 import "./getbillboard.css";  
 import apiClient from "../../utils/axiosConfig";
+import { useValidToken } from "../../hooks/useValidToken";
 
 const GetBillBoards = () => {
   const [billboardCount, setBillboardCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const isTokenValid = useValidToken();
 
   useEffect(() => {
+    if (!isTokenValid) return;
+    
     const fetchBillboardCount = async () => {
       try {
         const response = await apiClient.get("/api/billboard/getbillboards");
@@ -25,7 +29,7 @@ const GetBillBoards = () => {
     };
 
     fetchBillboardCount();
-  }, []);
+  }, [isTokenValid]);
 
   if (loading) {
     return <Loader />;

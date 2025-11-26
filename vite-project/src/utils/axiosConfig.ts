@@ -36,8 +36,13 @@ apiClient.interceptors.response.use(
         return Promise.reject(error);
       }
       
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      const token = localStorage.getItem("token");
+      if (token && !token.startsWith("google_oauth_")) {
+        localStorage.removeItem('token');
+        if (window.location.pathname !== '/login') {
+          window.location.href = '/login';
+        }
+      }
     }
     return Promise.reject(error);
   }
