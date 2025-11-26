@@ -29,6 +29,12 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
+      // Check if we're processing Google OAuth (has placeholder token)
+      const currentToken = localStorage.getItem("token");
+      if (currentToken && currentToken.startsWith("google_oauth_")) {
+        return Promise.reject(error);
+      }
+      
       // Token expired or invalid - redirect to login
       localStorage.removeItem('token');
       window.location.href = '/login';
