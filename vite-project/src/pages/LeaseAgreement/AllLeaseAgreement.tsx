@@ -14,17 +14,20 @@ const AllLeaseAgreements: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const navigate = useNavigate();
+  const isTokenValid = useValidToken();
 
   const handleNewAgreement = () => {
     navigate("/newLease");
   }
 
   useEffect(() => {
+    if (!isTokenValid) return;
+    
     let isMounted = true;
 
-  const getAllLeaseAgreements = async () => {
-    try {
-      const response = await apiClient.get("/api/leaseagreement/getLeaseAgreements");
+    const getAllLeaseAgreements = async () => {
+      try {
+        const response = await apiClient.get("/api/leaseagreement/getLeaseAgreements");
         
         if (isMounted) {
           setLeaseAgreement(response.data);
