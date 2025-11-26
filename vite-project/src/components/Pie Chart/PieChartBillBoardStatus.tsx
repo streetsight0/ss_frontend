@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import { PieChart } from '@mui/x-charts/PieChart';
 import apiClient from "../../utils/axiosConfig";
 import { useEffect, useState } from 'react';
+import { useValidToken } from '../../hooks/useValidToken';
 import '../CampaignCard/CampaignDashboard.css';
 
 interface Billboard {
@@ -15,8 +16,11 @@ interface Billboard {
 export default function PieChartBillBoardStatus() {
   const [billboardData, setBillboardData] = useState<Billboard[]>([]);
 
-  // Fetch billboard data on component mount
+  const isTokenValid = useValidToken();
+
   useEffect(() => {
+    if (!isTokenValid) return;
+    
     const getBillBoards = async () => {
       try {
         const response = await apiClient.get("/api/billboard/getbillboards");
@@ -28,7 +32,7 @@ export default function PieChartBillBoardStatus() {
       }
     };
     getBillBoards();
-  }, []);
+  }, [isTokenValid]);
 
   // Calculate the count for each status (active, inactive, available)
   const calculateStatusCounts = (data: Billboard[]) => {

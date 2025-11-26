@@ -3,6 +3,7 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import apiClient from "../../utils/axiosConfig";
 import { useEffect, useState } from 'react';
 import './ClientDashboard.css';
+import { useValidToken } from '../../hooks/useValidToken';
 
 interface Client {
     _id: string; 
@@ -16,7 +17,11 @@ interface Client {
 
 export default function ClientDashboard() {
   const [clients, setClients] = useState<Client[]>([]);
+   const isTokenValid = useValidToken();
+
    useEffect(() => {
+    if (!isTokenValid) return;
+    
     const getClients = async () =>{
       try {
         const response = await apiClient.get("/api/client/getclients");
@@ -28,7 +33,7 @@ export default function ClientDashboard() {
       }
     };
     getClients();
-  }, []);
+  }, [isTokenValid]);
   return (
     <Card sx={{ backgroundColor: "#2B2B2B", width: "369.33px", height: "228px", borderRadius: "20px", padding:"24px 32px 24px 32px", position: "relative", }}>
         <Stack sx={{display: "flex", flexDirection: "column", gap:"10px"}}>

@@ -2,6 +2,7 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import apiClient from "../../utils/axiosConfig";
 import { useEffect, useState } from 'react';
 import '../CampaignCard/CampaignDashboard.css';
+import { useValidToken } from '../../hooks/useValidToken';
 
 // Define all months in order
 const allMonths = [
@@ -13,7 +14,11 @@ export default function LineGraph() {
   const [totalAmountSum, setTotalAmountSum] = useState(0);
   const [chartData, setChartData] = useState<{ month: string; amount: number }[]>([]);
 
+  const isTokenValid = useValidToken();
+
   useEffect(() => {
+    if (!isTokenValid) return;
+    
     const fetchInvoices = async () => {
       try {
         const response = await apiClient.get("/api/invoice/getinvoices");
@@ -36,7 +41,7 @@ export default function LineGraph() {
     };
 
     fetchInvoices();
-  }, []);
+  }, [isTokenValid]);
 
   return (
     <>

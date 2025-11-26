@@ -5,10 +5,15 @@ import hike from '../../assets/Icons/hike.png';
 import Graph from '../../assets/Graph.png';
 import {Stack } from "@mui/system";
 import apiClient from "../../utils/axiosConfig";
+import { useValidToken } from "../../hooks/useValidToken";
 
 export default function CampaignDashboard(){
     const [campaigns, setCampaigns] = useState<any[]>([]);
+    const isTokenValid = useValidToken();
+
     useEffect(() => {
+      if (!isTokenValid) return;
+      
       const fetchCampaigns = async () => {
         try {
           const response = await apiClient.get(`/api/campaign/getcampaigns`);
@@ -19,7 +24,7 @@ export default function CampaignDashboard(){
         } 
       };
       fetchCampaigns();
-    }, []);
+    }, [isTokenValid]);
     return(
     <Card sx={{ backgroundColor: "#E2FF70", width: "369.33px", height: "228px", borderRadius: "20px", padding:"24px", position: "relative", }}>
       <p className="heading">Campaigns</p>

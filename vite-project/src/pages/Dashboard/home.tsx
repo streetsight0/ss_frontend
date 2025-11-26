@@ -27,7 +27,6 @@ useEffect(() => {
     const hasAccessToken = currentUrl.includes('access_token') || hash.includes('access_token');
     
     if (hasAccessToken) {
-      // IMMEDIATELY store placeholder token to prevent redirects while processing
       localStorage.setItem("token", "google_oauth_processing_" + Date.now());
       
       let token: any = read_token();
@@ -40,17 +39,16 @@ useEffect(() => {
       try {
         let json = await api_call(token);
         
-        // Exchange Google user info for backend JWT token
         try {
           const BASE_URL = import.meta.env.VITE_BASE_URL;
           
           const endpoints = [
+            '/api/auth/google',
+            '/api/google-login',
             '/google-login',
             '/auth/google',
             '/oauth/google',
-            '/login/google',
-            '/api/google-login',
-            '/api/auth/google'
+            '/login/google'
           ];
           
           let jwtToken = null;
@@ -83,11 +81,18 @@ useEffect(() => {
             setToken(jwtToken);
             localStorage.setItem("token", jwtToken);
             window.history.replaceState(null, '', window.location.pathname);
+          } else {
+            localStorage.removeItem("token");
           }
         } catch (error: any) {
-          // Keep placeholder token on error
+          localStorage.removeItem("token");
         }
       } catch (error) {
+        localStorage.removeItem("token");
+      }
+    } else {
+      const currentToken = localStorage.getItem("token");
+      if (currentToken && currentToken.startsWith("google_oauth_")) {
         localStorage.removeItem("token");
       }
     }
@@ -143,7 +148,6 @@ useEffect(() => {
           marginBottom: "20px"
         }}
       >
-        {/* Left Side - Text & Button */}
         <Box sx={{ maxWidth: 500 }}>
           <p className="heading-3">
             Why did the billboard apply for a job?
@@ -159,9 +163,7 @@ useEffect(() => {
           />
         </Box>
 
-        {/* Right Side - Images */}
         <Box sx={{ position: "relative", display: "flex", alignItems: "center" }}>
-          {/* Main Image */}
           <Box
             component="img"
             src={Group}

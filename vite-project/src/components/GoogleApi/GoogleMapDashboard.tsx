@@ -8,6 +8,7 @@ import InactiveMapPin from "../../assets/Icons/InactivMapPin.png"
 import AvailableMapPin from "../../assets/Icons/AvailableMapPin.png";
 import markerShadowPng from "leaflet/dist/images/marker-shadow.png";
 import { useEffect, useState } from "react";
+import { useValidToken } from "../../hooks/useValidToken";
 import apiClient from "../../utils/axiosConfig";
 
 // Function to return the appropriate custom icon based on the billboard status
@@ -51,8 +52,11 @@ interface Billboard {
 
 const MyMap: React.FC = () => {
   const [billboardData, setBillboardData] = useState<Billboard[]>([]);
+  const isTokenValid = useValidToken();
 
   useEffect(() => {
+    if (!isTokenValid) return;
+    
     const getBillBoards = async () => {
       try {
         const response = await apiClient.get("/api/billboard/getbillboards");
@@ -62,7 +66,7 @@ const MyMap: React.FC = () => {
       }
     };
     getBillBoards();
-  }, []);
+  }, [isTokenValid]);
 
   return (
     <div>
