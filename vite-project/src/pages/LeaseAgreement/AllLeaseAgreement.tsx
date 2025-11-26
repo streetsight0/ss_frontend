@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import apiClient from "../../utils/axiosConfig";
 import AddIcon from "../../assets/Icons/add.png";
 import "./AllLeaseAgreement.css";
+import { useValidToken } from "../../hooks/useValidToken";
 
 const ITEMS_PER_PAGE = 9;
 const AllLeaseAgreements: React.FC = () => {
@@ -13,17 +14,20 @@ const AllLeaseAgreements: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const navigate = useNavigate();
+  const isTokenValid = useValidToken();
 
   const handleNewAgreement = () => {
     navigate("/newLease");
   }
 
   useEffect(() => {
+    if (!isTokenValid) return;
+    
     let isMounted = true;
 
-  const getAllLeaseAgreements = async () => {
-    try {
-      const response = await apiClient.get("/api/leaseagreement/getLeaseAgreements");
+    const getAllLeaseAgreements = async () => {
+      try {
+        const response = await apiClient.get("/api/leaseagreement/getLeaseAgreements");
         
         if (isMounted) {
           setLeaseAgreement(response.data);
@@ -38,7 +42,7 @@ const AllLeaseAgreements: React.FC = () => {
     return () => {
       isMounted = false; 
     };
-  }, []); 
+  }, [isTokenValid]); 
   
   useEffect(() => {
     console.log("Updated Lease Agreements:", leaseAgreement);
@@ -102,7 +106,6 @@ const AllLeaseAgreements: React.FC = () => {
           ))}
       </Box>
 
-      {/* Pagination */}
       <Box display="flex" justifyContent="center" mt={4}>
         <Pagination
           count={totalPages}

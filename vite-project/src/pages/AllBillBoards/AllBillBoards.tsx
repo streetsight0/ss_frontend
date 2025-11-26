@@ -15,6 +15,7 @@ import AddCampaignIcon from "../../assets/Icons/BillboardBlack.png";
 import AddCampaignIconBlack from "../../assets/Icons/BillboardYellow.png";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
+import { useValidToken } from "../../hooks/useValidToken";
 const ITEMS_PER_PAGE = 9;
 
 interface Billboard {
@@ -62,8 +63,11 @@ const CampaignsBillboards: React.FC = () => {
   );
 
   const navigate = useNavigate();
+  const isTokenValid = useValidToken();
 
   useEffect(() => {
+    if (!isTokenValid) return;
+    
     apiClient
       .get("/api/campaign/getcampaigns")
       .then((response) => {
@@ -85,7 +89,7 @@ const CampaignsBillboards: React.FC = () => {
         setLoadingBillboards(false);
         console.error("Error fetching billboards:", error);
       });
-  }, []);
+  }, [isTokenValid]);
 
   const getStatus = (leaseEnd: string) => {
     const leaseEndDate = new Date(leaseEnd);

@@ -8,6 +8,7 @@ import AddClientButton from "../../components/Button/Button";
 import ProfileYellow from "../../assets/Icons/ProfileYellow.png";
 import ProfileBlack from "../../assets/Icons/ProfileBlack.png";
 import Loader from "../../components/Loader/Loader";
+import { useValidToken } from "../../hooks/useValidToken";
 
 
 interface BillboardData {
@@ -55,8 +56,11 @@ const AllClients = () => {
   const [selectedClientName, setSelectedClientName] = useState<string>("");
   const [, setclientCount] = useState(0); 
   const navigate = useNavigate();
+  const isTokenValid = useValidToken();
 
   useEffect(() => {
+    if (!isTokenValid) return;
+    
     const fetchData = async () => {
       try {
         const [clientsResponse, leaseResponse, campaignRes] = await Promise.all([
@@ -100,7 +104,7 @@ const AllClients = () => {
     };
 
     fetchData();
-  }, []);
+  }, [isTokenValid]);
 
   const handleViewClient = (clientId: string, clientName: string) => {
     
@@ -163,7 +167,6 @@ const AllClients = () => {
             clientName={billboard.company_name}
             clientEmail={billboard.client_name}
             contractExpiry={billboard.address}
-            // remainingDays={billboard.additional_companies.length}
             clientLogo={billboard.client_logo}
             billboardCount={billboard.billboardCount} 
             onViewClient={() => handleViewClient(billboard._id, billboard.company_name)} 

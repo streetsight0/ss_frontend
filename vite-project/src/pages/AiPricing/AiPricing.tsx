@@ -10,7 +10,8 @@ import BackButton from "../../assets/Icons/BackBlack.png";
 import { useNavigate } from "react-router-dom";
 import SuccessPopup from "../../components/EmailMessage/SuccessPopup";
 import { CircularProgress, Typography, Box, Alert } from "@mui/material";
-import "./AiPricing.css"; // Import CSS
+import "./AiPricing.css";
+import { useValidToken } from "../../hooks/useValidToken";
 
 const AiPricingPage: React.FC = () => {
 	const [formData, setFormData] = useState({
@@ -29,14 +30,14 @@ const AiPricingPage: React.FC = () => {
 	const [clientEmails, setClientEmails] = useState<string[]>([]);
 	const pdfRef = useRef<jsPDF | null>(null);
 	const navigate = useNavigate();
+	const isTokenValid = useValidToken();
 
-	// Fetch client emails from backend
 	const fetchClientEmails = async () => {
+		if (!isTokenValid) return;
+		
 		try {
 			const response = await apiClient.get(`/api/client/getclients`);
-			console.log("Response data:", response.data); // Debugging
 
-			// Ensure response.data.data exists and is an array
 			if (response.data && Array.isArray(response.data.data)) {
 				const emails = response.data.data.map(
 					(client: { client_email: string }) => client.client_email
@@ -49,18 +50,16 @@ const AiPricingPage: React.FC = () => {
 			console.error("Error fetching client emails:", error);
 		}
 	};
-//test
-	// Call the function on component mount
-	useEffect(() => {
-		fetchClientEmails();
-	}, []);
 
-	// Handle input changes
+	useEffect(() => {
+		if (!isTokenValid) return;
+		fetchClientEmails();
+	}, [isTokenValid]);
+
 	const handleInputChange = (name: string, value: string) => {
 		setFormData((prevState) => ({ ...prevState, [name]: value }));
 	};
 
-	// Fetch AI Pricing Estimate
 	const handleSubmit = async () => {
 		setLoading(true);
 		setPrice(null);
@@ -72,11 +71,10 @@ const AiPricingPage: React.FC = () => {
 				formData
 			);
 
-			// Only update price if the user hasn't changed it
 			setPrice(response.data.price);
 			setFormData((prevState) => ({
 				...prevState,
-				amount: prevState.amount || response.data.price, // Keep user's value if modified
+				amount: prevState.amount || response.data.price,
 			}));
 		} catch (err) {
 			console.error("Error fetching price:", err);
@@ -91,10 +89,8 @@ const AiPricingPage: React.FC = () => {
 		const doc = new jsPDF();
 
 		if (includeImage) {
-			doc.addImage(logo, "PNG", 10, 10, 40, 40); // x, y, width, height
+			doc.addImage(logo, "PNG", 10, 10, 40, 40);
 		}
-
-		// Header Section: Title, company name, and address
 		doc.setFontSize(22);
 		doc.setFont("helvetica", "bold");
 		const title = "STREET SIGHT";
@@ -116,12 +112,11 @@ const AiPricingPage: React.FC = () => {
 		const addressWidth = doc.getTextWidth(address);
 		doc.text(address, (doc.internal.pageSize.width - addressWidth) / 2, 50);
 
-		doc.line(10, 55, 200, 55); // Horizontal line for separation
+		doc.line(10, 55, 200, 55);
 
 		doc.setFontSize(16);
 		doc.text("CAMPAIGN QUOTATION DETAILS", 20, 70);
-		// Fetch the latest price from state
-		const finalPrice = formData.amount || "N/A"; // Ensure latest value is used
+		const finalPrice = formData.amount || "N/A";
 		doc.setFontSize(12);
 		doc.text(`Billboard Location: ${formData.location}`, 20, 85);
 		doc.text(`Billboard Type: ${formData.type}`, 20, 95);
@@ -129,9 +124,7 @@ const AiPricingPage: React.FC = () => {
 		doc.text(`Month: ${formData.month}`, 20, 115);
 		doc.text(`Estimated Price:$ ${finalPrice} `, 20, 125);
 
-		doc.line(10, 185, 200, 185); // Horizontal line for separation
-
-		// Footer
+		doc.line(10, 185, 200, 185);
 		doc.setFontSize(10);
 		const footerText = [
 			"STREET SIGHT",
@@ -153,35 +146,32 @@ const AiPricingPage: React.FC = () => {
 		pdfRef.current = doc;
 	};
 
-	// Download PDF
 	const downloadPDF = () => {
-		generatePDF(true); // Ensure the PDF is generated with the image
+		generatePDF(true);
 		setTimeout(() => {
 			if (pdfRef.current) {
 				pdfRef.current.save("price quotation.pdf");
 			}
-		}, 100); // Small delay to ensure `pdfRef` updates
+		}, 100);
 		generatePDF(false);
 	};
 
 	const playNotificationSound = () => {
-		const audio = new Audio(noti); // path to your audio file
+		const audio = new Audio(noti);
 		audio.play();
 	};
 
 	useEffect(() => {
 		if (showConfirmation) {
-			playNotificationSound(); // Play sound when the confirmation is shown
+			playNotificationSound();
 		}
 	}, [showConfirmation]);
 
-	// Send Email with PDF
 	const sendEmail = async () => {
 		if (!pdfRef.current) return;
 
 		const pdfBlob = pdfRef.current.output("blob");
 
-		// Ensure clientEmail is set
 		if (!formData.clientEmail) {
 			alert("Please select a client email.");
 			return;
@@ -189,7 +179,7 @@ const AiPricingPage: React.FC = () => {
 
 		const emailFormData = new FormData();
 		emailFormData.append("pdf", pdfBlob, "pricing_quotation");
-		emailFormData.append("to", formData.clientEmail); // Use selected email
+		emailFormData.append("to", formData.clientEmail);
 		emailFormData.append("subject", "Campaign Price Quotation");
 		emailFormData.append(
 			"body",
@@ -217,7 +207,6 @@ const AiPricingPage: React.FC = () => {
 
 	return (
 		<Box className="pricing-container">
-			{/* Left Side: Form (Stacked Fields) */}
 			<Box className="form-section">
 				<div className="ai-header">
 					<img
@@ -290,14 +279,13 @@ const AiPricingPage: React.FC = () => {
 					placeholder="select client email"
 				/>
 
-				{/* Button Section */}
 				<Box
 					className="button-container"
 					sx={{
 						display: "flex",
 						gap: "2rem",
 
-						alignItems: "center", // Centers vertically
+						alignItems: "center",
 					}}
 				>
 					<CustomButton
@@ -325,7 +313,6 @@ const AiPricingPage: React.FC = () => {
 				{error && <Alert severity="error">{error}</Alert>}
 			</Box>
 
-			{/* Parent container for preview and buttons */}
 			<Box
 				sx={{
 					width: "488px",
@@ -334,7 +321,6 @@ const AiPricingPage: React.FC = () => {
 					alignItems: "center",
 				}}
 			>
-				{/* PDF Preview Box */}
 				<Box
 					className="pdf-preview"
 					sx={{
@@ -366,7 +352,6 @@ const AiPricingPage: React.FC = () => {
 					)}
 				</Box>
 
-				{/* Buttons Below Preview (Moved Outside) */}
 				<Box
 					className="preview-container"
 					sx={{
@@ -375,7 +360,7 @@ const AiPricingPage: React.FC = () => {
 						flexDirection: "column",
 						justifyContent: "center",
 						gap: 2,
-						marginTop: 5, // Space between preview and buttons
+						marginTop: 5,
 					}}
 				>
 					<CustomButton
@@ -383,8 +368,8 @@ const AiPricingPage: React.FC = () => {
 						onClick={() => generatePDF(false)}
 						className="aipreview"
 						sx={{
-							fontFamily: "Poppins, sans-serif !important", // Try adding !important
-							fontSize: "18px !important", // Force override
+							fontFamily: "Poppins, sans-serif !important",
+							fontSize: "18px !important",
 							fontWeight: "500",
 							color: "#212429",
 							backgroundColor: "#DDF580",

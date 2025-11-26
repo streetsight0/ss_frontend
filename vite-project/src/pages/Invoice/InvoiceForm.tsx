@@ -10,8 +10,8 @@ import logo from "../../assets/logo1.png";
 import noti from "../../assets/notif.mp3";
 import BackButton from "../../assets/Icons/BackBlack.png";
 import SuccessPopup from "../../components/EmailMessage/SuccessPopup";
-
 import { useNavigate } from "react-router-dom";
+import { useValidToken } from "../../hooks/useValidToken";
 
 interface InvoiceDetails {
 	client: string;
@@ -22,7 +22,7 @@ interface InvoiceDetails {
 	location: string;
 	amount: string;
 	totalAmount: string;
-	email: string; // Added for email address
+	email: string;
 }
 
 interface ClientData {
@@ -46,17 +46,15 @@ const InvoiceForm: React.FC = () => {
 	});
 	const navigate = useNavigate();
 	const [message, setMessage] = useState("");
-	const [clients, setClients] = useState<ClientData[]>([]); // Store full client data
+	const [clients, setClients] = useState<ClientData[]>([]);
 	const [companyNames, setCompanyNames] = useState<string[]>([]);
-	const [pdfPreview, setPdfPreview] = useState<string | null>(null); // State to store PDF preview
+	const [pdfPreview, setPdfPreview] = useState<string | null>(null);
 	const [showConfirmation, setShowConfirmation] = useState(false);
-	// const [invoiceDetails, setInvoiceDetails] = useState({
-	// 		amount: "",
-	// 		totalAmount: "",
-	// 	});
-	// Reset form values when the component is mounted (useEffect)
+	const isTokenValid = useValidToken();
+
 	useEffect(() => {
-		// Reset form values on component mount
+		if (!isTokenValid) return;
+		
 		setInvoiceDetails({
 			client: "",
 			clientName: "",
@@ -69,13 +67,11 @@ const InvoiceForm: React.FC = () => {
 			email: "",
 		});
 
-	// Fetching clients data from the API
 	apiClient
 		.get("/api/client/getclients")
 		.then((response) => {
-			// Assuming response.data.data contains the client details
 			if (Array.isArray(response.data.data)) {
-				setClients(response.data.data); // Store full client data
+				setClients(response.data.data);
 			} else {
 				console.error(
 					"Expected an array inside 'data' but got",
@@ -84,8 +80,6 @@ const InvoiceForm: React.FC = () => {
 			}
 		})
 		.catch((error) => console.error("Error fetching clients", error));
-
-		// Generate random invoice number on mount
 		setInvoiceDetails((prevState) => ({
 			...prevState,
 			invoiceNumber: Math.floor(Math.random() * 1000000).toString(),
@@ -93,34 +87,29 @@ const InvoiceForm: React.FC = () => {
 	}, []);
 
 	const handleClientChange = async (value: string) => {
-		// Find selected client by name
 		const selectedClient = clients.find(
 			(client) => client.client_name === value
 		);
 
 		if (selectedClient) {
-			// Set the client ID instead of name for backend
 			setInvoiceDetails((prevState) => ({
 				...prevState,
 				client: selectedClient._id,
-				clientName: selectedClient.client_name, // Use client ID, not name
+				clientName: selectedClient.client_name,
 			}));
 
-			// Set company names related to the client
 			const allCompanies = [
 				selectedClient.company_name,
 				...selectedClient.additional_companies,
 			];
 			setCompanyNames(allCompanies);
 
-			// Automatically set the first company name
 			setInvoiceDetails((prevState) => ({
 				...prevState,
 				companyName: allCompanies.length > 0 ? allCompanies[0] : "",
 			}));
 
 		try {
-			// Fetch campaigns assigned to this client, including billboards with locations
 			const response = await apiClient.get(
 				`/api/campaign/getcampaigns/${selectedClient._id}`
 			);
@@ -132,17 +121,16 @@ const InvoiceForm: React.FC = () => {
 						amount: campaigns[0].campaign_rent_monthly.toString(),
 					}));
 
-					// Ensure billboardLocations exists and is an array before accessing its length
 					const locations = response.data.billboardLocations || [];
 					if (locations.length > 0) {
 						setInvoiceDetails((prevState) => ({
 							...prevState,
-							location: locations[0], // Set first location as default
+							location: locations[0],
 						}));
 					} else {
 						setInvoiceDetails((prevState) => ({
 							...prevState,
-							location: "", // Handle empty locations
+							location: "",
 						}));
 					}
 				} else {
@@ -163,55 +151,49 @@ const InvoiceForm: React.FC = () => {
 		}
 	};
 
-	// Handle company name change
 	const handleCompanyChange = (value: string) => {
 		setInvoiceDetails((prevState) => ({ ...prevState, companyName: value }));
 	};
 
-	// Handle general input change
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = event.target;
 		setInvoiceDetails((prevState) => ({ ...prevState, [name]: value }));
 	};
 
 	useEffect(() => {
-		const amount = parseFloat(invoiceDetails.amount || "0"); // Convert amount to a number
-		const totalAmount = (amount * 1.12).toFixed(2); // Add 12% and format to 2 decimal places
+		const amount = parseFloat(invoiceDetails.amount || "0");
+		const totalAmount = (amount * 1.12).toFixed(2);
 
 		setInvoiceDetails((prevState) => ({ ...prevState, totalAmount }));
-	}, [invoiceDetails.amount]); // Runs whenever 'amount' changes
+	}, [invoiceDetails.amount]);
 
 	const generatePDF = () => {
 		const doc = new jsPDF();
 
-		// Add logo to the top left (replace with your actual logo path)
-		doc.addImage(logo, "PNG", 10, 10, 40, 40); // x, y, width, height
+		doc.addImage(logo, "PNG", 10, 10, 40, 40);
 
-		// Header Section: Title, company name, and address
 		doc.setFontSize(22);
 		doc.setFont("helvetica", "bold");
 		const title = "STREET SIGHT";
-		const titleWidth = doc.getTextWidth(title); // Get the width of the title
-		doc.text(title, (doc.internal.pageSize.width - titleWidth) / 2, 30); // Center the title
+		const titleWidth = doc.getTextWidth(title);
+		doc.text(title, (doc.internal.pageSize.width - titleWidth) / 2, 30);
 
 		doc.setFontSize(12);
 		doc.setFont("helvetica", "normal");
 		const companyName = "INVOICE DETAILS";
-		const companyNameWidth = doc.getTextWidth(companyName); // Get the width of the company name
+		const companyNameWidth = doc.getTextWidth(companyName);
 		doc.text(
 			companyName,
 			(doc.internal.pageSize.width - companyNameWidth) / 2,
 			40
-		); // Center the company name
+		);
 
 		doc.setFontSize(10);
 		const address = "Address: Langara 49th Ave,Vancouver";
-		const addressWidth = doc.getTextWidth(address); // Get the width of the address
-		doc.text(address, (doc.internal.pageSize.width - addressWidth) / 2, 50); // Center the address
+		const addressWidth = doc.getTextWidth(address);
+		doc.text(address, (doc.internal.pageSize.width - addressWidth) / 2, 50);
 
-		doc.line(10, 55, 200, 55); // Horizontal line for separation
-
-		// Invoice Details Section
+		doc.line(10, 55, 200, 55);
 		doc.setFontSize(14);
 		doc.setFont("helvetica", "bold");
 		doc.text("Invoice Information", 20, 70);
@@ -225,7 +207,6 @@ const InvoiceForm: React.FC = () => {
 		doc.text(`Location: ${invoiceDetails.location}`, 20, 145);
 		doc.text(`Amount: $${invoiceDetails.amount}`, 20, 160);
 
-		// Calculate and display Total Amount including tax
 		doc.setFont("helvetica", "bold");
 		doc.text(
 			`Total Amount (incl. 12% tax): $${invoiceDetails.totalAmount}`,
@@ -233,9 +214,7 @@ const InvoiceForm: React.FC = () => {
 			175
 		);
 
-		doc.line(10, 185, 200, 185); // Horizontal line for separation
-
-		// Footer: Contact info and copyright
+		doc.line(10, 185, 200, 185);
 		doc.setFontSize(10);
 		doc.setFont("helvetica", "normal");
 
@@ -247,7 +226,6 @@ const InvoiceForm: React.FC = () => {
 		const footerText2Width = doc.getTextWidth(footerText2);
 		const footerText3Width = doc.getTextWidth(footerText3);
 
-		// Position the footer texts
 		doc.text(
 			footerText1,
 			(doc.internal.pageSize.width - footerText1Width) / 2,
@@ -264,28 +242,24 @@ const InvoiceForm: React.FC = () => {
 			220
 		);
 
-		// Save the PDF
 		doc.save("invoice.pdf");
-		// Convert to Blob
 		const pdfBlob = doc.output("blob");
 
-		return pdfBlob; // Return the PDF as a Blob
+		return pdfBlob;
 	};
 
 	const previewPDF = async () => {
-		// Prepare invoice data to send to the backend
 		const invoiceData = {
 			invoiceNumber: invoiceDetails.invoiceNumber,
-			client: invoiceDetails.client, // Assuming client is an ObjectId
+			client: invoiceDetails.client,
 			companyName: invoiceDetails.companyName,
 			month: invoiceDetails.month,
-			totalAmount: parseFloat(invoiceDetails.totalAmount), // Ensure it's sent as a number
+			totalAmount: parseFloat(invoiceDetails.totalAmount),
 			location: invoiceDetails.location,
-			amount: parseFloat(invoiceDetails.amount), // Ensure it's sent as a number
+			amount: parseFloat(invoiceDetails.amount),
 		};
 
 		try {
-			// Send POST request to backend to create the invoice
 			const response = await apiClient.post(
 				"/api/invoice/createinvoices",
 				invoiceData,
@@ -303,15 +277,12 @@ const InvoiceForm: React.FC = () => {
 			}
 			const doc = new jsPDF();
 
-			// Page width for centering
 			const pageWidth = doc.internal.pageSize.width;
-
-			// Header Section
 			doc.setFontSize(22);
 			doc.setFont("helvetica", "bold");
 			const title = "STREET SIGHT";
 			const titleWidth = doc.getTextWidth(title);
-			doc.text(title, (pageWidth - titleWidth) / 2, 30); // Center title
+			doc.text(title, (pageWidth - titleWidth) / 2, 30);
 
 			doc.setFontSize(12);
 			doc.setFont("helvetica", "normal");
@@ -325,9 +296,7 @@ const InvoiceForm: React.FC = () => {
 			const address = "Address: Langara 49th Ave, Vancouver";
 			doc.text(address, (pageWidth - doc.getTextWidth(address)) / 2, 50);
 
-			doc.line(10, 55, 200, 55); // Separation line
-
-			// Invoice Details
+			doc.line(10, 55, 200, 55);
 			doc.setFontSize(14);
 			doc.setFont("helvetica", "bold");
 			doc.text("Invoice Information", 20, 70);
@@ -348,9 +317,7 @@ const InvoiceForm: React.FC = () => {
 				150
 			);
 
-			doc.line(10, 160, 200, 160); // Separation line before footer
-
-			// Footer: Centered Contact Info
+			doc.line(10, 160, 200, 160);
 			doc.setFontSize(10);
 			doc.setFont("helvetica", "normal");
 
@@ -374,54 +341,51 @@ const InvoiceForm: React.FC = () => {
 				195
 			);
 
-			// Get the PDF output as data URL and update the preview state
 			const pdfDataUrl = doc.output("dataurlstring");
-			setPdfPreview(pdfDataUrl); // Set the preview URL for iframe
+			setPdfPreview(pdfDataUrl);
 		} catch (error) {
 			console.error("Error saving invoice to DB or generating PDF:", error);
 		}
 	};
 	const playNotificationSound = () => {
-		const audio = new Audio(noti); // path to your audio file
+		const audio = new Audio(noti);
 		audio.play();
 	};
 
 	useEffect(() => {
 		if (showConfirmation) {
-			playNotificationSound(); // Play sound when the confirmation is shown
+			playNotificationSound();
 		}
 	}, [showConfirmation]);
 
 	const handleSendEmail = async () => {
 		const doc = new jsPDF();
 
-		doc.addImage(logo, "PNG", 10, 10, 40, 40); // x, y, width, height
+		doc.addImage(logo, "PNG", 10, 10, 40, 40);
 
-		// Header Section: Title, company name, and address
 		doc.setFontSize(22);
 		doc.setFont("helvetica", "bold");
 		const title = "STREET SIGHT";
-		const titleWidth = doc.getTextWidth(title); // Get the width of the title
-		doc.text(title, (doc.internal.pageSize.width - titleWidth) / 2, 30); // Center the title
+		const titleWidth = doc.getTextWidth(title);
+		doc.text(title, (doc.internal.pageSize.width - titleWidth) / 2, 30);
 
 		doc.setFontSize(12);
 		doc.setFont("helvetica", "normal");
 		const companyName = "INVOICE DETAILS";
-		const companyNameWidth = doc.getTextWidth(companyName); // Get the width of the company name
+		const companyNameWidth = doc.getTextWidth(companyName);
 		doc.text(
 			companyName,
 			(doc.internal.pageSize.width - companyNameWidth) / 2,
 			40
-		); // Center the company name
+		);
 
 		doc.setFontSize(10);
 		const address = "Address: Langara 49th Ave,Vancouver";
-		const addressWidth = doc.getTextWidth(address); // Get the width of the address
-		doc.text(address, (doc.internal.pageSize.width - addressWidth) / 2, 50); // Center the address
+		const addressWidth = doc.getTextWidth(address);
+		doc.text(address, (doc.internal.pageSize.width - addressWidth) / 2, 50);
 
-		doc.line(10, 55, 200, 55); // Horizontal line for separation
+		doc.line(10, 55, 200, 55);
 
-		// Invoice Details Section
 		doc.setFontSize(14);
 		doc.setFont("helvetica", "bold");
 		doc.text("Invoice Information", 20, 70);
@@ -435,7 +399,6 @@ const InvoiceForm: React.FC = () => {
 		doc.text(`Location: ${invoiceDetails.location}`, 20, 145);
 		doc.text(`Amount: $${invoiceDetails.amount}`, 20, 160);
 
-		// Calculate and display Total Amount including tax
 		doc.setFont("helvetica", "bold");
 		doc.text(
 			`Total Amount (incl. 12% tax): $${invoiceDetails.totalAmount}`,
@@ -443,9 +406,7 @@ const InvoiceForm: React.FC = () => {
 			175
 		);
 
-		doc.line(10, 185, 200, 185); // Horizontal line for separation
-
-		// Footer: Contact info and copyright
+		doc.line(10, 185, 200, 185);
 		doc.setFontSize(10);
 		doc.setFont("helvetica", "normal");
 
@@ -457,7 +418,6 @@ const InvoiceForm: React.FC = () => {
 		const footerText2Width = doc.getTextWidth(footerText2);
 		const footerText3Width = doc.getTextWidth(footerText3);
 
-		// Position the footer texts
 		doc.text(
 			footerText1,
 			(doc.internal.pageSize.width - footerText1Width) / 2,
@@ -473,13 +433,11 @@ const InvoiceForm: React.FC = () => {
 			(doc.internal.pageSize.width - footerText3Width) / 2,
 			220
 		);
-		// Convert PDF to Blob
 		const pdfBlob = doc.output("blob");
 
-		// Create FormData to send the file
 		const formData = new FormData();
-		formData.append("pdf", pdfBlob, "invoice.pdf"); // Attach PDF
-		formData.append("to", invoiceDetails.email); // Recipient email
+		formData.append("pdf", pdfBlob, "invoice.pdf");
+		formData.append("to", invoiceDetails.email);
 		formData.append(
 			"subject",
 			`Vancouver Campaign Invoice ${invoiceDetails.invoiceNumber}`
@@ -491,7 +449,7 @@ const InvoiceForm: React.FC = () => {
 
 	try {
 		await apiClient.post("/api/invoice/sendInvoiceEmail", formData, {
-			headers: { "Content-Type": "multipart/form-data" }, // Ensure it's sent as FormData
+				headers: { "Content-Type": "multipart/form-data" },
 		});
 
 		setShowConfirmation(true);
@@ -501,7 +459,7 @@ const InvoiceForm: React.FC = () => {
 			navigate("/invoice");
 		}, 3000);
 	} catch (error) {
-		setMessage("Failed to send invoice email. Please try again."); // Set error message
+		setMessage("Failed to send invoice email. Please try again.");
 	}
 	};
 
@@ -520,8 +478,7 @@ const InvoiceForm: React.FC = () => {
 					</div>
 
 					<Box sx={{ mb: 2, mt: 4 }}>
-						{/* Dropdown for clients */}
-						<CustomDropdown
+					<CustomDropdown
 							className="custom-input-field dropdown-width"
 							options={clients.map((client) => client.client_name)}
 							label="Select Client"
@@ -530,7 +487,6 @@ const InvoiceForm: React.FC = () => {
 						/>
 					</Box>
 
-					{/* Dropdown for companies */}
 					<Box sx={{ mb: 2 }}>
 						<CustomDropdown
 							className="custom-input-field"
@@ -645,7 +601,6 @@ const InvoiceForm: React.FC = () => {
 							sx={{ height: "51px", width: "48%" }}
 						/>
 						{message && <div className="notification">{message}</div>}
-						{/* Add more buttons as needed */}
 					</Stack>
 				</div>
 				<Box
@@ -656,7 +611,6 @@ const InvoiceForm: React.FC = () => {
 						alignItems: "center",
 					}}
 				>
-					{/* PDF Preview Box */}
 					<Box
 						className="pdf-preview"
 						sx={{
