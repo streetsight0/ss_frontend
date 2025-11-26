@@ -39,7 +39,6 @@ const AiPricingPage: React.FC = () => {
 			const response = await apiClient.get(`/api/client/getclients`);
 
 			if (response.data && Array.isArray(response.data.data)) {
-			if (response.data && Array.isArray(response.data.data)) {
 				const emails = response.data.data.map(
 					(client: { client_email: string }) => client.client_email
 				);
