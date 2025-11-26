@@ -11,12 +11,13 @@ import ClientDashboard from "../../components/Client/ClientDashboard";
 import GoogleMapComponent from "../../components/GoogleApi/GoogleMapDashboard";
 import { Stack } from "@mui/system";
 import '../../components/CampaignCard/CampaignDashboard.css'
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 const Home = () => {
     const navigate = useNavigate();
     const { setToken } = useContext(AuthContext);
+    const [isOAuthProcessing, setIsOAuthProcessing] = useState(false);
     let googleResourceUrl = `https://openidconnect.googleapis.com/v1/userinfo`;
     
 
@@ -27,30 +28,31 @@ useEffect(() => {
     const hasAccessToken = currentUrl.includes('access_token') || hash.includes('access_token');
     
     if (hasAccessToken) {
-      // IMMEDIATELY store placeholder token to prevent redirects while processing
+      setIsOAuthProcessing(true);
+      
       localStorage.setItem("token", "google_oauth_processing_" + Date.now());
       
       let token: any = read_token();
       
       if (!token) {
         localStorage.removeItem("token");
+        setIsOAuthProcessing(false);
         return;
       }
 
       try {
         let json = await api_call(token);
         
-        // Exchange Google user info for backend JWT token
         try {
           const BASE_URL = import.meta.env.VITE_BASE_URL;
           
           const endpoints = [
+            '/api/auth/google',
+            '/api/google-login',
             '/google-login',
             '/auth/google',
             '/oauth/google',
-            '/login/google',
-            '/api/google-login',
-            '/api/auth/google'
+            '/login/google'
           ];
           
           let jwtToken = null;
@@ -83,11 +85,22 @@ useEffect(() => {
             setToken(jwtToken);
             localStorage.setItem("token", jwtToken);
             window.history.replaceState(null, '', window.location.pathname);
+            setIsOAuthProcessing(false);
+          } else {
+            localStorage.removeItem("token");
+            setIsOAuthProcessing(false);
           }
         } catch (error: any) {
-          // Keep placeholder token on error
+          localStorage.removeItem("token");
+          setIsOAuthProcessing(false);
         }
       } catch (error) {
+        localStorage.removeItem("token");
+        setIsOAuthProcessing(false);
+      }
+    } else {
+      const currentToken = localStorage.getItem("token");
+      if (currentToken && currentToken.startsWith("google_oauth_")) {
         localStorage.removeItem("token");
       }
     }
@@ -143,7 +156,6 @@ useEffect(() => {
           marginBottom: "20px"
         }}
       >
-        {/* Left Side - Text & Button */}
         <Box sx={{ maxWidth: 500 }}>
           <p className="heading-3">
             Why did the billboard apply for a job?
@@ -159,9 +171,7 @@ useEffect(() => {
           />
         </Box>
 
-        {/* Right Side - Images */}
         <Box sx={{ position: "relative", display: "flex", alignItems: "center" }}>
-          {/* Main Image */}
           <Box
             component="img"
             src={Group}
