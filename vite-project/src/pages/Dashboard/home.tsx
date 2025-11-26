@@ -11,13 +11,12 @@ import ClientDashboard from "../../components/Client/ClientDashboard";
 import GoogleMapComponent from "../../components/GoogleApi/GoogleMapDashboard";
 import { Stack } from "@mui/system";
 import '../../components/CampaignCard/CampaignDashboard.css'
-import { useEffect, useContext, useState } from "react";
+import { useEffect, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 const Home = () => {
     const navigate = useNavigate();
     const { setToken } = useContext(AuthContext);
-    const [isOAuthProcessing, setIsOAuthProcessing] = useState(false);
     let googleResourceUrl = `https://openidconnect.googleapis.com/v1/userinfo`;
     
 
@@ -28,15 +27,12 @@ useEffect(() => {
     const hasAccessToken = currentUrl.includes('access_token') || hash.includes('access_token');
     
     if (hasAccessToken) {
-      setIsOAuthProcessing(true);
-      
       localStorage.setItem("token", "google_oauth_processing_" + Date.now());
       
       let token: any = read_token();
       
       if (!token) {
         localStorage.removeItem("token");
-        setIsOAuthProcessing(false);
         return;
       }
 
@@ -85,18 +81,14 @@ useEffect(() => {
             setToken(jwtToken);
             localStorage.setItem("token", jwtToken);
             window.history.replaceState(null, '', window.location.pathname);
-            setIsOAuthProcessing(false);
           } else {
             localStorage.removeItem("token");
-            setIsOAuthProcessing(false);
           }
         } catch (error: any) {
           localStorage.removeItem("token");
-          setIsOAuthProcessing(false);
         }
       } catch (error) {
         localStorage.removeItem("token");
-        setIsOAuthProcessing(false);
       }
     } else {
       const currentToken = localStorage.getItem("token");
