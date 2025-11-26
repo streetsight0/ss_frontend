@@ -11,27 +11,100 @@ import ClientDashboard from "../../components/Client/ClientDashboard";
 import GoogleMapComponent from "../../components/GoogleApi/GoogleMapDashboard";
 import { Stack } from "@mui/system";
 import '../../components/CampaignCard/CampaignDashboard.css'
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const Home = () => {
     const navigate = useNavigate();
+    const { setToken } = useContext(AuthContext);
     let googleResourceUrl = `https://openidconnect.googleapis.com/v1/userinfo`;
     
 
 useEffect(() => {
   async function getGoogleData() {
-    if (document.location.href.includes('access_token')) {
+    const currentUrl = document.location.href;
+    const hash = window.location.hash;
+    const hasAccessToken = currentUrl.includes('access_token') || hash.includes('access_token');
+    
+    if (hasAccessToken) {
+      // IMMEDIATELY store placeholder token to prevent redirects while processing
+      localStorage.setItem("token", "google_oauth_processing_" + Date.now());
+      
       let token: any = read_token();
-      let json = await api_call(token);
-      console.log(json);
-      // You can store this in context or localStorage
+      
+      if (!token) {
+        localStorage.removeItem("token");
+        return;
+      }
+
+      try {
+        let json = await api_call(token);
+        
+        // Exchange Google user info for backend JWT token
+        try {
+          const BASE_URL = import.meta.env.VITE_BASE_URL;
+          
+          const endpoints = [
+            '/google-login',
+            '/auth/google',
+            '/oauth/google',
+            '/login/google',
+            '/api/google-login',
+            '/api/auth/google'
+          ];
+          
+          let jwtToken = null;
+          
+          for (const endpoint of endpoints) {
+            try {
+              const response = await fetch(`${BASE_URL}${endpoint}`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  email: json.email
+                })
+              });
+              
+              if (response.ok) {
+                const data = await response.json();
+                if (data.token) {
+                  jwtToken = data.token;
+                  break;
+                }
+              }
+            } catch (error: any) {
+              continue;
+            }
+          }
+          
+          if (jwtToken) {
+            setToken(jwtToken);
+            localStorage.setItem("token", jwtToken);
+            window.history.replaceState(null, '', window.location.pathname);
+          }
+        } catch (error: any) {
+          // Keep placeholder token on error
+        }
+      } catch (error) {
+        localStorage.removeItem("token");
+      }
     }
   }
 
   function read_token() {
-    return new URLSearchParams(
-      document.location.href.substr(document.location.href.indexOf('#') + 1)
-    ).get('access_token');
+    const hash = window.location.hash;
+    
+    if (!hash || !hash.includes('access_token')) {
+      return null;
+    }
+
+    const hashParams = hash.substring(1);
+    const params = new URLSearchParams(hashParams);
+    const token = params.get('access_token');
+    
+    return token;
   }
 
   async function api_call(token: string) {
@@ -40,11 +113,18 @@ useEffect(() => {
         "Authorization": `Bearer ${token}`
       }
     });
-    return await api_result.json();
+    
+    if (!api_result.ok) {
+      const errorText = await api_result.text();
+      throw new Error(`API call failed: ${api_result.status} ${errorText}`);
+    }
+    
+    const json = await api_result.json();
+    return json;
   }
 
   getGoogleData();
-}, []);
+}, [setToken]);
 
   return (
     <div className="mainDiv">
