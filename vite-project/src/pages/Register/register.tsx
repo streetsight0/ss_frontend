@@ -15,7 +15,7 @@ const Register = () => {
 		setError("");
 
 		try {
-			const response = await axios.post(`${BASE_URL}/register`, {
+			const response = await axios.post(`${BASE_URL}/api/register`, {
 				username,
 				email,
 				password,
